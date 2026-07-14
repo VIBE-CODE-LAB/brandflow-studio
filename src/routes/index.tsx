@@ -20,7 +20,6 @@ import {
   brandLocked,
   defaultPoses,
   requiredSlots,
-  shootTint,
 } from "@/lib/studio";
 
 export const Route = createFileRoute("/")({
