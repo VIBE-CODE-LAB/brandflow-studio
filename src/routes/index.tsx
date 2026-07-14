@@ -24,7 +24,6 @@ import {
   getDeck,
   requiredSlots,
 } from "@/lib/studio";
-import { composeDeckPrompt } from "@/lib/promptComposer";
 import {
   emptyAuth,
   getStudioAuth,
@@ -136,30 +135,16 @@ function StudioFlow() {
     const used = incrementStudioUsage();
     setAuth((prev) => ({ ...prev, used }));
     const brand = getBrand(brandId);
-    const queued: GeneratedShot[] = orderedDeckShots.map((deckShot) => {
-      const promptData = composeDeckPrompt({
-        shootType,
-        pushupBraOnly,
-        deckShot,
-        brand,
-        aspect,
-        userNote: note,
-      });
-
-      return {
-        id: nextId(),
-        deckShot,
-        aspect,
-        brandId: brand.id,
-        shootType,
-        pushupBraOnly,
-        status: "queued",
-        prompt: promptData.prompt,
-        promptSource: promptData.sourceFile,
-        promptSection: promptData.section,
-        userNote: note,
-      };
-    });
+    const queued: GeneratedShot[] = orderedDeckShots.map((deckShot) => ({
+      id: nextId(),
+      deckShot,
+      aspect,
+      brandId: brand.id,
+      shootType,
+      pushupBraOnly,
+      status: "queued",
+      userNote: note,
+    }));
     setShots(queued);
     setGenerating(true);
 
@@ -201,27 +186,7 @@ function StudioFlow() {
     }
 
     setShots((prev) =>
-      prev.map((s) => {
-        if (s.id !== id) return s;
-        const promptData = composeDeckPrompt({
-          shootType: s.shootType,
-          pushupBraOnly: s.pushupBraOnly,
-          deckShot: s.deckShot,
-          brand: getBrand(s.brandId),
-          aspect: s.aspect,
-          userNote: s.userNote,
-          regenerationNote: redoNote,
-        });
-
-        return {
-          ...s,
-          status: "rendering",
-          note: redoNote,
-          prompt: promptData.prompt,
-          promptSource: promptData.sourceFile,
-          promptSection: promptData.section,
-        };
-      }),
+      prev.map((s) => (s.id === id ? { ...s, status: "rendering", note: redoNote } : s)),
     );
     timers.current.push(
       setTimeout(() => {

@@ -37,9 +37,6 @@ export interface GeneratedShot {
   shootType: ShootType;
   pushupBraOnly: boolean;
   status: "queued" | "rendering" | "done";
-  prompt: string;
-  promptSource: string;
-  promptSection: string;
   userNote?: string;
   note?: string;
   selected?: boolean;

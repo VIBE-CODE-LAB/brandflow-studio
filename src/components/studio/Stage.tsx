@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Check, Clipboard, Download, Loader2, RefreshCw, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   type RegenerateIssue,
   type ShootType,
   buildRegenerationNote,
+  getBrand,
   shootTypeLabel,
 } from "@/lib/studio";
 
@@ -320,8 +321,43 @@ export function Stage({
 }
 
 function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedShot }) {
+  const [open, setOpen] = useState(false);
+  const [promptData, setPromptData] = useState<{
+    prompt: string;
+    sourceFile: string;
+    section: string;
+  } | null>(null);
+
+  useEffect(() => {
+    setPromptData(null);
+  }, [shot.id, shot.note, shot.userNote, shot.brandId, shot.aspect]);
+
+  useEffect(() => {
+    if (!open || promptData) return;
+
+    let active = true;
+    void import("@/lib/promptComposer").then(({ composeDeckPrompt }) => {
+      if (!active) return;
+      setPromptData(
+        composeDeckPrompt({
+          shootType: shot.shootType,
+          pushupBraOnly: shot.pushupBraOnly,
+          deckShot: shot.deckShot,
+          brand: getBrand(shot.brandId),
+          aspect: shot.aspect,
+          userNote: shot.userNote,
+          regenerationNote: shot.note,
+        }),
+      );
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [open, promptData, shot]);
+
   return (
-    <Popover>
+    <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button
           variant="ghost"
@@ -336,7 +372,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
       <PopoverContent className="w-[min(32rem,90vw)] space-y-2" align="end">
         <div>
           <p className="text-xs font-semibold text-foreground">
-            {shot.promptSource} · {shot.promptSection}
+            {promptData ? `${promptData.sourceFile} · ${promptData.section}` : "Loading prompt..."}
           </p>
           <p className="text-[0.68rem] text-muted-foreground">
             {DECK_SHOT_LABELS[shot.deckShot]} · brand spec applied
@@ -344,14 +380,15 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
         </div>
         <Textarea
           readOnly
-          value={shot.prompt}
+          value={promptData?.prompt ?? "Preparing prompt..."}
           className="max-h-72 min-h-52 resize-none font-mono text-[0.68rem]"
         />
         <Button
           size="sm"
           variant="hero"
           className="w-full rounded-full"
-          onClick={() => void navigator.clipboard?.writeText(shot.prompt)}
+          disabled={!promptData}
+          onClick={() => void navigator.clipboard?.writeText(promptData?.prompt ?? "")}
         >
           Copy prompt
         </Button>
