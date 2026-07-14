@@ -1,14 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { AuthDialog } from "@/components/studio/AuthDialog";
-import { UploadTray, type ImageMap } from "@/components/studio/UploadTray";
-import { BrandPicker } from "@/components/studio/BrandPicker";
-import { RefinePanel } from "@/components/studio/RefinePanel";
-import { Stage, downloadShot } from "@/components/studio/Stage";
+import type { ImageMap } from "@/components/studio/UploadTray";
 import {
   DECKS,
   SHOOT_TYPES,
@@ -36,6 +32,22 @@ import {
 export const Route = createFileRoute("/")({
   component: StudioFlow,
 });
+
+const AuthDialog = lazy(() =>
+  import("@/components/studio/AuthDialog").then((module) => ({ default: module.AuthDialog })),
+);
+const UploadTray = lazy(() =>
+  import("@/components/studio/UploadTray").then((module) => ({ default: module.UploadTray })),
+);
+const BrandPicker = lazy(() =>
+  import("@/components/studio/BrandPicker").then((module) => ({ default: module.BrandPicker })),
+);
+const RefinePanel = lazy(() =>
+  import("@/components/studio/RefinePanel").then((module) => ({ default: module.RefinePanel })),
+);
+const Stage = lazy(() =>
+  import("@/components/studio/Stage").then((module) => ({ default: module.Stage })),
+);
 
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
@@ -344,13 +356,15 @@ function StudioFlow() {
               hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
             />
             <div className="mt-3">
-              <UploadTray
-                shootType={shootType}
-                pushupBraOnly={pushupBraOnly}
-                images={images}
-                onChange={setImage}
-                needsBack={needsBack}
-              />
+              <Suspense fallback={<PanelSkeleton rows={3} />}>
+                <UploadTray
+                  shootType={shootType}
+                  pushupBraOnly={pushupBraOnly}
+                  images={images}
+                  onChange={setImage}
+                  needsBack={needsBack}
+                />
+              </Suspense>
             </div>
           </section>
 
@@ -360,20 +374,24 @@ function StudioFlow() {
           <section>
             <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
             <div className="mt-3 space-y-3">
-              <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} />
+              <Suspense fallback={<PanelSkeleton rows={1} />}>
+                <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} />
+              </Suspense>
 
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   Deck shots
                 </p>
-                <RefinePanel
-                  aspect={aspect}
-                  engine={engine}
-                  note={note}
-                  onAspect={setAspect}
-                  onEngine={setEngine}
-                  onNote={setNote}
-                />
+                <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
+                  <RefinePanel
+                    aspect={aspect}
+                    engine={engine}
+                    note={note}
+                    onAspect={setAspect}
+                    onEngine={setEngine}
+                    onNote={setNote}
+                  />
+                </Suspense>
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {activeDeck.shots.map((shot) => (
@@ -407,17 +425,23 @@ function StudioFlow() {
 
         {/* Stage */}
         <div className="panel min-h-[520px] p-5">
-          <Stage
-            shots={shots}
-            shootType={shootType}
-            pushupBraOnly={pushupBraOnly}
-            generating={generating}
-            onRegenerate={regenerate}
-            onDownloadAll={() => {
-              const done = shots.filter((s) => s.status === "done");
-              done.forEach((s, i) => timers.current.push(setTimeout(() => downloadShot(s), i * 250)));
-            }}
-          />
+          <Suspense fallback={<StageSkeleton />}>
+            <Stage
+              shots={shots}
+              shootType={shootType}
+              pushupBraOnly={pushupBraOnly}
+              generating={generating}
+              onRegenerate={regenerate}
+              onDownloadAll={() => {
+                const done = shots.filter((s) => s.status === "done");
+                void import("@/components/studio/Stage").then(({ downloadShot }) => {
+                  done.forEach((s, i) =>
+                    timers.current.push(setTimeout(() => downloadShot(s), i * 250)),
+                  );
+                });
+              }}
+            />
+          </Suspense>
         </div>
       </main>
 
@@ -426,16 +450,20 @@ function StudioFlow() {
         rights to every uploaded photo.
       </footer>
 
-      <AuthDialog
-        open={authOpen}
-        onOpenChange={setAuthOpen}
-        onUnlock={(nextAuth) =>
-          setAuth({
-            ...nextAuth,
-            used: loadStudioUsage(),
-          })
-        }
-      />
+      {authOpen ? (
+        <Suspense fallback={null}>
+          <AuthDialog
+            open={authOpen}
+            onOpenChange={setAuthOpen}
+            onUnlock={(nextAuth) =>
+              setAuth({
+                ...nextAuth,
+                used: loadStudioUsage(),
+              })
+            }
+          />
+        </Suspense>
+      ) : null}
     </div>
   );
 }
@@ -448,6 +476,26 @@ function StepHead({ index, title, hint }: { index: number; title: string; hint: 
         <h3 className="text-base font-semibold">{title}</h3>
       </div>
       <span className="text-xs text-muted-foreground">{hint}</span>
+    </div>
+  );
+}
+
+function PanelSkeleton({ rows }: { rows: number }) {
+  return (
+    <div className="space-y-3">
+      {Array.from({ length: rows }).map((_, index) => (
+        <div key={index} className="h-11 rounded-2xl bg-muted/70" />
+      ))}
+    </div>
+  );
+}
+
+function StageSkeleton() {
+  return (
+    <div className="flex h-full min-h-[420px] flex-col items-center justify-center rounded-3xl border border-dashed border-border bg-paper/50 p-10 text-center">
+      <div className="mb-4 h-14 w-14 rounded-2xl bg-primary/10" />
+      <div className="h-7 w-48 rounded-full bg-muted" />
+      <div className="mt-3 h-4 w-72 max-w-full rounded-full bg-muted/70" />
     </div>
   );
 }

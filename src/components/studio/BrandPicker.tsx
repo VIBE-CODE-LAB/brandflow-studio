@@ -1,17 +1,4 @@
-import { Check, ChevronsUpDown, Lock } from "lucide-react";
-import { useState } from "react";
-
-import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { cn } from "@/lib/utils";
+import { Lock } from "lucide-react";
 import { BRANDS, type Brand } from "@/lib/studio";
 
 interface BrandPickerProps {
@@ -34,7 +21,6 @@ function Swatch({ brand, size = 20 }: { brand: Brand; size?: number }) {
 }
 
 export function BrandPicker({ value, onChange, disabled }: BrandPickerProps) {
-  const [open, setOpen] = useState(false);
   const selected = BRANDS.find((b) => b.id === value) ?? null;
 
   if (disabled) {
@@ -47,49 +33,21 @@ export function BrandPicker({ value, onChange, disabled }: BrandPickerProps) {
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="soft"
-          className="h-11 w-full justify-between rounded-xl px-3 text-sm font-medium"
-        >
-          <span className="flex items-center gap-2.5">
-            {selected ? <Swatch brand={selected} /> : null}
-            {selected ? selected.name : "Choose a brand"}
-          </span>
-          <ChevronsUpDown className="h-4 w-4 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
-        <Command>
-          <CommandInput placeholder="Search 11 brands…" />
-          <CommandList>
-            <CommandEmpty>No brand found.</CommandEmpty>
-            <CommandGroup>
-              {BRANDS.map((brand) => (
-                <CommandItem
-                  key={brand.id}
-                  value={brand.name}
-                  onSelect={() => {
-                    onChange(brand.id);
-                    setOpen(false);
-                  }}
-                  className="gap-2.5"
-                >
-                  <Swatch brand={brand} size={18} />
-                  <span className="flex-1">{brand.name}</span>
-                  <Check
-                    className={cn(
-                      "h-4 w-4 text-primary",
-                      value === brand.id ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                </CommandItem>
-              ))}
-            </CommandGroup>
-          </CommandList>
-        </Command>
-      </PopoverContent>
-    </Popover>
+    <label className="relative flex h-11 w-full items-center gap-2.5 rounded-xl border border-border bg-paper px-3 text-sm font-medium">
+      {selected ? <Swatch brand={selected} /> : null}
+      <select
+        value={value ?? ""}
+        onChange={(event) => onChange(event.target.value)}
+        className="h-full min-w-0 flex-1 appearance-none bg-transparent pr-8 text-foreground outline-none"
+        aria-label="Choose a brand"
+      >
+        {BRANDS.map((brand) => (
+          <option key={brand.id} value={brand.id}>
+            {brand.name}
+          </option>
+        ))}
+      </select>
+      <span className="pointer-events-none absolute right-3 text-xs text-muted-foreground">Select</span>
+    </label>
   );
 }
