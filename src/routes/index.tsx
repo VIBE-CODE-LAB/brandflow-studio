@@ -304,21 +304,20 @@ function StudioFlow() {
             onRegenerate={regenerate}
             onDownloadAll={() => {
               const done = shots.filter((s) => s.status === "done");
-              done.forEach((s, i) => timers.current.push(setTimeout(() => downloadOne(s), i * 250)));
+              done.forEach((s, i) => timers.current.push(setTimeout(() => downloadShot(s), i * 250)));
             }}
           />
         </div>
       </main>
 
-      <footer className="mx-auto max-w-[1400px] px-5 pb-8 pt-2 text-center text-xs text-muted-foreground"
-        style={{ background: `linear-gradient(transparent, transparent)`, borderTop: `1px solid transparent`, borderColor: shootTint(shootType) + "00" }}
-      >
+      <footer className="mx-auto max-w-[1400px] px-5 pb-8 pt-2 text-center text-xs text-muted-foreground">
         Prototype preview — frames are stylized stand-ins for the Gemini composite. Ensure you hold
         rights to every uploaded photo.
       </footer>
     </div>
   );
 }
+
 
 function downloadOne(shot: GeneratedShot) {
   const evt = new CustomEvent("studioflow-download", { detail: shot });
