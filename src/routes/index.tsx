@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { UploadTray, type ImageMap } from "@/components/studio/UploadTray";
 import { BrandPicker } from "@/components/studio/BrandPicker";
 import { RefinePanel } from "@/components/studio/RefinePanel";
-import { Stage } from "@/components/studio/Stage";
+import { Stage, downloadShot } from "@/components/studio/Stage";
 import {
   SHOOT_TYPES,
   POSES,
