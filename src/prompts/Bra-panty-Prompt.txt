@@ -1,0 +1,1053 @@
+SIDE VIEW PROMPT
+
+
+═══════════════════════════════════════════════════════
+REFERENCE IMAGES — EXACT REPLICATION REQUIRED
+═══════════════════════════════════════════════════════
+
+REFERENCE IMAGE 1 (Model): Use this image as the EXACT reference for the model's face, skin tone, hair color, hair texture, body type, and overall appearance. Replicate identically — do not alter any facial feature, complexion, or hair characteristic.
+
+REFERENCE IMAGE 2 (Bra Product): Use this image as the EXACT reference for the bra's color, texture, fabric finish, silhouette, band width, strap width, and neckline shape. Replicate identically on the model's body. Do not alter the product in any way.
+
+REFERENCE IMAGE 3 (Lower Outfit): Use this image as the EXACT reference for the high-waisted panty's color (warm beige/nude), texture, fabric finish, waistband style, coverage, and silhouette. Replicate identically on the model's body. The panty must sit at natural waist level, matching the exact shade and seamless finish shown.
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+
+Model stands in a three-quarter angle, body turned approximately 30–40 degrees to the LEFT of camera
+Face turns back toward camera making DIRECT eye contact with the lens
+Chin is level, natural relaxed confident smile
+RIGHT arm hangs relaxed at her side
+LEFT arm is relaxed and slightly away from body so the LEFT armhole area of the bra is clearly visible and unobstructed
+Shoulders are relaxed, not raised or tensed
+Shot framed from MID-THIGH upward (3/4 body shot)
+Hair falls softly over both shoulders BUT must be directed AWAY from all bra straps, armhole edges, and bottom band — zero hair overlap on any part of the bra at any point
+Skin is completely tattoo-free and blemish-free
+Model wears the high-waisted panty from REFERENCE IMAGE 3 at natural waist level
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+The bra from REFERENCE IMAGE 2 must be worn exactly as it appears — same color, same fabric, same fit, same silhouette
+The high-waisted panty from REFERENCE IMAGE 3 must be worn exactly as it appears — same warm beige/nude color, same seamless finish, same waistband height
+ALL of the following BRA zones must be FULLY VISIBLE, unobstructed, and sharply in focus:
+→ LEFT armhole edge, RIGHT armhole edge, Full bottom band of bra, Front center panel of bra, Both shoulder straps
+Primary lighting directed TOWARD the bra — it is the HERO product of this image
+No hands, hair, arms, or fabric overlapping any part of the bra
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+Background color: #F3F0E9 (Tweens brand background — warm creamy beige, seamless studio)
+Soft diffused studio lighting, no harsh shadows
+Overall tone is warm creamy beige, soft taupe, and earthy brown-anchored — consistent with Tweens' "minimal premium daily comfort" identity
+Lighting is bright, clean, and warm — soft warm toned, never cool-blue or harsh
+Aspect ratio: portrait 3:4
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+HEADLINE — TOP LEFT: "Elastic-Free Construction"
+Font: Fraunces (MANDATORY — bold display weight, large size) | Color: #6F4940 (MANDATORY)
+CRITICAL: Use ONLY Fraunces font family. Do NOT substitute with Times New Roman, Georgia, or any serif font.
+
+SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."
+Font: Inter (MANDATORY — medium weight) | Color: #6F4940 (MANDATORY)
+CRITICAL: Use ONLY Inter font family. Do NOT substitute with Arial, Helvetica, or any sans-serif font.
+
+CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE
+Line 1 (bold, Fraunces, #6F4940): "Elastic-free Armhole"
+Line 2 (Inter, #6F4940): "for Rashfree Comfort"
+
+CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND OF BRA
+Line 1 (bold, Fraunces, #6F4940): "Elastic-free Bottom Band"
+Line 2 (Inter, #6F4940): "for Seamless Support"
+
+CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE OF BRA
+Line 1 (bold, Fraunces, #6F4940): "Seamless Design,"
+Line 2 (Inter, #6F4940): "Invisible under Outfits"
+
+CALLOUT LINE STYLE: Thin single line | Color: #6F4940 | Clean and minimal
+ICON STYLE: ~40–45px circular icon | Fill: solid #6F4940 with white interior line illustration | Clean modern premium style
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Headline + sub-heading: TOP LEFT | Model: CENTER-RIGHT | Callout 1: RIGHT (armhole) | Callout 2: BOTTOM LEFT (bra band) | Callout 3: LEFT (bra side seam)
+All text and icons must NOT overlap the model's face or bra product
+Generous #F3F0E9 breathing space around all text elements
+
+═══════════════════════════════════════════════════════
+GEMINI SAFETY FILTER COMPLIANCE
+═══════════════════════════════════════════════════════
+
+Professional commercial innerwear product photography — e-commerce catalog context. No suggestive poses, close-ups, intimate framing, or tight cropping. Modest and professional throughout.
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+
+Do NOT alter model or products | Do NOT use background other than #F3F0E9 | Fonts: Fraunces / Inter only | Text color: #6F4940 only
+No hair over bra | No callouts over face or products | No harsh shadows | No cool-blue lighting | No watermarks | No extra models
+Do NOT create suggestive poses, intimate framing, dramatic expressions, tight cropping, or artistic editorial style
+
+
+
+SIDE VIEW 2 PROMPT
+
+
+
+
+═══════════════════════════════════════════════════════
+REFERENCE IMAGES — EXACT REPLICATION REQUIRED
+═══════════════════════════════════════════════════════
+
+REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
+
+REFERENCE IMAGE 2 (Bra Product): Exact reference — bra color, texture, silhouette. Replicate identically.
+
+REFERENCE IMAGE 3 (Lower Outfit): Exact reference — high-waisted panty color, texture, fabric finish, waistband style, coverage, silhouette. Replicate identically. Panty MUST match the EXACT color and shade of the bra from Reference Image 2.
+
+CRITICAL COLOR RULE: Bra and panty MUST be the SAME color/shade. Both products must perfectly match each other in color tone.
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+
+Model stands FULLY FRONT-FACING | Body squared to lens | Direct warm eye contact
+Soft natural relaxed smile | Both arms relaxed at sides
+Shot framed from HEAD to MID-THIGH upward (3/4 body shot — MANDATORY FRAMING)
+Hair away from ALL bra zones | Tattoo-free, blemish-free skin
+Model wears the high-waisted panty from REFERENCE IMAGE 3 at natural waist level
+Body language: clean, minimal, effortlessly premium
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+Full front panel, both straps, full bottom band, both armhole edges — ALL fully visible, unobstructed, sharply in focus
+The high-waisted panty from REFERENCE IMAGE 3 must be worn exactly as it appears — same color as bra, same seamless finish, same waistband height
+Primary lighting on bra | No hands, hair, or arms overlapping bra or panty
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+Soft, airy, light-filled indoor background
+Warm creamy beige tones aligned with #F3F0E9 (Tweens brand background) — evokes a minimal, premium, daily comfort lifestyle space
+Subtle soft-focus elements allowed (e.g., soft taupe curtains, warm beige surfaces, natural warm light) — nothing distracting
+Lighting is bright, clean, and warm — soft warm toned, comforting yet crisp
+No dark shadows, no cool-blue tones, no dramatic contrast
+Aspect ratio: portrait 3:4
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+HEADLINE — TOP LEFT
+Text: "Comfort that feels light"
+Font: Fraunces | Color: #6F4940
+
+SUB-HEADING — TOP LEFT, directly below headline
+Text: "Soft touch. Gentle support."
+Font: Inter | Color: #6F4940
+
+FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)
+
+FEATURE 1:
+Icon: Small circular icon — thin line illustration of a cotton/fabric/breathable weave symbol
+Fill: solid #6F4940 with white interior line illustration | Border ring: #6F4940 thin line
+Text: "Breathable Cotton Fabric", "for airy comfort all day"
+Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
+
+FEATURE 2:
+Icon: Small circular icon — thin line illustration of soft padding/gentle lift symbol (same style as Feature 1)
+Text: "Light Padding gives", "Gentle Lift"
+Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
+
+FEATURE 3:
+Icon: Small circular icon — thin line illustration of internal gripper/grip strip detail (same style as Feature 1)
+Text: "Hidden Internal Gripper", "for Perfect Fit"
+Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
+
+ICON STYLE (all three — consistent):
+~40–45px circular | Fill: solid #6F4940 with white interior line art | Border ring: #6F4940
+NO callout lines — icons sit independently on LEFT side, NOT pointing to bra zones
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Headline + sub-heading: TOP LEFT | Model: CENTER to CENTER-RIGHT | Three feature icons: LEFT side stacked vertically
+No text/icons overlapping model's face or bra | Generous #F3F0E9 breathing space around all elements
+
+═══════════════════════════════════════════════════════
+GEMINI SAFETY FILTER COMPLIANCE
+═══════════════════════════════════════════════════════
+
+Professional commercial innerwear product photography — e-commerce catalog context. No suggestive poses, close-ups, intimate framing, or tight cropping. Modest and professional throughout.
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+
+Do NOT alter model or products | Bra and panty MUST match color exactly | Do NOT use background other than #F3F0E9 warm creamy beige | Fonts: Fraunces / Inter only | Text color: #6F4940 only
+No callout lines | No icons/text on face or bra | No cool-blue lighting | No watermarks | No extra models | 3:4 ratio only
+Do NOT create suggestive poses, intimate framing, dramatic expressions, tight cropping, or artistic editorial style
+
+
+
+BACK VIEW PROMPT
+
+
+
+═══════════════════════════════════════════════════════
+REFERENCE IMAGES — EXACT REPLICATION REQUIRED
+═══════════════════════════════════════════════════════
+
+REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
+
+REFERENCE IMAGE 2 (Bra Product): Exact reference — bra color, texture, silhouette, back construction. Replicate identically.
+
+REFERENCE IMAGE 3 (Panty Back View): Exact reference — high-waisted panty back color, texture, fabric finish, waistband style, back coverage, silhouette. Replicate identically. Panty MUST match the EXACT color and shade of the bra from Reference Image 2.
+
+CRITICAL COLOR RULE: Bra and panty MUST be the SAME color/shade. Both products must perfectly match each other in color tone.
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION — CRITICAL
+═══════════════════════════════════════════════════════
+
+Model's BODY faces AWAY from camera — back toward lens
+Body turned 10–15° to RIGHT — RIGHT side wing partially visible
+HEAD turns back over LEFT shoulder — warm direct eye contact
+Chin slightly lifted, natural confident smile
+Both arms relaxed at sides
+Shot framed from HEAD to MID-THIGH upward (3/4 body shot — MANDATORY FRAMING)
+Hair SWEPT FULLY to FRONT — NON-NEGOTIABLE | Tattoo-free, blemish-free skin
+Model wears the high-waisted panty from REFERENCE IMAGE 3 at natural waist level — back coverage fully visible
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+U-back straps, hook-eye closure, both side wings, flat back band — ALL fully visible, unobstructed, sharply in focus
+The high-waisted panty from REFERENCE IMAGE 3 must be worn exactly as it appears — same color as bra, same seamless finish, back waistband and coverage fully visible
+Primary lighting on bra back and panty back | No hands, hair, or arms overlapping bra or panty
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+Background color: #F3F0E9 (Tweens brand — warm creamy beige, seamless studio)
+Soft diffused studio lighting — bright, clean, and warm
+Light wraps around model's back illuminating all construction details
+No harsh shadows — soft warm toned throughout | Aspect ratio: portrait 3:4
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+HEADLINE — TOP LEFT
+Text: "All Day Sturdy Back Support"
+Font: Fraunces | Color: #6F4940
+
+SUB-HEADING — TOP LEFT, directly below headline
+Text: "Curve-Secure Fit. Stays Put. Always."
+Font: Inter | Color: #6F4940
+
+CALLOUT RULES (applies to ALL callouts):
+→ Lines: thin 1px #6F4940 straight line | no arrowheads | lines must NOT cross | runs from icon into bra zone
+→ Icons: ~40–45px circular | Fill: solid #6F4940 with white interior line art | Border: #6F4940 thin ring
+→ Text: Line 1 bold Fraunces #6F4940 | Line 2 regular Inter #6F4940
+
+FEATURE CALLOUT 1 — TOP RIGHT (level with U-back junction height)
+Icon: BACK VIEW of bra — two straps forming U-shape converging at center back
+Feature text: "U-Back Support" | Benefit text: "No Ride-Up"
+
+FEATURE CALLOUT 2 — RIGHT SIDE, middle zone
+Touch point: precisely on hook-eye closure rows at CENTER BACK BAND — NOT side ring, NOT strap adjuster
+Icon: 3 horizontal rows of hook-and-eye closure — grid of 3×2 hooks
+Feature text: "3-Level Adjustable" | Benefit text: "Hook Closure"
+
+FEATURE CALLOUT 3 — BOTTOM RIGHT
+Touch point: center of RIGHT SIDE WING panel at the flank — NOT back band or strap area
+Icon: wide side wing panel shape — broad flat panel with smooth edge
+Feature text: "Wide Side Wings" | Benefit text: "for Back Smoothening"
+
+CALLOUT COUNT: EXACTLY 3 TOTAL. All 3 callouts stack on RIGHT side pointing LEFT into bra. LEFT side stays clean.
+NO dot at touch point — use thin slightly angled line only.
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Headline + sub-heading: TOP LEFT | Model: CENTER, back toward camera, face over LEFT shoulder
+All 3 callouts: RIGHT side pointing LEFT into bra back zones | LEFT side: headline + sub-heading only
+No text/icons on model's face, hair, bra back panel, hook closure, side wings, or panty
+
+═══════════════════════════════════════════════════════
+GEMINI SAFETY FILTER COMPLIANCE
+═══════════════════════════════════════════════════════
+
+Professional commercial innerwear product photography — e-commerce catalog context. No suggestive poses, close-ups, intimate framing, or tight cropping. Modest and professional throughout.
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+
+BACK must face lens | Hair swept fully to front | No callouts on LEFT side
+Do NOT alter model or products | Bra and panty MUST match color exactly | Fonts: Fraunces / Inter only | Text color: #6F4940 only
+No hair/arms over bra back | No icons/text on bra, panty, or face | No cool-blue lighting | No watermarks | No extra models
+Do NOT create suggestive poses, intimate framing, tight cropping, or artistic editorial style
+
+
+
+Front View PROMPT
+
+⚠️ CRITICAL COLOR LOCK: Bra and panty MUST be the SAME color/shade throughout. This is NON-NEGOTIABLE. Reference Image 2 (bra) and Reference Image 3 (panty) must match in color EXACTLY. If they are different colors in the references, make them match by using the bra's color.
+
+Generate a professional, catalog-style photograph using the three uploaded reference images as follows:
+
+From the Model Reference Image: Replicate the model's exact facial features, skin tone, and overall appearance precisely. Her face and physical appearance must match the uploaded model image as closely as possible. The model's skin must be completely clean — no tattoos or body markings of any kind.
+
+From the Product Reference Image (Bra): Replicate the bra being worn — its exact cup shape, V-neckline between cups, thin spaghetti-style adjustable strap design, band width, seamless matte fabric texture, wire-free soft cup profile, and all structural details must appear on the model completely unchanged. The bra is the hero product and must be fully visible, sharply in focus, and completely unobstructed at the front. Both bra straps must remain fully visible from shoulder to cup.
+
+From the Product Reference Image (Panty): Replicate the high-waisted panty being worn. CRITICAL: The panty MUST be the EXACT SAME COLOR as the bra from Reference Image 2 — same shade, same tone, same hue. Match the bra's color precisely. Also replicate: texture, fabric finish, waistband style, seamless construction, and coverage. The panty must sit at natural waist level and MUST match the bra's color identically.
+
+CRITICAL COLOR RULE: Bra and panty MUST be the SAME color/shade. Both products must perfectly match each other in color tone. This is non-negotiable.
+
+Setting: The model is standing casually against a smooth, clean, light-colored wall. The wall is her backdrop and she is lightly leaning against it — relaxed, natural, unstaged. The overall setting feels bright, airy, clean, and professional rather than intimate or editorial.
+
+Pose — follow exactly as described:
+
+The woman is standing upright facing almost directly forward with a very subtle natural lean. Her right arm is raised — elbow bent — with her fingers lightly and loosely touching her right temple and forehead area, wrist relaxed and natural. Her left arm is down with her hand resting gently on her left hip or loosely at her side — casual and relaxed, elbow slightly out. Her torso faces forward completely — the bra band and the panty waistband remain clearly visible. Her weight is shifted very slightly giving a relaxed, natural, unstaged stance. Both legs are straight and standing comfortably.
+
+Head & Face: Her head is tilted very gently to the right — toward her raised right hand — in a casual, relaxed way. She looks directly and softly at the camera with a gentle, approachable, warm gaze. Her expression is naturally confident with a subtle hint of a relaxed soft expression — not a full smile, not stern — just warm and real. Minimal fresh natural makeup: clean skin, light definition on the brows, natural nude lips — a "no-makeup makeup" look. No earrings.
+
+Bra — critical product visibility instructions:
+
+The front-facing pose must clearly show: both bra cups fully and their smooth seamless profile, the soft V-neckline between the cups, the thin delicate adjustable spaghetti straps sitting on both shoulders, the clean short band sitting just below the bust, and the wire-free natural cup shape. Both straps must stay fully visible from shoulder to cup with no obstruction. All these elements must be sharp, well-lit, completely visible, and perfectly true to the product reference image.
+
+Panty — critical product visibility instructions:
+
+The high-waisted panty from the reference image must be worn at natural waist level. The waistband, seamless construction, and front coverage must be fully visible and unobstructed. ⚠️ CRITICAL: The panty color MUST match the bra exactly — same shade, same tone, same fabric finish. DO NOT use a different color.
+
+
+Lighting: Soft, warm, and natural-feeling studio lighting that mimics bright indoor or window light. Even and flattering across the entire body. The bra and panty must be clearly and evenly illuminated — no shadows falling on the products. Skin should have a warm, healthy, natural glow. No harsh shadows anywhere.
+
+Camera & Framing: Portrait orientation. Shot at eye level. Full body in frame — from top of head to feet. The bra sits centered and prominent in the mid-frame. Slight breathing room around the edges of the frame.
+
+Background: A smooth clean soft white, warm ivory, or very light warm beige wall. Completely plain and minimal — no textures, patterns, or props. The light background creates a clean, bright, airy contrast against the white shirt and skin tone. A very subtle natural shadow may fall softly on the wall behind the model for depth.
+
+Mood: Casual, warm, relatable, and confidently natural — a real lifestyle moment. The image should feel like a premium Indian D2C brand's everyday comfort campaign. Approachable, authentic, fresh, and feminine. Not overly styled or formal — natural and real. Professional modest innerwear catalogue photography — focus on fabric quality and comfort features.
+
+Negative Guidance:
+
+Do not add any tattoos or body markings. Do not alter or change the bra's or panty's design, color, straps, neckline, waistband, or structure in any way. ⚠️ CRITICAL: Do not use different colors for bra and panty — they MUST match exactly. If references show different colors, harmonize them to the bra color. Do not let the shirt cover or overlap the bra or panty from the front. Do not use dark, bold, or saturated background colors — keep the background light, soft, and neutral. Do not make the expression overly serious or high-fashion — keep it warm and approachable. Do not crop the feet or head out of frame. Do not add any additional clothing over the bra or panty. Do not add jeans, trousers, skirts, or any other lower outfit — only the panty from the reference image, fully visible at waist level. Do not add any outer pants, shorts, or layered clothing. Avoid cool, blue, or grey-toned lighting — keep it warm. Do not show a full wide smile — expression should be soft and subtle. Do not create suggestive poses or angles. Do not use dramatic/sultry expressions or intimate framing. Do not isolate body parts or use tight cropping. Do not render any text, typography, captions, logos, callouts, labels, icons, watermarks, or decorative graphics. Do not make the image look intimate, suggestive, or revealing. Do not create artistic/fashion editorial style — keep it professional product catalogue style with lifestyle feel.
+
+
+
+
+FRONT PUSH-UP PROMPT
+
+⚠️ CRITICAL COLOR LOCK: Bra and panty MUST be the SAME color/shade throughout. This is NON-NEGOTIABLE. Reference Image 2 (bra) and Reference Image 3 (panty) must match in color EXACTLY. If they are different colors in the references, make them match by using the bra's color.
+
+Generate a professional, catalog-style photograph using the three uploaded reference images as follows:
+
+From the Model Reference Image: Replicate the model's exact facial features, skin tone, and overall appearance precisely. Her face and physical appearance must match the uploaded model image as closely as possible. The model's skin must be completely clean — no tattoos or body markings of any kind.
+
+From the Product Reference Image (Bra): Replicate the bra being worn — its exact cup shape, V-neckline between cups, thin spaghetti-style adjustable strap design, band width, seamless matte fabric texture, wire-free soft cup profile, and all structural details must appear on the model completely unchanged. The bra is the hero product and must be fully visible, sharply in focus, and completely unobstructed at the front. Both bra straps must remain fully visible from shoulder to cup.
+
+From the Product Reference Image (Panty): Replicate the high-waisted panty being worn. CRITICAL: The panty MUST be the EXACT SAME COLOR as the bra from Reference Image 2 — same shade, same tone, same hue. Match the bra's color precisely. Also replicate: texture, fabric finish, waistband style, seamless construction, and coverage. The panty must sit at natural waist level and MUST match the bra's color identically.
+
+CRITICAL COLOR RULE: Bra and panty MUST be the SAME color/shade. Both products must perfectly match each other in color tone. This is non-negotiable.
+
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+
+The bra cups MUST visibly show a strong, natural Level 3 push-up padding effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
+
+Specific rendering instructions:
+— Both cups must appear visibly LIFTED upward and pushed inward toward center simultaneously
+— The upper cup area must show clear, natural fullness and visible rounded projection — NOT flat or deflated
+— There must be a visible, modest, natural-looking center cleavage definition created by the inward push of both cups
+— The cup silhouette must appear three-dimensional, projected, and lifted — NOT flat against the chest
+— The underside of each cup must show a visible upward curve indicating strong padding lift from beneath
+— The push must look symmetric — both cups lifted equally
+— The overall bust silhouette must read as clearly enhanced, lifted, and fuller in shape compared to an unpadded bra
+— This must be visible even at full body frame distance — the lift effect must read clearly without zooming in
+
+DO NOT render flat, deflated, or projection-less cups.
+DO NOT make the effect anatomically exaggerated or unrealistic.
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be clearly visible, natural, and catalogue-appropriate.
+
+Setting: The model is standing casually against a smooth, clean, light-colored wall. The wall is her backdrop and she is lightly leaning against it — relaxed, natural, unstaged. The overall setting feels bright, airy, clean, and professional rather than intimate or editorial.
+
+Pose — follow exactly as described:
+
+The woman is standing upright facing almost directly forward with a very subtle natural lean. Her right arm is raised — elbow bent — with her fingers lightly and loosely touching her right temple and forehead area, wrist relaxed and natural. Her left arm is down with her hand resting gently on her left hip or loosely at her side — casual and relaxed, elbow slightly out. Her torso faces forward completely — the bra band and the panty waistband remain clearly visible. Her weight is shifted very slightly giving a relaxed, natural, unstaged stance. Both legs are straight and standing comfortably.
+
+Head & Face: Her head is tilted very gently to the right — toward her raised right hand — in a casual, relaxed way. She looks directly and softly at the camera with a gentle, approachable, warm gaze. Her expression is naturally confident with a subtle hint of a relaxed soft expression — not a full smile, not stern — just warm and real. Minimal fresh natural makeup: clean skin, light definition on the brows, natural nude lips — a "no-makeup makeup" look. No earrings.
+
+Bra — critical product visibility instructions:
+
+The front-facing pose must clearly show: both bra cups fully and their smooth seamless profile, the soft V-neckline between the cups, the thin delicate adjustable spaghetti straps sitting on both shoulders, the clean short band sitting just below the bust, and the wire-free natural cup shape. Both straps must stay fully visible from shoulder to cup with no obstruction. All these elements must be sharp, well-lit, completely visible, and perfectly true to the product reference image.
+
+Panty — critical product visibility instructions:
+
+The high-waisted panty from the reference image must be worn at natural waist level. The waistband, seamless construction, and front coverage must be fully visible and unobstructed. The panty color must match the bra exactly — same shade, same tone, same fabric finish.
+
+
+Lighting: Soft, warm, and natural-feeling studio lighting that mimics bright indoor or window light. Even and flattering across the entire body. The bra and panty must be clearly and evenly illuminated — no shadows falling on the products. Skin should have a warm, healthy, natural glow. No harsh shadows anywhere.
+
+Camera & Framing: Portrait orientation. Shot at eye level. Full body in frame — from top of head to feet. The bra sits centered and prominent in the mid-frame. Slight breathing room around the edges of the frame.
+
+Background: A smooth clean soft white, warm ivory, or very light warm beige wall. Completely plain and minimal — no textures, patterns, or props. The light background creates a clean, bright, airy contrast against the white shirt and skin tone. A very subtle natural shadow may fall softly on the wall behind the model for depth.
+
+Mood: Casual, warm, relatable, and confidently natural — a real lifestyle moment. The image should feel like a premium Indian D2C brand's everyday comfort campaign. Approachable, authentic, fresh, and feminine. Not overly styled or formal — natural and real. Professional modest innerwear catalogue photography — focus on fabric quality and comfort features.
+
+Negative Guidance:
+
+Do not add any tattoos or body markings. Do not alter or change the bra's or panty's design, color, straps, neckline, waistband, or structure in any way. ⚠️ CRITICAL: Do not use different colors for bra and panty — they MUST match exactly. If references show different colors, harmonize them to the bra color. Do not let the shirt cover or overlap the bra or panty from the front. Do not use dark, bold, or saturated background colors — keep the background light, soft, and neutral. Do not make the expression overly serious or high-fashion — keep it warm and approachable. Do not crop the feet or head out of frame. Do not add any additional clothing over the bra or panty. Do not add jeans, trousers, skirts, or any other lower outfit — only the panty from the reference image, fully visible at waist level. Do not add any outer pants, shorts, or layered clothing. Avoid cool, blue, or grey-toned lighting — keep it warm. Do not show a full wide smile — expression should be soft and subtle. Do not create suggestive poses or angles. Do not use dramatic/sultry expressions or intimate framing. Do not isolate body parts or use tight cropping. Do not render any text, typography, captions, logos, callouts, labels, icons, watermarks, or decorative graphics. Do not make the image look intimate, suggestive, or revealing. Do not create artistic/fashion editorial style — keep it professional product catalogue style with lifestyle feel. Do NOT render flat, deflated, or projection-less cups — the Level 3 push effect MUST be clearly visible. Do NOT exaggerate the push effect beyond a natural, wearable lift — keep it realistic, symmetric, and catalogue-appropriate.
+
+
+MOOD SHOOT PROMPT
+
+
+
+
+REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
+
+REFERENCE IMAGE 2 (Bra Product): Exact reference — bra color, texture, silhouette. Replicate identically.
+
+REFERENCE IMAGE 3 (Panty Product): Exact reference — high-waisted panty color, texture, fabric finish, waistband style, seamless construction, coverage. Replicate identically. Panty MUST match the EXACT color and shade of the bra from Reference Image 2.
+
+CRITICAL COLOR RULE: Bra and panty MUST be the SAME color/shade. Both products must perfectly match each other in color tone.
+
+═══════════════════════════════════════════════════════
+SCENE & LIFESTYLE SETTING
+═══════════════════════════════════════════════════════
+
+Real bedroom interior — bright, airy, aspirational morning lifestyle feel
+Model SEATED on edge of neatly made plush bed — soft white/cream/warm ivory bedding
+Background: softly out-of-focus warm cream walls — #F3F0E9 tone throughout
+Gentle natural morning light from off-frame left window — warm, golden, soft
+Scene: calm, effortless, real morning moment — aspirational yet deeply relatable
+NO clutter | NO props (no coffee, phone, book) | Soft furnishings blurred only
+Plants or curtains MAY appear very softly in background — never distracting
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION — LIFESTYLE MOOD
+═══════════════════════════════════════════════════════
+
+Model SEATED on bed edge | Body 30° angled toward camera
+
+OPTION A — MORNING STRETCH:
+Both arms raised gently overhead, wrists softly crossed or hands loosely open
+Head tilted slightly back or to side | Eyes closed OR soft dreamy expression
+Body language: just woke up, stretching luxuriously, completely at ease
+Hair swept back naturally — FULLY CLEAR of all bra straps, cups, and panel
+
+OPTION B — RELAXED SEATED:
+One arm rests naturally on knee | Other hand lightly touches collarbone or rests in lap
+Head turned gently toward camera | Soft warm smile | Direct eye contact
+Body language: relaxed, unhurried, genuine morning comfort
+Hair loose, slightly tousled — FULLY CLEAR of all bra straps, cups, and panel
+
+BOTH OPTIONS — NON-NEGOTIABLE RULES:
+Shoulders completely relaxed | No tension anywhere in body
+Expression: warm, feminine, genuinely at ease
+Shot framed from just above knee upward — 3/4 seated body shot
+Legs together or slightly angled — relaxed and natural
+Hair: loose, tousled morning feel | COMPLETELY CLEAR of all bra zones at all times
+Skin: completely tattoo-free, blemish-free, mark-free
+NO hands or arms overlapping any part of bra — straps, cups, panel, or band
+Model wears the high-waisted panty from REFERENCE IMAGE 3 at natural waist level
+
+═══════════════════════════════════════════════════════
+LOWER OUTFIT — NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+Model wears the high-waisted panty from REFERENCE IMAGE 3 — consistent with morning lifestyle feel
+Panty color: MUST match bra exactly — same shade, same tone, same fabric finish
+Waistband sits at natural waist level — seamless construction fully visible
+Panty visible from waist to mid-thigh — natural seated position
+Bedding may softly overlap lower thighs — natural and relaxed
+NO substitutions | NO different colors | NO sleep shorts or boxer shorts
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+Bra from REFERENCE IMAGE 2 worn exactly — same color, fabric, fit, silhouette
+Panty from REFERENCE IMAGE 3 worn exactly — same color as bra, same fabric, same fit
+ALL of the following BRA zones FULLY VISIBLE, unobstructed, sharply in focus:
+→ Full front center panel | Complete V-neckline shape | Both shoulder straps — full length | Full bottom band | Both side panels at flanks
+Primary lighting falls directly on bra | No hair / hands / arms overlapping ANY part of bra or panty
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+Soft natural morning light — warm, golden, bright, from off-frame window
+Background: softly blurred #F3F0E9 warm creamy beige bedroom | No harsh shadows
+Overall palette: warm creamy beige, soft taupe, earthy brown anchored, minimal premium
+Aspect ratio: portrait 3:4
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+HEADLINE — TOP LEFT of image
+DISPLAY TEXT ONLY (do not render font name): "Bonded Finish, Elevated Support"
+Font: Fraunces (MANDATORY) | Color: #6F4940
+— The word "Fraunces" must NEVER appear anywhere in the image —
+
+SECONDARY TEXT — TOP LEFT directly below headline
+DISPLAY TEXT ONLY (do not render font name): "Comfort That Supports Every Curve"
+Font: Inter (MANDATORY) | Color: #6F4940
+— The word "Inter" must NEVER appear anywhere in the image —
+
+---
+
+CALLOUT SYSTEM — 4 CALLOUTS TOTAL: 2 LEFT + 2 RIGHT (always balanced)
+
+TOUCH POINT RULE (applies to ALL callouts):
+→ Touch point at product = tiny SOLID FILLED CIRCLE, maximum 4px diameter | Color: #6F4940
+→ NO large circles, NO hollow rings, NO loop markers on bra or body — ever
+
+LINE RULE (applies to ALL callouts):
+→ Thin 1px #6F4940 straight line | no arrowheads | lines must NOT cross
+
+ICON RULE (MOOD — NO ICONS):
+→ DO NOT render circular icon illustrations for Mood shots. Render callout text and optional tiny 4px solid touch-point dots only.
+→ If a marker is required, use a 4px solid filled dot placed outside the product edge and away from model skin; never overlap bra, skin, or face.
+
+TEXT RULE (applies to ALL callouts):
+→ Line 1 (feature): bold Fraunces #6F4940 | Line 2 (benefit): regular Inter #6F4940
+
+---
+
+CALLOUT 1 — LEFT SIDE, upper position
+Touch point: tiny 4px dot on LEFT SIDE PANEL at flank/underarm area
+Line: travels LEFT from dot to the callout text — outside model silhouette
+Feature text: "Full Coverage" | Benefit text: "with V-Neckline"
+
+CALLOUT 2 — LEFT SIDE, lower position (minimum 180px below Callout 1 text center)
+Touch point: tiny 4px dot on FRONT CENTER PANEL at mid-chest
+Line: travels LEFT from dot to the callout text — outside model silhouette
+Feature text: "W-Hold" | Benefit text: "Wire-free Support"
+
+CALLOUT 3 — RIGHT SIDE, upper position
+Touch point: tiny 4px dot on RIGHT SHOULDER STRAP near shoulder
+Line: travels RIGHT from dot to the callout text — outside model silhouette
+Feature text: "Broad Shoulder" | Benefit text: "Straps"
+
+CALLOUT 4 — RIGHT SIDE, lower position (minimum 180px below Callout 3 text center)
+Touch point: tiny 4px dot on RIGHT BOTTOM BAND, 2cm from right side seam
+Line: travels RIGHT from dot to the callout text — outside model silhouette
+Feature text: "No Spillage" | Benefit text: "No Side Bulges"
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Headline + secondary text: TOP LEFT | Model: CENTER, seated lifestyle pose
+Callouts 1+2: LEFT side stacked | Callouts 3+4: RIGHT side stacked | Symmetric always
+CALLOUT COUNT: EXACTLY 4 TOTAL — 2 LEFT + 2 RIGHT. No extra text, labels, or callout blocks.
+
+═══════════════════════════════════════════════════════
+GEMINI SAFETY FILTER COMPLIANCE
+═══════════════════════════════════════════════════════
+
+Professional commercial innerwear lifestyle photography — e-commerce catalog context. No suggestive poses, close-ups, intimate framing, or tight cropping. Modest and professional throughout.
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+
+No studio — real lifestyle interior only | Panty only — NO sleep shorts or boxer shorts | Bra and panty MUST match color exactly
+Fonts: Fraunces / Inter only | Text color: #6F4940 only | No hair/arms over bra or panty | No icons/text on bra, panty, or face
+Always 2 LEFT + 2 RIGHT callouts | No cool-blue lighting | No props | No watermarks | No extra models
+Do NOT create suggestive poses, intimate framing, tight cropping, or artistic editorial style
+
+
+BRA PANTY ZOOM PROMPT
+
+
+═══════════════════════════════════════════════════════
+ZOOM SHOT — CLOSE-UP TACTILE DETAIL
+═══════════════════════════════════════════════════════
+REFERENCE IMAGE 1 (Model): Exact skin tone and body reference — chest to hip only. Face NOT shown.
+REFERENCE IMAGE 2 (Bra Product): Exact reference — bra color, texture, construction. Replicate identically.
+REFERENCE IMAGE 3 (Panty Product): NOT shown in this crop — used only to confirm matching color with bra.
+
+═══════════════════════════════════════════════════════
+SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT
+═══════════════════════════════════════════════════════
+Static clean close-up — chin/collarbone to just below bottom band | NO hands | Aspect ratio: portrait 3:4
+Crop ends just below the bra bottom band — do NOT include panty, hips, or midriff below band
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+Body 15–20° angled right | Arms OUT OF FRAME | Torso relaxed, upright
+Skin: ZERO marks, indentation, irritation | Tattoo-free, blemish-free
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+All bra zones razor sharp: front panel smooth, edges clean, bottom band flat, side panels seamless, straps & neckline visible at top
+Fabric completely smooth, second-skin — NO stitching or seam lines visible
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+LEFT 60–65%: model/bra on #F3F0E9 (Tweens brand — warm creamy beige) background
+RIGHT 35–40%: flat #F3F0E9 warm creamy beige solid text panel
+Lighting: soft, warm, bright — no harsh shadows | Warm earthy tone | No cool-blue tones
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY STYLE
+═══════════════════════════════════════════════════════
+Intimate static close-up — minimal, premium, precisely tactile
+Overall mood: smooth, seamless, warmly minimal — consistent with Tweens brand identity
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+COMPOSITION SPLIT:
+LEFT 62%: static bra on skin, no action, no hands
+RIGHT 38%: flat #F3F0E9 warm cream text panel
+
+HEADLINE — TOP of RIGHT text panel, right-aligned
+Font: Fraunces (MANDATORY — bold, large) | Color: #6F4940 (MANDATORY)
+
+CALLOUT 1 — RIGHT panel, first item
+Thin curved organic callout line arcs LEFT pointing to ARMHOLE EDGE or SIDE PANEL of bra
+Text (right-aligned, NO icon, Fraunces regular weight) | Color: #6F4940
+
+CALLOUT 2 — RIGHT panel, second item
+Thin curved organic callout line arcs LEFT pointing to BOTTOM BAND or SKIN CONTACT ZONE
+Text (right-aligned, NO icon, Fraunces regular weight) | Color: #6F4940
+
+CALLOUT 3 — RIGHT panel, third item, lowest position
+Thin curved organic callout line arcs LEFT pointing to FABRIC or SIDE SEAM area
+Text (right-aligned, NO icon, Fraunces regular weight) | Color: #6F4940
+
+CALLOUT LINE STYLE: Thin, slightly curved organic lines — NOT rigid or straight
+Curve naturally from right panel into left photo | Color: #6F4940
+Lines originate from LEFT edge of text panel and arc into photo zone
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+Photo zone LEFT — static bra on skin, no action, no hands
+Text zone RIGHT — flat #F3F0E9 warm cream panel, three stacked callouts
+Headline anchors TOP RIGHT | Three callouts distribute evenly down right panel
+Callout lines arc gracefully from right text into left photo
+Final image: premium, editorial, warm, tactile — true to Tweens identity
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+No hands | No face | No skin marks | No seams | No straight lines | No icons | RIGHT panel flat only
+No panty visible in crop | No hips or midriff below bra band
+Fonts: Fraunces only | Color: #6F4940 only | No cool-blue lighting | No watermarks | 3:4 ratio only | No props
+
+
+BRA PANTY MOCKUP PROMPT
+
+
+═══════════════════════════════════════════════════════
+MOCKUP SHOT — FLOATING PRODUCT ONLY
+═══════════════════════════════════════════════════════
+IMPORTANT: This is a PRODUCT MOCKUP SHOT — no model, no human body. Only the bra image is used as reference.
+REFERENCE IMAGE (Bra Product): Use the uploaded bra image as the EXACT reference for:
+- Bra color and fabric tone
+- Cup shape, structure, and coverage depth
+- Strap width and length
+- Side wing width and shape
+- Hook-and-eye closure detail
+- Adjustable strap slider hardware
+- Neckline shape and overall silhouette
+Replicate all of the above identically. Do not alter any construction detail.
+
+═══════════════════════════════════════════════════════
+SHOT TYPE — FLOATING PRODUCT MOCKUP
+═══════════════════════════════════════════════════════
+PRODUCT-ONLY shot — absolutely NO model, NO human body, NO hands, NO skin visible anywhere
+The bra is presented as a FLOATING / LIFTED product — NOT a flat lay on a surface
+The bra must have NATURAL VOLUME and DIMENSION — cups have realistic projection and shape as if being worn
+The bra floats slightly above the background with a very soft, subtle warm shadow beneath it
+Straps are FULLY EXTENDED upward — both straps visible from cup to full strap length
+The bra is angled at a NATURAL THREE-QUARTER DIAGONAL — slightly tilted so both the front panel AND one side wing are simultaneously visible
+Aspect ratio: 3:4 portrait — STRICT
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+ALL of the following must be FULLY VISIBLE and sharply in focus:
+ARMHOLE EDGES — both left and right openings clearly defined — clean edges
+BOTTOM BAND — full width visible, sitting naturally, clean finish
+CUP FRONT PANEL — both cups with natural volume, full coverage shape visible
+SIDE WINGS — panels extending outward on both sides — visible construction
+ADJUSTABLE STRAPS — both straps fully extended, slider hardware clearly visible
+NECKLINE — front center neckline shape clearly defined
+Product must appear THREE-DIMENSIONAL and premium — not flat, not crushed, not distorted
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+Background: #F3F0E9 (Tweens brand — Cream beige base; warm nude softness; cocoa premium anchor)
+Completely seamless — no surface texture, no gradient, no props
+Lighting: soft, diffused, even studio lighting — illuminates product from slightly above-front
+Subtle warm drop shadow directly beneath product — very light, cocoa-toned, not dramatic
+No harsh shadows, no colored reflections | Aspect ratio: 3:4 portrait — STRICT
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY
+═══════════════════════════════════════════════════════
+HEADLINE — TOP LEFT of image, above product
+Typeface: Fraunces (bold display serif, large size) | Color: #6F4940
+
+CALLOUT SYSTEM — 4 CALLOUTS TOTAL (2 LEFT + 2 RIGHT, always balanced)
+GLOBAL LINE RULE: Thin, clean, straight lines — NOT curved | Color: #6F4940 | 1px stroke weight
+NO dot or arrow at endpoint | Lines radiate outward from product to text | Lines must NEVER cross
+GLOBAL TEXT RULE: NO circular icons | NO boxes | Clean typographic text only | Color: #6F4940
+
+CALLOUT 1 — LEFT SIDE, upper zone — line points to LEFT ARMHOLE EDGE
+CALLOUT 2 — LEFT SIDE, lower zone — line points to SIDE WING or BOTTOM BAND edge
+CALLOUT 3 — RIGHT SIDE, upper zone — line points to RIGHT STRAP or SLIDER HARDWARE
+CALLOUT 4 — RIGHT SIDE, lower zone — line points to RIGHT SIDE WING
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+Headline: TOP LEFT | Product: CENTER of frame, floating with natural volume
+Callouts 1+2: LEFT side, lines pointing RIGHT into product | Callouts 3+4: RIGHT side, lines pointing LEFT
+Generous #F3F0E9 breathing space around product | No text overlapping product
+Final image: warm, minimal, technically precise, premium — true to Tweens identity
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+NO model, NO hands, NO skin, NO human body visible anywhere
+No flat lay | No surface props | No background elements
+Fonts: Fraunces / Inter | Color: #6F4940 only | No cool-blue lighting | No watermarks | 3:4 ratio only
+
+
+PANTY ONLY FRONT VIEW PROMPT
+
+Use Image 1 as the model reference and Image 2 as the panty reference.
+Generate a FRONT fit shot focused on accurate panty representation.
+Product Accuracy:
+Panty must exactly match Image 2 in color tone, fabric texture, waistband thickness, leg opening curves, front panel shape, and seam behavior.
+Framing & Pose:
+Front standing pose, primarily waist-to-upper-thigh framing (or 3/4 body if needed) so the panty fit is clearly visible and central.
+Background & Lighting:
+{{BACKGROUND_AND_LIGHTING}}
+Style:
+Minimal e-commerce look, clean and realistic, professional catalog quality.
+Output:
+High-detail photorealistic front fit image with clear product visibility.
+
+
+PANTY ONLY BACK VIEW PROMPT
+
+Use Image 1 as the model reference and Image 2 as the panty reference.
+Generate a BACK fit shot focused on accurate panty representation.
+Product Accuracy:
+Panty must exactly match Image 2 in back coverage, waistband line, seam positions, color, and fabric texture.
+Framing & Pose:
+Back-facing standing pose with framing that keeps waist, hip, and upper-thigh area clearly visible for product fit assessment.
+Background & Lighting:
+{{BACKGROUND_AND_LIGHTING}}
+Style:
+Minimal e-commerce look, clean and realistic, professional catalog quality.
+Output:
+High-detail photorealistic back fit image with clear product visibility.
+
+
+PANTY ONLY SIDE VIEW PROMPT
+
+Use Image 1 as the model reference and Image 2 as the panty reference.
+Generate a SIDE profile fit shot focused on accurate panty representation.
+Product Accuracy:
+Panty must exactly match Image 2 in side silhouette, waistband height, leg opening contour, seam flow, and fabric behavior.
+Framing & Pose:
+Side-profile standing pose (90-degree angle) with waist, hip, and upper-thigh clearly visible for fit assessment.
+Background & Lighting:
+{{BACKGROUND_AND_LIGHTING}}
+Style:
+Minimal e-commerce look, clean and realistic, professional catalog quality.
+Output:
+High-detail photorealistic side fit image with precise silhouette clarity.
+
+
+PANTY ONLY MOOD VIEW PROMPT
+
+Use Image 1 as the model reference and Image 2 as the panty reference.
+Generate a MOOD/LIFESTYLE style image that still keeps panty fit and details clearly visible.
+Product Accuracy:
+Panty must exactly match Image 2 in color, fabric texture, seams, and shape. Do not alter product identity.
+Framing & Pose:
+Natural editorial pose with product-focused framing around waist-to-upper-thigh zone while keeping an elevated premium look.
+Background & Lighting:
+{{BACKGROUND_AND_LIGHTING}}
+Style:
+Premium fashion e-commerce mood shot, realistic and clean, suitable for commercial catalog storytelling.
+Output:
+High-detail photorealistic mood image with clear product readability.
+
+ZOOM PROMPT
+"REFERENCE IMAGE 1 (Model): Exact skin tone and body reference — chest to hip only. Face NOT shown.
+REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, seamless bonded construction. Replicate identically.
+
+═══════════════════════════════════════════════════════
+SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT
+═══════════════════════════════════════════════════════
+
+Static clean close-up — chin/collarbone to below bottom band | NO hands | Aspect ratio: portrait 3:4
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+
+Body 15–20° angled right | Arms OUT OF FRAME | Torso relaxed
+Skin: ZERO marks, indentation, irritation | Tattoo-free, blemish-free
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+All bra zones razor sharp: front panel smooth, bonded edges invisible, bottom band flat, side seamless, straps & neckline visible at top
+Fabric completely smooth, second-skin — NO stitching or seam lines
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+LEFT 60–65%: model/product on #F7F3EE (Dressberry brand — soft ivory) background
+RIGHT 35–40%: flat #F7F3EE soft ivory solid text panel
+Lighting: soft, warm, bright — no harsh shadows | Warm feminine tone | No cool-blue tones
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY STYLE
+═══════════════════════════════════════════════════════
+
+Intimate static close-up — feminine, premium, precisely tactile
+Overall mood: smooth, seamless, warmly feminine — consistent with Dressberry's "feminine fashion elegance" identity
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+COMPOSITION SPLIT:
+LEFT 62%: static bra on skin, no action, no hands
+RIGHT 38%: flat #F7F3EE soft ivory text panel
+
+HEADLINE — TOP of RIGHT text panel, right-aligned
+Text: "Cotton Bonded Bra"
+Font: Cormorant Garamond (MANDATORY — bold, large — wraps to 3 lines)
+Color: #6B2E43 (MANDATORY)
+CRITICAL: Use ONLY Cormorant Garamond font family. Do NOT substitute with Times New Roman, Georgia, Playfair Display, or any other serif font.
+
+CALLOUT 1 — RIGHT panel, first item
+→ Thin curved organic callout line curves LEFT pointing to SEAMLESS SIDE EDGE of bra
+Text (right-aligned, NO icon):
+Line 1 (Cormorant Garamond regular weight — NOT bold): "Invisible"
+Line 2 (Cormorant Garamond regular weight — NOT bold): "under outfits"
+Color: #6B2E43
+Font: Cormorant Garamond (MANDATORY)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT 2 — RIGHT panel, second item
+→ Thin curved organic callout line curves LEFT pointing to SKIN CONTACT ZONE just below bra's bottom edge
+Text (right-aligned, NO icon):
+Line 1 (Cormorant Garamond regular weight — NOT bold): "Sits smooth"
+Line 2 (Cormorant Garamond regular weight — NOT bold): "on skin"
+Color: #6B2E43
+Font: Cormorant Garamond (MANDATORY)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT 3 — RIGHT panel, third item, lowest position
+→ Thin curved organic callout line curves LEFT pointing to BOTTOM BAND where it meets the skin
+Text (right-aligned, NO icon):
+Line 1 (Cormorant Garamond regular weight — NOT bold): "No Digging."
+Line 2 (Cormorant Garamond regular weight — NOT bold): "No Rashes."
+Color: #6B2E43
+Font: Cormorant Garamond (MANDATORY)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT LINE STYLE (all three):
+Thin, slightly curved organic lines — NOT rigid or straight
+Curve naturally from right panel into left photo
+Color: #6B2E43 (Dressberry brand — berry-plum)
+Each line ends at product touch point
+Lines must NOT cross each other
+Lines originate from LEFT edge of text panel and arc into photo zone
+
+TEXT STYLE (all three callouts):
+NO circular icons — purely typographic
+Right-aligned within RIGHT panel
+Generous vertical spacing between each item
+Consistent rhythm top to bottom
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Photo zone LEFT — static bra on skin, no action, no hands
+Text zone RIGHT — flat #F7F3EE soft ivory panel, three stacked callouts
+Headline anchors TOP RIGHT
+Three callouts distribute evenly down right panel
+Callout lines arc gracefully from right text into left photo, each pointing to distinct bra zone
+No text overlapping photo zone
+Final image: premium, editorial, warm, tactile — true to Dressberry's feminine fashion elegance identity
+
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS — MANDATORY
+═══════════════════════════════════════════════════════
+
+No hands | No face | No skin marks | No seams | No straight lines | No icons | RIGHT panel #F7F3EE flat only
+Fonts: Cormorant Garamond only for all text — NO Times New Roman, NO Georgia, NO Playfair Display, NO Arial, NO Helvetica, NO Inter substitutions
+Color: #6B2E43 only | No cool-blue lighting | No watermarks | 3:4 ratio only | No props"
+
+MOCKUP PROMPT 
+
+""IMPORTANT WORKFLOW NOTE:
+Product mockup only — no model. Upload product flatlay only.
+
+REFERENCE IMAGE (Product Flatlay): Exact reference for all bra construction details. Replicate identically.
+
+═══════════════════════════════════════════════════════
+SHOT TYPE — FLOATING PRODUCT MOCKUP
+═══════════════════════════════════════════════════════
+
+NO model, NO human, NO hands, NO skin
+Bra FLOATING with natural volume — NOT flatlay | Straps FULLY EXTENDED | Hardware visible
+THREE-QUARTER DIAGONAL | Hook-and-eye partially visible | Aspect ratio: 3:4 portrait
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+All zones fully visible: armhole edges, bottom band, cups, side wings, straps/hardware, V-neckline, hook-and-eye
+THREE-DIMENSIONAL, premium — not flat, not crushed
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+Background: #F7F3EE (Dressberry brand — soft ivory) clean seamless
+Soft diffused even lighting | Subtle soft drop shadow | No harsh shadows | 3:4 portrait
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY / RENDER STYLE
+═══════════════════════════════════════════════════════
+
+Premium product photography — elegant, feminine, refined, premium, precisely tactile
+Overall feel: feminine fashion elegance catalogue — consistent with Dressberry's identity
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
+═══════════════════════════════════════════════════════
+
+HEADLINE — TOP LEFT of image, above product
+DISPLAY TEXT ONLY: "Elastic Free Armholes
+ and Bottom Band"
+Typeface: bold display serif, large size
+Color: #6B2E43 (MANDATORY — Dressberry brand font color)
+Font: Cormorant Garamond (MANDATORY)
+CRITICAL: Use ONLY Cormorant Garamond font family. Do NOT substitute with any other display or serif font.
+— "Cormorant Garamond" must NEVER appear as visible text —
+
+SECONDARY TEXT — directly below headline, TOP LEFT
+DISPLAY TEXT ONLY: "Light Padding for Perfect Shape"
+Typeface: medium weight clean sans-serif, slightly smaller than headline
+Color: #6B2E43 (MANDATORY)
+Font: Manrope (MANDATORY)
+CRITICAL: Use ONLY Manrope font family. Do NOT substitute with any other sans-serif font.
+— "Manrope" must NEVER appear as visible text —
+— Font names must NEVER be printed in the image —
+
+---
+
+CALLOUT SYSTEM — 4 CALLOUTS TOTAL
+2 LEFT + 2 RIGHT (always balanced)
+
+GLOBAL LINE RULE (all 4 callouts):
+→ Thin, clean, straight lines — NOT curved
+→ Color: #6B2E43 (Dressberry brand color)
+→ 1px stroke weight — precise and minimal
+→ NO dot or arrow at endpoint — line terminates cleanly at product zone
+→ Lines radiate outward from product to text
+→ Lines must NEVER cross each other
+
+GLOBAL TEXT RULE (all 4 callouts):
+→ NO circular icons | NO boxes | NO backgrounds
+→ Clean typographic text only
+→ Regular or light font weight — NOT bold
+→ Consistent size across all four callouts
+→ Color: #6B2E43
+→ Font: Manrope (MANDATORY)
+→ Text sits at the END of each callout line
+→ Clean sans-serif weight matching brand body font
+
+---
+
+CALLOUT 1 — LEFT SIDE, upper zone
+→ Thin straight line points to LEFT ARMHOLE EDGE of bra
+Text (Manrope regular/light weight, no icon):
+"Broad Shoulder Straps"
+Color: #6B2E43
+
+CALLOUT 2 — LEFT SIDE, lower zone
+→ Thin straight line points to LEFT SIDE WING or BOTTOM BAND edge
+Text (Manrope regular/light weight, no icon):
+"Seamless Wide Side Wings"
+Color: #6B2E43
+
+CALLOUT 3 — RIGHT SIDE, upper zone
+→ Thin straight line points to RIGHT STRAP SLIDER / ADJUSTABLE HARDWARE
+Text (Manrope regular/light weight, no icon):
+"Adjustable Straps"
+Color: #6B2E43
+
+CALLOUT 4 — RIGHT SIDE, lower zone
+→ Thin straight line points to RIGHT SIDE WING of bra
+Text (Manrope regular/light weight, no icon):
+"Full Coverage Design"
+Color: #6B2E43
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Headline + secondary text: TOP LEFT
+Product: CENTER of frame, floating with natural volume
+Callouts 1 + 2: LEFT side, lines pointing RIGHT into product zones
+Callouts 3 + 4: RIGHT side, lines pointing LEFT into product zones
+Generous #F7F3EE breathing space around product — product does not fill entire frame
+All callout text sits cleanly in margins outside product silhouette
+No text overlapping product at any point
+Final image: elegant, feminine, refined, premium — true to Dressberry's "feminine fashion elegance" identity
+
+═══════════════════════════════════════════════════════
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS — MANDATORY
+═══════════════════════════════════════════════════════
+
+No model/human/skin | FLOAT only | No curved lines | No icons
+Background: #F7F3EE ONLY
+Fonts: Cormorant Garamond (headline) / Manrope (body + callouts) — NO Times New Roman, NO Georgia, NO Arial, NO Helvetica substitutions
+Color: #6B2E43 only
+No props | Subtle shadow | No watermarks | 3:4 ratio only | Lines not crossing | NOT bold in callouts"
+"

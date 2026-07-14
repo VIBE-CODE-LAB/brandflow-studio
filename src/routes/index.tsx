@@ -1,26 +1,38 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useCallback, useMemo, useRef, useState } from "react";
-import { Camera, Sparkles, Zap } from "lucide-react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AuthDialog } from "@/components/studio/AuthDialog";
 import { UploadTray, type ImageMap } from "@/components/studio/UploadTray";
 import { BrandPicker } from "@/components/studio/BrandPicker";
 import { RefinePanel } from "@/components/studio/RefinePanel";
 import { Stage, downloadShot } from "@/components/studio/Stage";
 import {
+  DECKS,
   SHOOT_TYPES,
-  POSES,
   type AspectId,
+  type DeckType,
   type EngineId,
   type GeneratedShot,
-  type Pose,
   type ShootType,
-  allowedPoses,
+  allowedDecks,
   brandLocked,
-  defaultPoses,
+  defaultDeck,
+  getBrand,
+  getDeck,
   requiredSlots,
 } from "@/lib/studio";
+import { composeDeckPrompt } from "@/lib/promptComposer";
+import {
+  emptyAuth,
+  getStudioAuth,
+  incrementStudioUsage,
+  loadStudioUsage,
+  logoutStudio,
+  type StudioAuthState,
+} from "@/lib/studioAuth";
 
 export const Route = createFileRoute("/")({
   component: StudioFlow,
@@ -30,11 +42,13 @@ let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
 
 function StudioFlow() {
+  const [auth, setAuth] = useState<StudioAuthState>(emptyAuth);
+  const [authOpen, setAuthOpen] = useState(false);
   const [shootType, setShootType] = useState<ShootType>("bra_panty");
   const [pushupBraOnly, setPushupBraOnly] = useState(false);
   const [images, setImages] = useState<ImageMap>({});
   const [brandId, setBrandId] = useState<string | null>("tweens");
-  const [poses, setPoses] = useState<Pose[]>(defaultPoses("bra_panty"));
+  const [deck, setDeck] = useState<DeckType>("deck_5");
   const [aspect, setAspect] = useState<AspectId>("3:4");
   const [engine, setEngine] = useState<EngineId>("fast");
   const [note, setNote] = useState("");
@@ -42,19 +56,29 @@ function StudioFlow() {
   const [generating, setGenerating] = useState(false);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
+  useEffect(() => {
+    void getStudioAuth().then((serverAuth) => {
+      setAuth({
+        ...serverAuth,
+        used: loadStudioUsage(),
+      });
+    });
+  }, []);
+
   const slots = requiredSlots(shootType, pushupBraOnly);
-  const allowed = allowedPoses(shootType);
-  const needsBack = poses.includes("back");
+  const activeDeck = getDeck(deck);
+  const validDecks = allowedDecks(shootType);
+  const needsBack = activeDeck.shots.includes("back");
   const locked = brandLocked(shootType);
 
   const missingPhotos = slots.filter((s) => !images[s]);
-  const ready =
-    missingPhotos.length === 0 && poses.length > 0 && (locked || Boolean(brandId)) && !generating;
+  const setupReady = missingPhotos.length === 0 && activeDeck.shots.length > 0 && Boolean(brandId);
+  const ready = setupReady && !generating;
 
   const changeShootType = useCallback((next: ShootType) => {
     setShootType(next);
     setPushupBraOnly(false);
-    setPoses(defaultPoses(next));
+    setDeck(defaultDeck(next));
     // prune images that this shoot type no longer uses
     setImages((prev) => {
       const keep = requiredSlots(next, false);
@@ -66,6 +90,14 @@ function StudioFlow() {
       return cleaned;
     });
   }, []);
+
+  const changeDeck = useCallback(
+    (next: DeckType) => {
+      if (!validDecks.includes(next)) return;
+      setDeck(next);
+    },
+    [validDecks],
+  );
 
   const togglePushupBraOnly = useCallback(() => {
     setPushupBraOnly((v) => {
@@ -79,16 +111,7 @@ function StudioFlow() {
     setImages((prev) => ({ ...prev, [key]: value ?? undefined }));
   }, []);
 
-  const togglePose = useCallback(
-    (p: Pose) => {
-      setPoses((prev) =>
-        prev.includes(p) ? prev.filter((x) => x !== p) : [...allowed.filter((a) => prev.includes(a) || a === p)],
-      );
-    },
-    [allowed],
-  );
-
-  const orderedPoses = useMemo(() => allowed.filter((p) => poses.includes(p)), [allowed, poses]);
+  const orderedDeckShots = useMemo(() => activeDeck.shots, [activeDeck]);
 
   const clearTimers = () => {
     timers.current.forEach(clearTimeout);
@@ -96,16 +119,40 @@ function StudioFlow() {
   };
 
   const generate = useCallback(() => {
-    if (!ready) return;
+    if (!setupReady || !brandId || generating) return;
+    if (!auth.unlocked || !auth.hasGeminiKey) {
+      setAuthOpen(true);
+      return;
+    }
+
     clearTimers();
-    const queued: GeneratedShot[] = orderedPoses.map((pose) => ({
-      id: nextId(),
-      pose,
-      aspect,
-      brandId: locked ? null : brandId,
-      shootType,
-      status: "queued",
-    }));
+    const used = incrementStudioUsage();
+    setAuth((prev) => ({ ...prev, used }));
+    const brand = getBrand(brandId);
+    const queued: GeneratedShot[] = orderedDeckShots.map((deckShot) => {
+      const promptData = composeDeckPrompt({
+        shootType,
+        pushupBraOnly,
+        deckShot,
+        brand,
+        aspect,
+        userNote: note,
+      });
+
+      return {
+        id: nextId(),
+        deckShot,
+        aspect,
+        brandId: brand.id,
+        shootType,
+        pushupBraOnly,
+        status: "queued",
+        prompt: promptData.prompt,
+        promptSource: promptData.sourceFile,
+        promptSection: promptData.section,
+        userNote: note,
+      };
+    });
     setShots(queued);
     setGenerating(true);
 
@@ -127,26 +174,73 @@ function StudioFlow() {
         ),
       );
     });
-  }, [ready, orderedPoses, aspect, brandId, locked, shootType]);
+  }, [
+    setupReady,
+    brandId,
+    generating,
+    auth.unlocked,
+    auth.hasGeminiKey,
+    orderedDeckShots,
+    shootType,
+    pushupBraOnly,
+    aspect,
+    note,
+  ]);
 
   const regenerate = useCallback((id: string, redoNote: string) => {
-    setShots((prev) => prev.map((s) => (s.id === id ? { ...s, status: "rendering", note: redoNote } : s)));
+    if (!auth.unlocked || !auth.hasGeminiKey) {
+      setAuthOpen(true);
+      return;
+    }
+
+    setShots((prev) =>
+      prev.map((s) => {
+        if (s.id !== id) return s;
+        const promptData = composeDeckPrompt({
+          shootType: s.shootType,
+          pushupBraOnly: s.pushupBraOnly,
+          deckShot: s.deckShot,
+          brand: getBrand(s.brandId),
+          aspect: s.aspect,
+          userNote: s.userNote,
+          regenerationNote: redoNote,
+        });
+
+        return {
+          ...s,
+          status: "rendering",
+          note: redoNote,
+          prompt: promptData.prompt,
+          promptSource: promptData.sourceFile,
+          promptSection: promptData.section,
+        };
+      }),
+    );
     timers.current.push(
       setTimeout(() => {
         setShots((prev) => prev.map((s) => (s.id === id ? { ...s, status: "done" } : s)));
       }, 900),
     );
+  }, [auth.unlocked, auth.hasGeminiKey]);
+
+  const logout = useCallback(async () => {
+    const loggedOut = await logoutStudio();
+    setAuth({
+      ...loggedOut,
+      used: loadStudioUsage(),
+    });
+    setAuthOpen(false);
   }, []);
 
   const generateLabel = generating
-    ? "Rendering your shoot…"
+    ? "Generating Deck..."
     : missingPhotos.length > 0
       ? `Add ${missingPhotos.join(" + ")} to start`
-      : poses.length === 0
-        ? "Pick at least one pose"
-        : !locked && !brandId
-          ? "Choose a brand"
-          : `Generate ${poses.length}-shot set`;
+      : !brandId
+        ? "Choose a brand"
+        : !auth.unlocked
+          ? "Login to generate deck"
+        : `Generate ${activeDeck.shots.length} Image Deck`;
 
   return (
     <div className="min-h-screen">
@@ -161,10 +255,26 @@ function StudioFlow() {
               <p className="text-[0.7rem] text-muted-foreground">one canvas · one tap · full set</p>
             </div>
           </div>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-success/12 px-3 py-1 text-xs font-medium text-success">
-            <span className="h-1.5 w-1.5 rounded-full bg-success" />
-            Pro active
-          </span>
+          <div className="flex items-center gap-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+              <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
+              Free plan · {auth.used}/3 used
+            </span>
+            {auth.unlocked ? (
+              <Button variant="ghost" size="sm" className="h-8 rounded-full" onClick={logout}>
+                <LogOut className="h-3.5 w-3.5" />
+                Logout
+              </Button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => setAuthOpen(true)}
+                className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+              >
+                Login
+              </button>
+            )}
+          </div>
         </div>
       </header>
 
@@ -216,8 +326,41 @@ function StudioFlow() {
 
           {/* Step 2 — photos */}
           <section>
+            <StepHead index={2} title="Choose deck" hint={activeDeck.hint} />
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {DECKS.map((item) => {
+                const active = deck === item.id;
+                const disabled = !validDecks.includes(item.id);
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => changeDeck(item.id)}
+                    className={cn(
+                      "rounded-2xl border px-3 py-3 text-left transition-all",
+                      active
+                        ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                        : "border-border bg-paper hover:border-primary/50",
+                      disabled && "cursor-not-allowed opacity-40",
+                    )}
+                  >
+                    <span className="block text-sm font-semibold">{item.label}</span>
+                    <span className="mt-1 block text-[0.68rem] leading-snug text-muted-foreground">
+                      {item.hint}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </section>
+
+          <div className="hairline" />
+
+          {/* Step 3 — photos */}
+          <section>
             <StepHead
-              index={2}
+              index={3}
               title="Drop your photos"
               hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
             />
@@ -234,15 +377,15 @@ function StudioFlow() {
 
           <div className="hairline" />
 
-          {/* Step 3 — brand + look */}
+          {/* Step 4 — brand + look */}
           <section>
-            <StepHead index={3} title="Brand & look" hint="Smart defaults set" />
+            <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
             <div className="mt-3 space-y-3">
               <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} />
 
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Poses in this set
+                  Deck shots
                 </p>
                 <RefinePanel
                   aspect={aspect}
@@ -254,28 +397,18 @@ function StudioFlow() {
                 />
               </div>
               <div className="flex flex-wrap gap-1.5">
-                {POSES.map((p) => {
-                  const isAllowed = allowed.includes(p.id);
-                  const active = poses.includes(p.id);
-                  return (
-                    <button
-                      key={p.id}
-                      type="button"
-                      disabled={!isAllowed}
-                      onClick={() => togglePose(p.id)}
-                      title={p.hint}
-                      className={cn(
-                        "rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
-                        !isAllowed && "cursor-not-allowed opacity-30",
-                        active
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-secondary text-secondary-foreground hover:bg-accent",
-                      )}
-                    >
-                      {p.label}
-                    </button>
-                  );
-                })}
+                {activeDeck.shots.map((shot) => (
+                  <span
+                    key={shot}
+                    className="rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
+                  >
+                    {shot === "side1"
+                      ? "Side 1"
+                      : shot === "side2"
+                        ? "Side 2"
+                        : shot[0].toUpperCase() + shot.slice(1)}
+                  </span>
+                ))}
               </div>
             </div>
           </section>
@@ -313,14 +446,19 @@ function StudioFlow() {
         Prototype preview — frames are stylized stand-ins for the Gemini composite. Ensure you hold
         rights to every uploaded photo.
       </footer>
+
+      <AuthDialog
+        open={authOpen}
+        onOpenChange={setAuthOpen}
+        onUnlock={(nextAuth) =>
+          setAuth({
+            ...nextAuth,
+            used: loadStudioUsage(),
+          })
+        }
+      />
     </div>
   );
-}
-
-
-function downloadOne(shot: GeneratedShot) {
-  const evt = new CustomEvent("studioflow-download", { detail: shot });
-  window.dispatchEvent(evt);
 }
 
 function StepHead({ index, title, hint }: { index: number; title: string; hint: string }) {

@@ -1,16 +1,27 @@
-import { Download, Loader2, RefreshCw, Sparkles } from "lucide-react";
+import { useMemo, useState } from "react";
+import { Check, Clipboard, Download, Loader2, RefreshCw, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import {
   ASPECTS,
   BRANDS,
-  POSES,
+  DECK_SHOT_LABELS,
+  REGENERATION_ISSUES,
   type AspectId,
   type GeneratedShot,
+  type RegenerateIssue,
   type ShootType,
+  buildRegenerationNote,
   shootTypeLabel,
 } from "@/lib/studio";
 
@@ -28,9 +39,17 @@ function brandColors(brandId: string | null) {
 }
 
 /** A stylized studio frame standing in for the composited result. */
-export function ShotFrame({ shot }: { shot: GeneratedShot }) {
+export function ShotFrame({
+  shot,
+  selected,
+  onToggleSelected,
+}: {
+  shot: GeneratedShot;
+  selected: boolean;
+  onToggleSelected: () => void;
+}) {
   const { bg, fg, name } = brandColors(shot.brandId);
-  const poseLabel = POSES.find((p) => p.id === shot.pose)?.label ?? shot.pose;
+  const poseLabel = DECK_SHOT_LABELS[shot.deckShot];
 
   return (
     <div
@@ -60,6 +79,21 @@ export function ShotFrame({ shot }: { shot: GeneratedShot }) {
             {shot.status === "rendering" ? "Rendering…" : "Queued"}
           </span>
         </div>
+      )}
+      {shot.status === "done" && (
+        <button
+          type="button"
+          onClick={onToggleSelected}
+          className={cn(
+            "absolute right-2.5 top-2.5 z-10 inline-flex h-8 min-w-16 items-center justify-center gap-1 rounded-full border px-2 text-[0.68rem] font-semibold shadow-sm transition-colors",
+            selected
+              ? "border-success bg-success text-success-foreground"
+              : "border-border bg-paper/90 text-foreground hover:border-primary",
+          )}
+        >
+          {selected ? <Check className="h-3.5 w-3.5" /> : null}
+          {selected ? "Picked" : "Select"}
+        </button>
       )}
       <div className="absolute left-2.5 top-2.5 rounded-full bg-paper/85 px-2.5 py-1 text-[0.68rem] font-semibold text-foreground shadow-sm">
         {poseLabel}
@@ -99,12 +133,12 @@ export function downloadShot(shot: GeneratedShot) {
   ctx.fillStyle = fg;
   ctx.font = "600 40px Instrument Sans, sans-serif";
   ctx.fillText(name, 40, h - 48);
-  const poseLabel = POSES.find((p) => p.id === shot.pose)?.label ?? shot.pose;
+  const poseLabel = DECK_SHOT_LABELS[shot.deckShot];
   ctx.fillStyle = "#333";
   ctx.font = "500 30px Instrument Sans, sans-serif";
   ctx.fillText(poseLabel, 40, 60);
   const link = document.createElement("a");
-  link.download = `studioflow-${name}-${shot.pose}.png`;
+  link.download = `studioflow-${name}-${shot.deckShot}.png`;
   link.href = canvas.toDataURL("image/png");
   link.click();
 }
@@ -126,7 +160,37 @@ export function Stage({
   onRegenerate,
   onDownloadAll,
 }: StageProps) {
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [issues, setIssues] = useState<Record<string, RegenerateIssue[]>>({});
   const doneCount = shots.filter((s) => s.status === "done").length;
+  const selectedShots = useMemo(
+    () => shots.filter((shot) => selectedIds.includes(shot.id)),
+    [selectedIds, shots],
+  );
+
+  const toggleSelected = (id: string) => {
+    setSelectedIds((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
+  };
+
+  const toggleIssue = (shotId: string, issue: RegenerateIssue) => {
+    setIssues((prev) => {
+      const current = prev[shotId] ?? [];
+      const next = current.includes(issue)
+        ? current.filter((item) => item !== issue)
+        : [...current, issue];
+      return { ...prev, [shotId]: next };
+    });
+  };
+
+  const regenerateSelected = () => {
+    selectedShots.forEach((shot) => {
+      onRegenerate(shot.id, buildRegenerationNote(issues[shot.id] ?? []));
+    });
+    setDialogOpen(false);
+    setSelectedIds([]);
+    setIssues({});
+  };
 
   if (shots.length === 0) {
     return (
@@ -137,7 +201,7 @@ export function Stage({
         <h2 className="text-2xl">Your shoot lands here</h2>
         <p className="mt-2 max-w-sm text-sm text-muted-foreground">
           Drop your photos, pick a brand, and one tap produces the whole pose set as a contact
-          sheet — no pose-by-pose pop-ups.
+          sheet with fixed Side 1, Side 2, Mood, Zoom, and Back deck shots.
         </p>
       </div>
     );
@@ -149,19 +213,31 @@ export function Stage({
         <div>
           <p className="text-xs uppercase tracking-widest text-muted-foreground">Contact sheet</p>
           <h2 className="text-xl">
-            {shootTypeLabel(shootType, pushupBraOnly)} · {doneCount}/{shots.length} shots
+            {shootTypeLabel(shootType, pushupBraOnly)} · {doneCount}/{shots.length} deck images
           </h2>
         </div>
-        <Button
-          variant="soft"
-          size="sm"
-          onClick={onDownloadAll}
-          disabled={doneCount === 0}
-          className="rounded-full"
-        >
-          <Download className="h-3.5 w-3.5" />
-          Download all
-        </Button>
+        <div className="flex flex-wrap justify-end gap-2">
+          <Button
+            variant="soft"
+            size="sm"
+            onClick={onDownloadAll}
+            disabled={doneCount === 0}
+            className="rounded-full"
+          >
+            <Download className="h-3.5 w-3.5" />
+            Download all
+          </Button>
+          <Button
+            variant="hero"
+            size="sm"
+            onClick={() => setDialogOpen(true)}
+            disabled={selectedIds.length === 0 || generating}
+            className="rounded-full"
+          >
+            <RefreshCw className="h-3.5 w-3.5" />
+            Re-generate selected
+          </Button>
+        </div>
       </div>
 
       <div
@@ -172,7 +248,11 @@ export function Stage({
       >
         {shots.map((shot) => (
           <div key={shot.id} className="group space-y-2">
-            <ShotFrame shot={shot} />
+            <ShotFrame
+              shot={shot}
+              selected={selectedIds.includes(shot.id)}
+              onToggleSelected={() => toggleSelected(shot.id)}
+            />
             <div className="flex items-center justify-between gap-1">
               <Button
                 variant="ghost"
@@ -185,11 +265,98 @@ export function Stage({
                 Save
               </Button>
               <RedoButton disabled={shot.status !== "done" || generating} onRedo={(n) => onRegenerate(shot.id, n)} />
+              <PromptButton disabled={shot.status !== "done"} shot={shot} />
             </div>
           </div>
         ))}
       </div>
+
+      <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>What is wrong in the selected images?</DialogTitle>
+          </DialogHeader>
+          <div className="max-h-[58vh] space-y-3 overflow-y-auto pr-1">
+            {selectedShots.map((shot, index) => (
+              <div key={shot.id} className="rounded-2xl border border-border bg-paper p-4">
+                <h3 className="text-sm font-semibold">
+                  Image {index + 1} - {DECK_SHOT_LABELS[shot.deckShot]}
+                </h3>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  {REGENERATION_ISSUES.map((issue) => {
+                    const active = (issues[shot.id] ?? []).includes(issue.id);
+                    return (
+                      <button
+                        key={issue.id}
+                        type="button"
+                        onClick={() => toggleIssue(shot.id, issue.id)}
+                        className={cn(
+                          "rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                          active
+                            ? "border-primary bg-primary text-primary-foreground"
+                            : "border-border bg-background text-foreground hover:bg-accent",
+                        )}
+                      >
+                        {issue.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="soft" onClick={() => setDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button variant="hero" onClick={regenerateSelected}>
+              Submit and regenerate
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
+  );
+}
+
+function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedShot }) {
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-7 flex-1 justify-center rounded-full text-xs"
+          disabled={disabled}
+        >
+          <Clipboard className="h-3 w-3" />
+          Prompt
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[min(32rem,90vw)] space-y-2" align="end">
+        <div>
+          <p className="text-xs font-semibold text-foreground">
+            {shot.promptSource} · {shot.promptSection}
+          </p>
+          <p className="text-[0.68rem] text-muted-foreground">
+            {DECK_SHOT_LABELS[shot.deckShot]} · brand spec applied
+          </p>
+        </div>
+        <Textarea
+          readOnly
+          value={shot.prompt}
+          className="max-h-72 min-h-52 resize-none font-mono text-[0.68rem]"
+        />
+        <Button
+          size="sm"
+          variant="hero"
+          className="w-full rounded-full"
+          onClick={() => void navigator.clipboard?.writeText(shot.prompt)}
+        >
+          Copy prompt
+        </Button>
+      </PopoverContent>
+    </Popover>
   );
 }
 
