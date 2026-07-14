@@ -6,10 +6,28 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig({
-  tanstackStart: {
-    // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
-    // nitro/vite builds from this
-    server: { entry: "server" },
-  },
+export default defineConfig(({ mode }) => {
+  const githubPages = mode === "github-pages" || process.env.GITHUB_PAGES === "true";
+  const pagesBase = "/brandflow-studio/";
+
+  return {
+    vite: {
+      base: githubPages ? pagesBase : "/",
+    },
+    tanstackStart: {
+      // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
+      // nitro/vite builds from this
+      server: { entry: "server" },
+      router: githubPages ? { basepath: pagesBase.replace(/\/$/, "") } : undefined,
+      pages: githubPages ? [{ path: "/" }] : undefined,
+      prerender: githubPages
+        ? {
+            enabled: true,
+            autoStaticPathsDiscovery: false,
+            crawlLinks: false,
+            failOnError: true,
+          }
+        : undefined,
+    },
+  };
 });

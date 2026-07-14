@@ -64,6 +64,10 @@ export function AuthDialog({ open, onOpenChange, onUnlock }: AuthDialogProps) {
       setShowPassword(false);
       setShowKey(false);
       setError("");
+    } catch {
+      setError(
+        "Secure login needs the backend server. GitHub Pages can show the static studio, but Gemini key login requires a server deployment.",
+      );
     } finally {
       setSubmitting(false);
     }

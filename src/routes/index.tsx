@@ -57,12 +57,19 @@ function StudioFlow() {
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
-    void getStudioAuth().then((serverAuth) => {
-      setAuth({
-        ...serverAuth,
-        used: loadStudioUsage(),
+    void getStudioAuth()
+      .then((serverAuth) => {
+        setAuth({
+          ...serverAuth,
+          used: loadStudioUsage(),
+        });
+      })
+      .catch(() => {
+        setAuth({
+          ...emptyAuth,
+          used: loadStudioUsage(),
+        });
       });
-    });
   }, []);
 
   const slots = requiredSlots(shootType, pushupBraOnly);
@@ -224,11 +231,18 @@ function StudioFlow() {
   }, [auth.unlocked, auth.hasGeminiKey]);
 
   const logout = useCallback(async () => {
-    const loggedOut = await logoutStudio();
-    setAuth({
-      ...loggedOut,
-      used: loadStudioUsage(),
-    });
+    try {
+      const loggedOut = await logoutStudio();
+      setAuth({
+        ...loggedOut,
+        used: loadStudioUsage(),
+      });
+    } catch {
+      setAuth({
+        ...emptyAuth,
+        used: loadStudioUsage(),
+      });
+    }
     setAuthOpen(false);
   }, []);
 
