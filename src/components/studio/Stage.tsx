@@ -77,7 +77,7 @@ export function ShotFrame({ shot }: { shot: GeneratedShot }) {
   );
 }
 
-function downloadShot(shot: GeneratedShot) {
+export function downloadShot(shot: GeneratedShot) {
   const { bg, fg, name } = brandColors(shot.brandId);
   const [w, h] = shot.aspect === "9:16" ? [720, 1280] : shot.aspect === "1:1" ? [1000, 1000] : [900, 1200];
   const canvas = document.createElement("canvas");
