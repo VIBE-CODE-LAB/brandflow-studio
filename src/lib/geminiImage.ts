@@ -23,7 +23,6 @@ interface InlineImage {
 }
 
 const OUTPUT_LONG_EDGE = 2048;
-const OUTPUT_QUALITY = 0.92;
 
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
   if (!value) return null;
@@ -107,7 +106,7 @@ async function normalizeTo2K(blob: Blob): Promise<Blob> {
   ctx.drawImage(image, 0, 0, width, height);
 
   return await new Promise((resolve) => {
-    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/jpeg", OUTPUT_QUALITY);
+    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/png");
   });
 }
 
@@ -148,7 +147,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
         options.prompt,
         "",
         "FIXED OUTPUT QUALITY:",
-        "Return a polished 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px long edge.",
+        "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px long edge. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
         "",
         "REFERENCE IMAGE RULES:",
         "Use the uploaded reference images as product/model references. Preserve garment identity, color, construction, shape, and visible details.",
