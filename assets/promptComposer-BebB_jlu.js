@@ -1,4 +1,4 @@
-import{a as e,c as t}from"./static-index-BHhnCn-6.js";var n=`SIDE VIEW PROMPT\r
+import{a as e,c as t}from"./static-index-DvDO9f6t.js";var n=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
