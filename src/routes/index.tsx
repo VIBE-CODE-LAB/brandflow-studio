@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Camera, LogOut, Monitor, Moon, Settings, Sparkles, Sun, Zap, type LucideIcon } from "lucide-react";
+import { Camera, LogOut, Monitor, Moon, Plus, Settings, Sparkles, Sun, Zap, type LucideIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { ImageMap } from "@/components/studio/UploadTray";
@@ -10,16 +11,21 @@ import {
   DECKS,
   SHOOT_TYPES,
   type AspectId,
+  type Brand,
   type DeckType,
   type EngineId,
   type GeneratedShot,
   type ShootType,
   allowedDecks,
   brandLocked,
+  buildCustomBrand,
   defaultDeck,
+  getAvailableBrands,
   getBrand,
   getDeck,
+  loadCustomBrands,
   requiredSlots,
+  saveCustomBrands,
 } from "@/lib/studio";
 import {
   emptyAuth,
@@ -98,9 +104,11 @@ async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Pro
 function ThemeSettings({
   mode,
   onChange,
+  onAddBrand,
 }: {
   mode: ThemeMode;
   onChange: (mode: ThemeMode) => void;
+  onAddBrand: () => void;
 }) {
   const options: Array<{ value: ThemeMode; label: string; icon: LucideIcon }> = [
     { value: "system", label: "System", icon: Monitor },
@@ -134,8 +142,196 @@ function ThemeSettings({
             </button>
           );
         })}
+        <div className="my-1 h-px bg-border" />
+        <button
+          type="button"
+          onClick={onAddBrand}
+          className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
+        >
+          <Plus className="h-4 w-4" />
+          <span className="font-medium">Add Brands</span>
+        </button>
       </PopoverContent>
     </Popover>
+  );
+}
+
+const EMPTY_BRAND_FORM: Omit<Brand, "id"> = {
+  name: "",
+  headingsDisplay: "",
+  bodyUi: "",
+  fg: "#000000",
+  bg: "#FFFFFF",
+  paletteNotes: "",
+  overallLookFeel: "",
+};
+
+function HamsterLoader() {
+  return (
+    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" className="wheel-and-hamster">
+      <div className="wheel" />
+      <div className="hamster">
+        <div className="hamster__body">
+          <div className="hamster__head">
+            <div className="hamster__ear" />
+            <div className="hamster__eye" />
+            <div className="hamster__nose" />
+          </div>
+          <div className="hamster__limb hamster__limb--fr" />
+          <div className="hamster__limb hamster__limb--fl" />
+          <div className="hamster__limb hamster__limb--br" />
+          <div className="hamster__limb hamster__limb--bl" />
+          <div className="hamster__tail" />
+        </div>
+      </div>
+      <div className="spoke" />
+    </div>
+  );
+}
+
+function AddBrandDialog({
+  open,
+  onOpenChange,
+  onSubmit,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSubmit: (brand: Brand) => void;
+}) {
+  const [form, setForm] = useState(EMPTY_BRAND_FORM);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!open) {
+      setForm(EMPTY_BRAND_FORM);
+      setSubmitting(false);
+      setError(null);
+    }
+  }, [open]);
+
+  const updateField = (field: keyof typeof form, value: string) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const submitBrand = async () => {
+    const required = [
+      form.name,
+      form.headingsDisplay,
+      form.bodyUi,
+      form.fg,
+      form.bg,
+      form.overallLookFeel,
+    ].every((value) => value.trim());
+    const hexOk = /^#[0-9A-F]{6}$/i.test(form.fg.trim()) && /^#[0-9A-F]{6}$/i.test(form.bg.trim());
+
+    if (!required) {
+      setError("Fill brand name, fonts, hex codes, and overall look.");
+      return;
+    }
+    if (!hexOk) {
+      setError("Use valid 6-digit hex codes, like #7B34C9.");
+      return;
+    }
+
+    setError(null);
+    setSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 900));
+    onSubmit(buildCustomBrand(form));
+    setSubmitting(false);
+    onOpenChange(false);
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={(nextOpen) => !submitting && onOpenChange(nextOpen)}>
+      <DialogContent className="max-h-[92vh] overflow-y-auto sm:max-w-2xl">
+        {submitting ? (
+          <div className="flex min-h-[420px] flex-col items-center justify-center gap-5">
+            <HamsterLoader />
+            <p className="text-sm font-medium text-muted-foreground">Integrating brand specifications...</p>
+          </div>
+        ) : (
+          <>
+            <DialogHeader>
+              <DialogTitle>Add Brands</DialogTitle>
+            </DialogHeader>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <BrandField label="Brand name" value={form.name} onChange={(value) => updateField("name", value)} />
+              <BrandField
+                label="Heading / Display"
+                value={form.headingsDisplay}
+                onChange={(value) => updateField("headingsDisplay", value)}
+                placeholder="Fraunces"
+              />
+              <BrandField
+                label="Sub-heading / Callouts"
+                value={form.bodyUi}
+                onChange={(value) => updateField("bodyUi", value)}
+                placeholder="Inter"
+              />
+              <BrandField
+                label="Font hex code"
+                value={form.fg}
+                onChange={(value) => updateField("fg", value)}
+                placeholder="#6F4940"
+              />
+              <BrandField
+                label="Background color"
+                value={form.bg}
+                onChange={(value) => updateField("bg", value)}
+                placeholder="#F3F0E9"
+              />
+              <BrandField
+                label="Overall look"
+                value={form.overallLookFeel}
+                onChange={(value) => updateField("overallLookFeel", value)}
+                placeholder="Minimal premium daily comfort"
+              />
+              <label className="space-y-1.5 sm:col-span-2">
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Palette notes</span>
+                <textarea
+                  value={form.paletteNotes}
+                  onChange={(event) => updateField("paletteNotes", event.target.value)}
+                  placeholder="Cream beige base; warm nude softness; cocoa premium anchor"
+                  className="min-h-20 w-full rounded-2xl border border-input bg-paper px-3 py-2 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+                />
+              </label>
+            </div>
+            {error ? <p className="rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p> : null}
+            <div className="flex justify-end gap-2">
+              <Button variant="outline" onClick={() => onOpenChange(false)}>
+                Cancel
+              </Button>
+              <Button onClick={() => void submitBrand()}>Submit</Button>
+            </div>
+          </>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function BrandField({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <label className="space-y-1.5">
+      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span>
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className="h-10 w-full rounded-2xl border border-input bg-paper px-3 text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-primary"
+      />
+    </label>
   );
 }
 
@@ -146,6 +342,8 @@ export function StudioFlow() {
   const [pushupBraOnly, setPushupBraOnly] = useState(false);
   const [images, setImages] = useState<ImageMap>({});
   const [brandId, setBrandId] = useState<string | null>("tweens");
+  const [customBrands, setCustomBrands] = useState<Brand[]>(() => loadCustomBrands());
+  const [addBrandOpen, setAddBrandOpen] = useState(false);
   const [deck, setDeck] = useState<DeckType>("deck_5");
   const [aspect, setAspect] = useState<AspectId>("3:4");
   const [engine, setEngine] = useState<EngineId>("fast");
@@ -165,6 +363,16 @@ export function StudioFlow() {
   });
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
+  const availableBrands = useMemo(() => getAvailableBrands(customBrands), [customBrands]);
+
+  const addCustomBrand = useCallback((brand: Brand) => {
+    setCustomBrands((prev) => {
+      const next = [...prev.filter((item) => item.id !== brand.id), brand];
+      saveCustomBrands(next);
+      return next;
+    });
+    setBrandId(brand.id);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
@@ -342,7 +550,7 @@ export function StudioFlow() {
     clearGeneratedUrls();
     const used = incrementStudioUsage();
     setAuth((prev) => ({ ...prev, used }));
-    const brand = getBrand(brandId);
+    const brand = getBrand(brandId, customBrands);
     const queued: GeneratedShot[] = orderedDeckShots.map((deckShot) => ({
       id: nextId(),
       deckShot,
@@ -453,6 +661,7 @@ export function StudioFlow() {
     engine,
     selectedStyleName,
     presets,
+    customBrands,
   ]);
 
   const regenerate = useCallback(async (id: string, redoNote: string) => {
@@ -486,7 +695,7 @@ export function StudioFlow() {
     ]);
 
     try {
-      const brand = getBrand(shot.brandId);
+      const brand = getBrand(shot.brandId, customBrands);
       const preset =
         selectedStyleName && isPresetPose(shot.deckShot)
           ? findPreset(presets, selectedStyleName, shot.deckShot)
@@ -545,7 +754,7 @@ export function StudioFlow() {
     } finally {
       clearInterval(progressTimer);
     }
-  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine, selectedStyleName, presets]);
+  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine, selectedStyleName, presets, customBrands]);
 
   const logout = useCallback(async () => {
     try {
@@ -587,7 +796,7 @@ export function StudioFlow() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <ThemeSettings mode={themeMode} onChange={setThemeMode} />
+            <ThemeSettings mode={themeMode} onChange={setThemeMode} onAddBrand={() => setAddBrandOpen(true)} />
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
               <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
               Free plan · {auth.used}/3 used
@@ -716,7 +925,7 @@ export function StudioFlow() {
             <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
             <div className="mt-3 space-y-3">
               <Suspense fallback={<PanelSkeleton rows={1} />}>
-                <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} />
+                <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} brands={availableBrands} />
               </Suspense>
 
               <div className="flex items-center justify-between">
@@ -804,6 +1013,7 @@ export function StudioFlow() {
           />
         </Suspense>
       ) : null}
+      <AddBrandDialog open={addBrandOpen} onOpenChange={setAddBrandOpen} onSubmit={addCustomBrand} />
     </div>
   );
 }

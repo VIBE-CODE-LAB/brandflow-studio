@@ -5,6 +5,7 @@ interface BrandPickerProps {
   value: string | null;
   onChange: (id: string) => void;
   disabled?: boolean;
+  brands?: Brand[];
 }
 
 function Swatch({ brand, size = 20 }: { brand: Brand; size?: number }) {
@@ -20,8 +21,8 @@ function Swatch({ brand, size = 20 }: { brand: Brand; size?: number }) {
   );
 }
 
-export function BrandPicker({ value, onChange, disabled }: BrandPickerProps) {
-  const selected = BRANDS.find((b) => b.id === value) ?? null;
+export function BrandPicker({ value, onChange, disabled, brands = BRANDS }: BrandPickerProps) {
+  const selected = brands.find((b) => b.id === value) ?? null;
 
   if (disabled) {
     return (
@@ -38,11 +39,11 @@ export function BrandPicker({ value, onChange, disabled }: BrandPickerProps) {
       <select
         value={value ?? ""}
         onChange={(event) => onChange(event.target.value)}
-        className="h-full min-w-0 flex-1 appearance-none bg-transparent pr-8 text-foreground outline-none"
+        className="brand-picker-select h-full min-w-0 flex-1 appearance-none bg-transparent pr-8 text-foreground outline-none"
         aria-label="Choose a brand"
       >
-        {BRANDS.map((brand) => (
-          <option key={brand.id} value={brand.id}>
+        {brands.map((brand) => (
+          <option key={brand.id} value={brand.id} className="bg-popover text-popover-foreground">
             {brand.name}
           </option>
         ))}

@@ -170,6 +170,64 @@ export const BRANDS: Brand[] = [
   },
 ];
 
+export const CUSTOM_BRANDS_STORAGE_KEY = "studioflow_custom_brands";
+
+function slugifyBrandName(name: string): string {
+  const slug = name
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+  return slug || `brand-${Date.now()}`;
+}
+
+function isBrand(value: unknown): value is Brand {
+  if (!value || typeof value !== "object") return false;
+  const brand = value as Partial<Brand>;
+  return Boolean(
+    brand.id &&
+      brand.name &&
+      brand.headingsDisplay &&
+      brand.bodyUi &&
+      brand.fg &&
+      brand.bg &&
+      brand.overallLookFeel,
+  );
+}
+
+export function buildCustomBrand(input: Omit<Brand, "id">): Brand {
+  const baseId = `custom-${slugifyBrandName(input.name)}`;
+  return {
+    id: baseId,
+    name: input.name.trim(),
+    headingsDisplay: input.headingsDisplay.trim(),
+    bodyUi: input.bodyUi.trim(),
+    fg: input.fg.trim().toUpperCase(),
+    bg: input.bg.trim().toUpperCase(),
+    paletteNotes: input.paletteNotes.trim(),
+    overallLookFeel: input.overallLookFeel.trim(),
+  };
+}
+
+export function loadCustomBrands(): Brand[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(CUSTOM_BRANDS_STORAGE_KEY) ?? "[]");
+    return Array.isArray(parsed) ? parsed.filter(isBrand) : [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveCustomBrands(brands: Brand[]) {
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(CUSTOM_BRANDS_STORAGE_KEY, JSON.stringify(brands));
+}
+
+export function getAvailableBrands(customBrands: Brand[] = []): Brand[] {
+  return [...BRANDS, ...customBrands];
+}
+
 export const SHOOT_TYPES: ShootTypeMeta[] = [
   { id: "panty", label: "Panty", tint: "#f97316" },
   { id: "bra_panty", label: "Bra + Panty", tint: "#ec4899" },
@@ -290,8 +348,8 @@ export function brandLocked(shootType: ShootType): boolean {
   return false;
 }
 
-export function getBrand(id: string | null): Brand {
-  return BRANDS.find((b) => b.id === id) ?? BRANDS[0];
+export function getBrand(id: string | null, customBrands: Brand[] = []): Brand {
+  return getAvailableBrands(customBrands).find((b) => b.id === id) ?? BRANDS[0];
 }
 
 export function allowedDecks(shootType: ShootType): DeckType[] {
