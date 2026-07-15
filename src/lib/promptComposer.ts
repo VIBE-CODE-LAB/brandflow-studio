@@ -314,11 +314,14 @@ function brandOverride(brand: Brand): string {
   ].join("\n");
 }
 
-function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
+function stylePresetOverride(content: ShotPresetContent, brand: Brand, deckShot: DeckShotKey): string {
   const callouts = content.callouts
     .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
     .filter(Boolean);
-  const iconPlan = buildCalloutIconPlan(content, brand);
+  const iconPlan =
+    deckShot === "mood"
+      ? "MOOD STYLE PRESET GRAPHICS OVERRIDE: render selected style text only. Do not render icons, circular icon containers, symbol drawings, icon borders, icon fills, icon backgrounds, or decorative pictograms for Mood."
+      : buildCalloutIconPlan(content, brand);
 
   return [
     "SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:",
@@ -479,6 +482,16 @@ function moodBackgroundLock(brand: Brand): string {
   ].join("\n");
 }
 
+function moodNoIconLock(brand: Brand): string {
+  return [
+    "MOOD SHOT NO-ICON LOCK — HIGHEST PRIORITY:",
+    "This is a Mood deck image. Render content text only with clean typography and, only where the source Mood layout requires them, thin connector lines and tiny touch-point dots.",
+    "Strictly do NOT render any icons in Mood: no circular icons, no icon badges, no symbol drawings, no pictograms, no decorative graphic marks, no icon containers, no icon borders, no icon fills, and no white line-art symbols.",
+    "Ignore and override any source prompt, selected style preset, auto-icon rule, or inferred callout-zone instruction that asks for icons in Mood.",
+    `Mood headings, sub-headings, callout text, thin connector lines, and tiny dots must use ${brand.fg}. Mood background must use ${brand.bg}.`,
+  ].join("\n");
+}
+
 export function composeDeckPrompt({
   shootType,
   pushupBraOnly,
@@ -528,8 +541,9 @@ export function composeDeckPrompt({
   if (deckShot === "mood") sections.push(moodBackgroundLock(brand));
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
-  if (presetContent) sections.push(stylePresetOverride(presetContent, brand));
+  if (presetContent) sections.push(stylePresetOverride(presetContent, brand, deckShot));
   sections.push(finalBrandRenderContract(brand, deckShot, presetContent));
+  if (deckShot === "mood") sections.push(moodNoIconLock(brand));
 
   return {
     prompt: sections.join("\n\n"),
