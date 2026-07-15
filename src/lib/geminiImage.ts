@@ -1,4 +1,4 @@
-import { type DeckShotKey, type EngineId, type SlotKey, type ShootType, requiredSlots, slotLabel } from "@/lib/studio";
+import { type AspectId, type DeckShotKey, type EngineId, type SlotKey, type ShootType, requiredSlots, slotLabel } from "@/lib/studio";
 import type { ImageMap } from "@/components/studio/UploadTray";
 
 interface GenerateImageOptions {
@@ -9,6 +9,11 @@ interface GenerateImageOptions {
   pushupBraOnly: boolean;
   deckShot: DeckShotKey;
   engine: EngineId;
+  aspect: AspectId;
+}
+
+function geminiAspectRatio(aspect: AspectId): string {
+  return aspect === "a4" ? "3:4" : aspect;
 }
 
 interface InlineImage {
@@ -57,8 +62,8 @@ function referenceImages({
 
 function modelCandidates(engine: EngineId): string[] {
   return engine === "pro"
-    ? ["gemini-3-pro-image-preview", "gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"]
-    : ["gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"];
+    ? ["gemini-3-pro-image-preview", "gemini-2.5-flash-image"]
+    : ["gemini-2.5-flash-image", "gemini-3-pro-image-preview"];
 }
 
 function base64ToBlob(data: string, mimeType: string): Blob {
@@ -173,6 +178,9 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
         contents: [{ role: "user", parts }],
         generationConfig: {
           responseModalities: ["TEXT", "IMAGE"],
+          imageConfig: {
+            aspectRatio: geminiAspectRatio(options.aspect),
+          },
         },
       }),
     },

@@ -274,6 +274,7 @@ export function StudioFlow() {
             pushupBraOnly: shot.pushupBraOnly,
             deckShot: shot.deckShot,
             engine,
+            aspect: shot.aspect,
           }));
 
           setShots((prev) =>
@@ -365,6 +366,7 @@ export function StudioFlow() {
         pushupBraOnly: shot.pushupBraOnly,
         deckShot: shot.deckShot,
         engine,
+        aspect: shot.aspect,
       }));
 
       setShots((prev) =>
