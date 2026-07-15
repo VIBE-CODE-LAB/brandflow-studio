@@ -302,6 +302,18 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
   ].join("\n");
 }
 
+function moodBackgroundLock(brand: Brand): string {
+  return [
+    "UNIVERSAL MOOD BACKGROUND LOCK — BRAND-SPECIFIC:",
+    "For every Mood deck image in every mode, use the same clean airy bedroom language:",
+    `Background wall/backdrop must be a smooth, bright, softly blurred ${brand.bg} brand-color wall, matching ${brand.name}'s background hex exactly.`,
+    "Use a clean white or very light ivory bed with soft bedding at the lower frame, like a premium morning lifestyle shoot.",
+    "The setting should feel fresh, open, minimal, and polished: no yellow beige cast, no dark warm room, no clutter, no decorative props, no plants, no visible curtains, no busy furniture, no colored panels.",
+    "Lighting must be soft bright daylight, clean and even, with gentle natural shadows only. The background should look like the reference clean bed mood image, recolored through the selected brand background hex.",
+    `All background panels, visible wall areas, and empty negative-space zones must stay in ${brand.bg}; all text, dots, callout lines, and Mood graphics must stay in ${brand.fg}.`,
+  ].join("\n");
+}
+
 export function composeDeckPrompt({
   shootType,
   pushupBraOnly,
@@ -348,6 +360,7 @@ export function composeDeckPrompt({
   ].filter(Boolean);
 
   const sections = [sourcePrompt, brandOverride(brand), controls.join("\n")];
+  if (deckShot === "mood") sections.push(moodBackgroundLock(brand));
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
   if (presetContent) sections.push(stylePresetOverride(presetContent, brand));

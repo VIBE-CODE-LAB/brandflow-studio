@@ -60,7 +60,8 @@ REFERENCE IMAGES — EXACT REPLICATION REQUIRED
 
 REFERENCE IMAGE 1 (Model): Use this image as the EXACT reference for the model's face, skin tone, hair color, hair texture, body type, and overall appearance. Replicate identically — do not alter any facial feature, complexion, or hair characteristic.
 REFERENCE IMAGE 2 (Bra Product): Use this image as the EXACT reference for the bra's color, texture, fabric finish, silhouette, band width, strap width, and neckline shape. Replicate identically on the model's body. Do not alter the product in any way.
-REFERENCE IMAGE 3 (Lower Outfit): Use this image as the EXACT reference for the high-waisted panty's color (warm beige/nude), texture, fabric finish, waistband style, coverage, and silhouette. Replicate identically on the model's body. The panty must sit at natural waist level, matching the exact shade and seamless finish shown.
+REFERENCE IMAGE 3 (Lower Outfit): Use this image as the EXACT reference for the high-waisted panty's shape, texture, fabric finish, waistband style, coverage, and silhouette. Replicate the construction and fit identically on the model's body. COLOR OVERRIDE: the panty color must NOT stay beige/nude unless the bra is beige/nude; recolor the panty to match the exact bra color from REFERENCE IMAGE 2. The panty must sit at natural waist level, with seamless finish preserved.
+CRITICAL MATCHING SET RULE: Bra and panty MUST be the SAME color/shade. Extract the color from REFERENCE IMAGE 2 bra and apply that exact same shade, tone, hue, saturation, and fabric lighting response to the panty.
 
 Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
 
@@ -104,7 +105,7 @@ Shoulders are relaxed, not raised or tensed
 Shot framed from MID-THIGH upward (3/4 body shot)
 Hair falls softly over both shoulders BUT must be directed AWAY from all bra straps, armhole edges, and bottom band — zero hair overlap on any part of the bra at any point
 Skin is completely tattoo-free and blemish-free
-Model wears the high-waisted panty from REFERENCE IMAGE 3 at natural waist level
+Model wears the high-waisted panty silhouette from REFERENCE IMAGE 3 at natural waist level, recolored to match the exact bra color from REFERENCE IMAGE 2
 The pronounced push-up lift, enhanced breast volume, and deep cleavage must be clearly visible and evident from this three-quarter angle.
 
 ═══════════════════════════════════════════════════════
@@ -112,7 +113,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
 ═══════════════════════════════════════════════════════
 
 The bra from REFERENCE IMAGE 2 must be worn exactly as it appears — same color, same fabric, same fit, same silhouette
-The high-waisted panty from REFERENCE IMAGE 3 must be worn exactly as it appears — same warm beige/nude color, same seamless finish, same waistband height
+The high-waisted panty from REFERENCE IMAGE 3 must be worn with the same seamless finish, same waistband height, same coverage, and same silhouette, but its color MUST match the exact bra color from REFERENCE IMAGE 2
 ALL of the following BRA zones must be FULLY VISIBLE, unobstructed, and sharply in focus:
 → LEFT armhole edge, RIGHT armhole edge, Full bottom band of bra, Front center panel of bra, Both shoulder straps
 Primary lighting directed TOWARD the bra — it is the HERO product of this image
