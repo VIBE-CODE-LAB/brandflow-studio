@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
+import { Camera, LogOut, Monitor, Moon, Settings, Sparkles, Sun, Zap, type LucideIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import {
@@ -67,6 +68,8 @@ const StylePresetPanel = lazy(() =>
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
 const GENERATION_CONCURRENCY = 5;
+const THEME_STORAGE_KEY = "studioflow_theme_mode";
+type ThemeMode = "system" | "light" | "dark";
 
 function nextFrame(): Promise<void> {
   return new Promise((resolve) => {
@@ -92,6 +95,50 @@ async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Pro
   await Promise.all(runners);
 }
 
+function ThemeSettings({
+  mode,
+  onChange,
+}: {
+  mode: ThemeMode;
+  onChange: (mode: ThemeMode) => void;
+}) {
+  const options: Array<{ value: ThemeMode; label: string; icon: LucideIcon }> = [
+    { value: "system", label: "System", icon: Monitor },
+    { value: "light", label: "Light", icon: Sun },
+    { value: "dark", label: "Dark", icon: Moon },
+  ];
+
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="Theme settings">
+          <Settings className="h-4 w-4" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent align="end" className="w-44 space-y-1 p-2">
+        {options.map((option) => {
+          const Icon = option.icon;
+          const active = mode === option.value;
+          return (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              className={cn(
+                "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-sm transition-colors",
+                active ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted",
+              )}
+            >
+              <Icon className="h-4 w-4" />
+              <span className="font-medium">{option.label}</span>
+            </button>
+          );
+        })}
+      </PopoverContent>
+    </Popover>
+  );
+}
+
 export function StudioFlow() {
   const [auth, setAuth] = useState<StudioAuthState>(emptyAuth);
   const [authOpen, setAuthOpen] = useState(false);
@@ -111,8 +158,28 @@ export function StudioFlow() {
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [syncError, setSyncError] = useState<string | null>(null);
   const [selectedStyleName, setSelectedStyleName] = useState<string | null>(null);
+  const [themeMode, setThemeMode] = useState<ThemeMode>(() => {
+    if (typeof window === "undefined") return "system";
+    const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+    return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
+  });
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
+
+  useEffect(() => {
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const applyTheme = () => {
+      const shouldUseDark = themeMode === "dark" || (themeMode === "system" && media.matches);
+      document.documentElement.classList.toggle("dark", shouldUseDark);
+    };
+
+    window.localStorage.setItem(THEME_STORAGE_KEY, themeMode);
+    applyTheme();
+    if (themeMode !== "system") return;
+
+    media.addEventListener("change", applyTheme);
+    return () => media.removeEventListener("change", applyTheme);
+  }, [themeMode]);
 
   useEffect(() => {
     setSheetUrl(loadGoogleSheetUrlFromStorage());
@@ -518,6 +585,7 @@ export function StudioFlow() {
             </div>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeSettings mode={themeMode} onChange={setThemeMode} />
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
               <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
               Free plan · {auth.used}/3 used

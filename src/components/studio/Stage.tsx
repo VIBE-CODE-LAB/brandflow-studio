@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import { Check, Clipboard, Download, Loader2, RefreshCw, Sparkles } from "lucide-react";
+import { type CSSProperties, useEffect, useMemo, useState } from "react";
+import { Check, Clipboard, Download, RefreshCw, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -52,7 +52,6 @@ export function ShotFrame({
 }) {
   const { bg, fg, name } = brandColors(shot.brandId);
   const poseLabel = DECK_SHOT_LABELS[shot.deckShot];
-  const progress = Math.round(shot.progress ?? (shot.status === "done" ? 100 : 0));
 
   return (
     <div
@@ -81,21 +80,20 @@ export function ShotFrame({
         </>
       )}
       {shot.status !== "done" && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-paper/55 backdrop-blur-sm">
-          {shot.status === "error" ? null : <Loader2 className="h-5 w-5 animate-spin" style={{ color: fg }} />}
-          <span className="max-w-[80%] text-center text-xs font-medium text-foreground/70">
-            {shot.status === "error"
-              ? shot.error ?? "Generation failed"
-              : shot.status === "rendering"
-                ? `Generating ${progress}%`
-                : `Queued ${progress}%`}
-          </span>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-paper/60 backdrop-blur-sm">
+          {shot.status === "error" ? (
+            <span className="max-w-[80%] text-center text-xs font-medium text-destructive">
+              {shot.error ?? "Generation failed"}
+            </span>
+          ) : null}
           {shot.status !== "error" ? (
-            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-paper/80 shadow-inner">
-              <div
-                className="h-full rounded-full transition-all duration-500"
-                style={{ width: `${progress}%`, background: fg }}
-              />
+            <div className="loader-wrapper scale-[0.62] sm:scale-[0.7]" style={{ "--loader-accent": fg } as CSSProperties}>
+              {"Generating".split("").map((letter, index) => (
+                <span key={`${letter}-${index}`} className="loader-letter">
+                  {letter}
+                </span>
+              ))}
+              <div className="loader" />
             </div>
           ) : null}
         </div>
@@ -124,9 +122,11 @@ export function ShotFrame({
       >
         {name}
       </div>
-      <div className="absolute bottom-2.5 right-2.5 rounded-full bg-paper/85 px-2 py-1 text-[0.62rem] font-medium text-muted-foreground">
-        {shot.status === "done" ? shot.aspect : `${progress}%`}
-      </div>
+      {shot.status === "done" ? (
+        <div className="absolute bottom-2.5 right-2.5 rounded-full bg-paper/85 px-2 py-1 text-[0.62rem] font-medium text-muted-foreground">
+          {shot.aspect}
+        </div>
+      ) : null}
     </div>
   );
 }
