@@ -140,7 +140,7 @@ async function shotBlob(shot: GeneratedShot): Promise<Blob> {
   canvas.width = w;
   canvas.height = h;
   const ctx = canvas.getContext("2d");
-  if (!ctx) return;
+  if (!ctx) return new Blob();
   const grad = ctx.createRadialGradient(w / 2, 0, 0, w / 2, 0, h);
   grad.addColorStop(0, bg);
   grad.addColorStop(1, "#ffffff");
@@ -162,11 +162,15 @@ async function shotBlob(shot: GeneratedShot): Promise<Blob> {
   return await new Promise((resolve) => canvas.toBlob((blob) => resolve(blob ?? new Blob()), "image/png"));
 }
 
+function shotExtension(blob: Blob): string {
+  return blob.type === "image/jpeg" ? "jpg" : "png";
+}
+
 export async function downloadShot(shot: GeneratedShot) {
   const { name } = brandColors(shot.brandId);
   const blob = await shotBlob(shot);
   const link = document.createElement("a");
-  link.download = `studioflow-${name}-${shot.deckShot}.png`;
+  link.download = `studioflow-${name}-${shot.deckShot}.${shotExtension(blob)}`;
   link.href = URL.createObjectURL(blob);
   link.click();
   URL.revokeObjectURL(link.href);
@@ -175,10 +179,13 @@ export async function downloadShot(shot: GeneratedShot) {
 export async function downloadShotsZip(shots: GeneratedShot[]) {
   const done = shots.filter((shot) => shot.status === "done");
   const files = await Promise.all(
-    done.map(async (shot, index) => ({
-      name: `${String(index + 1).padStart(2, "0")}-${DECK_SHOT_LABELS[shot.deckShot].toLowerCase().replace(/\s+/g, "-")}.png`,
-      bytes: new Uint8Array(await (await shotBlob(shot)).arrayBuffer()),
-    })),
+    done.map(async (shot, index) => {
+      const blob = await shotBlob(shot);
+      return {
+        name: `${String(index + 1).padStart(2, "0")}-${DECK_SHOT_LABELS[shot.deckShot].toLowerCase().replace(/\s+/g, "-")}.${shotExtension(blob)}`,
+        bytes: new Uint8Array(await blob.arrayBuffer()),
+      };
+    }),
   );
   const zip = createZip(files);
   const link = document.createElement("a");

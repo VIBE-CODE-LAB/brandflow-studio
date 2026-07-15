@@ -52,7 +52,7 @@ const Stage = lazy(() =>
 
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
-const GENERATION_CONCURRENCY = 1;
+const GENERATION_CONCURRENCY = 3;
 
 function nextFrame(): Promise<void> {
   return new Promise((resolve) => {

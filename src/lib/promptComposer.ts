@@ -119,31 +119,34 @@ function headingMatches(line: string, heading: string): boolean {
 
 function lineStarts(source: string): { line: string; start: number }[] {
   const starts: { line: string; start: number }[] = [];
-  const matcher = /^.*$/gm;
-  let match: RegExpExecArray | null;
+  let index = 0;
 
-  while ((match = matcher.exec(source)) !== null) {
-    starts.push({ line: match[0], start: match.index });
-    if (match[0] === "" && match.index === source.length) break;
+  for (const line of source.split("\n")) {
+    starts.push({ line, start: index });
+    index += line.length + 1;
   }
 
   return starts;
 }
 
-function findHeadingStart(source: string, heading: string): number {
-  const match = lineStarts(source).find(({ line }) => headingMatches(line, heading));
+function findHeadingStart(
+  starts: { line: string; start: number }[],
+  heading: string,
+  after = -1,
+): number {
+  const match = starts.find(({ line, start }) => start > after && headingMatches(line, heading));
   return match?.start ?? -1;
 }
 
 function extractSection(source: PromptSource, heading: string): string {
-  const start = findHeadingStart(source.raw, heading);
+  const starts = lineStarts(source.raw);
+  const start = findHeadingStart(starts, heading);
   if (start < 0) return source.raw.trim();
 
   const nextStarts = source.headings
     .filter((candidate) => cleanHeading(candidate) !== cleanHeading(heading))
-    .map((candidate) => findHeadingStart(source.raw.slice(start + 1), candidate))
-    .filter((candidate) => candidate >= 0)
-    .map((candidate) => start + 1 + candidate);
+    .map((candidate) => findHeadingStart(starts, candidate, start))
+    .filter((candidate) => candidate >= 0);
 
   const end = nextStarts.length > 0 ? Math.min(...nextStarts) : source.raw.length;
   return source.raw.slice(start, end).trim();
@@ -216,6 +219,15 @@ function sectionHeading(sourceId: PromptSourceId, deckShot: DeckShotKey): string
   }
 }
 
+function resolvePlaceholders(text: string, brand: Brand): string {
+  return text
+    .replace(
+      /\{\{BACKGROUND_AND_LIGHTING\}\}/g,
+      `Background: ${brand.bg} (${brand.name} brand background), clean seamless studio backdrop, no props or clutter. Lighting: soft, even, flattering studio lighting with no harsh shadows, consistent with ${brand.name}'s "${brand.overallLookFeel}" identity.`,
+    )
+    .replace(/\{\{BRAND_FONT_COLOR\}\}/g, brand.fg);
+}
+
 function brandOverride(brand: Brand): string {
   return [
     "IMPORTANT SELECTED BRAND OVERRIDE:",
@@ -239,7 +251,7 @@ export function composeDeckPrompt({
 }: ComposeDeckPromptOptions): { prompt: string; sourceFile: string; section: string } {
   const source = getPromptSource(shootType, pushupBraOnly);
   const section = sectionHeading(source.id, deckShot);
-  const sourcePrompt = extractSection(source, section);
+  const sourcePrompt = resolvePlaceholders(extractSection(source, section), brand);
   const controls = [
     "DECK SHOT LOCK:",
     `Deck shot: ${DECK_SHOT_LABELS[deckShot]}.`,
