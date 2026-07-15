@@ -29,6 +29,13 @@ export interface ShootTypeMeta {
   tint: string; // swatch accent (hex)
 }
 
+export interface ShotPresetContent {
+  styleName: string;
+  heading: string;
+  subHeading: string;
+  callouts: string[];
+}
+
 export interface GeneratedShot {
   id: string;
   deckShot: DeckShotKey;
@@ -44,6 +51,8 @@ export interface GeneratedShot {
   note?: string;
   selected?: boolean;
   issues?: RegenerateIssue[];
+  /** Style preset content used for this shot's overlay, if a style was selected. */
+  presetContent?: ShotPresetContent;
 }
 
 // --- Catalog: the 11 innerwear brands (color chips are brand identity data) ---

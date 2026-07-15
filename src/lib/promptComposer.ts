@@ -234,9 +234,9 @@ function resolvePlaceholders(text: string, brand: Brand): string {
 function cleanPhotoOverride(): string {
   return [
     "CLEAN PHOTO OVERRIDE — CRITICAL, TAKES PRIORITY OVER ANY CONFLICTING INSTRUCTION ABOVE:",
-    "Ignore every instruction above about headlines, sub-headings, callout lines, callout text, icons, badges, or any infographic/typography layout.",
-    "Do NOT render any text, headline, sub-heading, callout, icon, label, badge, watermark, or typography of any kind anywhere in the image.",
-    "This must be a completely clean product photograph — only the model/product, background, and lighting as described above. All copy and callouts are added separately afterward.",
+    "KEEP every instruction above about model pose, model position/zone, framing, crop, composition split (e.g. LEFT/RIGHT panel percentages), and the empty background space reserved around/beside the model for text — that reserved empty space must still exist in exactly the same place and size, because real text is drawn into it afterward in post-production.",
+    "The ONLY thing to change: do not paint any actual text glyphs, headline, sub-heading, callout copy, callout lines, icons, badges, or watermark pixels into the image. Every zone that was going to hold text or an icon must instead stay perfectly plain — just the flat background/backdrop color, with nothing drawn there.",
+    "Do NOT shrink, recenter, or enlarge the model to fill the space that was reserved for text — leave that space empty, not filled with more of the model or product.",
   ].join("\n");
 }
 

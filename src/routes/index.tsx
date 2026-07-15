@@ -340,20 +340,24 @@ export function StudioFlow() {
           });
 
           let finalUrl = rawUrl;
+          const callouts = preset ? [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text] : [];
           if (preset && layout) {
             const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
             finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
               heading: preset.heading,
               subHead: preset.subHeading,
-              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              callouts,
             });
             if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
           }
           const imageUrl = rememberGeneratedUrl(finalUrl);
+          const presetContent = preset
+            ? { styleName: preset.styleName, heading: preset.heading, subHeading: preset.subHeading, callouts }
+            : undefined;
 
           setShots((prev) =>
             prev.map((s) =>
-              s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl } : s,
+              s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl, presetContent } : s,
             ),
           );
         } catch (error) {
@@ -454,20 +458,24 @@ export function StudioFlow() {
       });
 
       let finalUrl = rawUrl;
+      const callouts = preset ? [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text] : [];
       if (preset && layout) {
         const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
         finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
           heading: preset.heading,
           subHead: preset.subHeading,
-          callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+          callouts,
         });
         if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
       }
       const imageUrl = rememberGeneratedUrl(finalUrl);
+      const presetContent = preset
+        ? { styleName: preset.styleName, heading: preset.heading, subHeading: preset.subHeading, callouts }
+        : undefined;
 
       setShots((prev) =>
         prev.map((s) =>
-          s.id === id ? { ...s, status: "done", progress: 100, userNote: redoNote, imageUrl } : s,
+          s.id === id ? { ...s, status: "done", progress: 100, userNote: redoNote, imageUrl, presetContent } : s,
         ),
       );
     } catch (error) {

@@ -32,10 +32,9 @@ export interface ImageCalloutsContent {
   zone4: CalloutZone;
 }
 
-// Only the poses this app's decks actually use (side1/side2/mood/back). "zoom" and
-// "mockup" deck shots have no preset/style content — sheets intentionally skip them
-// (see SILENT_SKIP_POSE_VALUES below) and those shots keep the plain Gemini photo.
-export type PresetPose = "side1" | "side2" | "back" | "mood";
+// The poses this app's decks use: side1/side2/mood/back plus zoom (5-image deck only).
+// "mockup" isn't a deck shot in this app and has no preset content.
+export type PresetPose = "side1" | "side2" | "back" | "mood" | "zoom";
 
 export interface StylePreset {
   styleName: string;
@@ -72,6 +71,7 @@ export const PRESET_POSE_LABELS: Record<PresetPose, string> = {
   side2: "Side View 2",
   back: "Back View",
   mood: "Mood Shot",
+  zoom: "Zoom Shot",
 };
 
 const VALID_ZONES = new Set<string>([
@@ -121,8 +121,6 @@ const detectZoneFromCalloutText = (text: string): CalloutZone => {
 
 // Content types from product trackers that should be silently skipped (not reported as errors).
 const SILENT_SKIP_POSE_VALUES = new Set([
-  "zoom_shot",
-  "zoom",
   "mock_up_shot",
   "mockup_shot",
   "mock_up",
@@ -183,6 +181,9 @@ const toPresetPose = (raw: string): PresetPose | null => {
     mood_shoot: "mood",
     lifestyle: "mood",
     lifestyle_shot: "mood",
+    zoom: "zoom",
+    zoom_shot: "zoom",
+    zoom_view: "zoom",
   };
   return lookup[val] ?? null;
 };
@@ -528,7 +529,13 @@ export function searchStylesByNumber(presets: StylePreset[], query: string): str
 }
 
 export function isPresetPose(deckShot: string): deckShot is PresetPose {
-  return deckShot === "side1" || deckShot === "side2" || deckShot === "back" || deckShot === "mood";
+  return (
+    deckShot === "side1" ||
+    deckShot === "side2" ||
+    deckShot === "back" ||
+    deckShot === "mood" ||
+    deckShot === "zoom"
+  );
 }
 
 export const findPreset = (presets: StylePreset[], styleName: string, pose: PresetPose): StylePreset | undefined =>

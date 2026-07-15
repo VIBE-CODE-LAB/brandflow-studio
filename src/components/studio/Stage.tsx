@@ -398,6 +398,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           aspect: shot.aspect,
           userNote: shot.userNote,
           regenerationNote: shot.note,
+          cleanPhoto: Boolean(shot.presetContent),
         }),
       );
     });
@@ -427,8 +428,27 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           </p>
           <p className="text-[0.68rem] text-muted-foreground">
             {DECK_SHOT_LABELS[shot.deckShot]} · brand spec applied
+            {shot.presetContent ? ` · style ${shot.presetContent.styleName}` : ""}
           </p>
         </div>
+        {shot.presetContent ? (
+          <div className="rounded-xl border border-primary/30 bg-primary/5 p-2.5 text-[0.68rem] leading-snug">
+            <p className="mb-1 font-semibold text-primary">
+              Style {shot.presetContent.styleName} content (drawn on top of the photo)
+            </p>
+            <p className="font-medium text-foreground">{shot.presetContent.heading}</p>
+            {shot.presetContent.subHeading ? (
+              <p className="text-muted-foreground">{shot.presetContent.subHeading}</p>
+            ) : null}
+            {shot.presetContent.callouts.filter(Boolean).length > 0 ? (
+              <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-muted-foreground">
+                {shot.presetContent.callouts.filter(Boolean).map((callout, index) => (
+                  <li key={index}>{callout}</li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+        ) : null}
         <Textarea
           readOnly
           value={promptData?.prompt ?? "Preparing prompt..."}
