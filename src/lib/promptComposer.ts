@@ -302,6 +302,54 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
   ].join("\n");
 }
 
+function finalBrandRenderContract(
+  brand: Brand,
+  deckShot: DeckShotKey,
+  content?: ShotPresetContent,
+): string {
+  const selectedCopy = content
+    ? [
+        content.heading,
+        content.subHeading,
+        ...content.callouts,
+      ]
+        .map((item) => item.trim())
+        .filter(Boolean)
+    : [];
+
+  return [
+    "FINAL RENDER CONTRACT — HIGHEST PRIORITY:",
+    `Selected brand is ${brand.name}. Use ONLY this brand's visual specification in the final image.`,
+    `FINAL TEXT/CALLOUT/ICON HEX: ${brand.fg} only. Headings, sub-headings, callout text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use ${brand.fg}.`,
+    `FINAL BACKGROUND HEX: ${brand.bg} only for studio backgrounds, text panels, negative-space areas, and lifestyle wall/backdrop areas.`,
+    `FINAL FONTS: headings/display text must use ${brand.headingsDisplay}; sub-headings, body copy, and callouts must use ${brand.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,
+    "Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.",
+    deckShot === "side1"
+      ? [
+          "SIDE 1 ICON/CALLOUT LOCK:",
+          "Render exactly three product feature callout groups, matching the source prompt positions.",
+          `Each Side 1 icon must be a clean circular icon with solid ${brand.fg} fill and a simple white line-art lingerie/fabric symbol inside.`,
+          "Do NOT render numbered icon badges such as 1, 2, or 3. Do NOT render arrow glyphs, random symbols, broken brackets, or text inside the icons.",
+          `Every Side 1 connector line and product touch dot must use ${brand.fg}. Lines must be thin, clean, and connected to the correct product zone.`,
+        ].join("\n")
+      : "",
+    content
+      ? [
+          "SELECTED STYLE COPY IS THE ONLY COPY ALLOWED:",
+          "Replace all example/source-prompt marketing copy with the selected style content below.",
+          selectedCopy.length > 0
+            ? selectedCopy.map((item, index) => `Allowed text ${index + 1}: "${item}"`).join("\n")
+            : "Allowed text: none. Do not render any headline, sub-heading, or callout copy.",
+          "Do NOT render old source-prompt text unless it appears verbatim in the allowed selected-style text list above.",
+          'Forbidden old source copy examples include: "Elastic-Free Construction", "No Digging. No Marks. No Itching", "Elastic-free Armhole", "Elastic-free Bottom Band", "Seamless Design", "Rashfree Comfort", "Seamless Support", and "Invisible under Outfits".',
+          "Do not duplicate callout content. Do not merge multiple callouts into one paragraph. Keep each selected callout as its own clean callout group.",
+        ].join("\n")
+      : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 function moodBackgroundLock(brand: Brand): string {
   return [
     "UNIVERSAL MOOD BACKGROUND LOCK — BRAND-SPECIFIC:",
@@ -364,6 +412,7 @@ export function composeDeckPrompt({
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
   if (presetContent) sections.push(stylePresetOverride(presetContent, brand));
+  sections.push(finalBrandRenderContract(brand, deckShot, presetContent));
 
   return {
     prompt: sections.join("\n\n"),
