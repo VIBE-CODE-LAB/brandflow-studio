@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Studio Flow - One-Canvas AI Photoshoot Kit</title>
+    <meta
+      name="description"
+      content="Studio Flow is a streamlined AI photoshoot studio for innerwear brands."
+    />
+    <link rel="icon" href="/brandflow-studio/favicon.ico" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <script>
+      (() => {
+        const base = "/brandflow-studio/";
+        const addLink = (rel, href, attrs = {}) => {
+          const link = document.createElement("link");
+          link.rel = rel;
+          link.href = href;
+          Object.entries(attrs).forEach(([key, value]) => link.setAttribute(key, value));
+          document.head.appendChild(link);
+        };
+
+        addLink("preload", "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Instrument+Sans:wght@400;500;600&display=swap", {
+          as: "style",
+          onload: "this.onload=null;this.rel='stylesheet'",
+        });
+        addLink("modulepreload", base + "assets/routes-BCmOPbVa.js");
+        addLink("stylesheet", base + "assets/styles-CVKtFAbr.css");
+
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = base + "assets/index-D4F2WvEe.js";
+        document.head.appendChild(script);
+      })();
+    </script>
+  </head>
+  <body>
+    <main id="root"></main>
+  </body>
+</html>
