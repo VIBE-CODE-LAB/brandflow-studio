@@ -63,7 +63,7 @@ function referenceImages({
 function modelCandidates(engine: EngineId): string[] {
   return engine === "pro"
     ? ["gemini-3-pro-image-preview", "gemini-2.5-flash-image"]
-    : ["gemini-2.5-flash-image", "gemini-3-pro-image-preview"];
+    : ["gemini-2.5-flash-image"];
 }
 
 function base64ToBlob(data: string, mimeType: string): Blob {
