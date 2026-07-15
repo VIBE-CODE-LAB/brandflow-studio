@@ -11,7 +11,8 @@ export interface CalloutOverlayContent {
   callouts: string[];
 }
 
-const OUTPUT_QUALITY = 0.92;
+const OUTPUT_SHORT_EDGE = 2048;
+const OUTPUT_QUALITY = 0.99;
 
 function loadImageEl(src: string): Promise<HTMLImageElement> {
   return new Promise((resolve, reject) => {
@@ -167,11 +168,16 @@ export async function compositeCalloutOverlay(
 
   const image = await loadImageEl(imageUrl);
   const canvas = document.createElement("canvas");
-  canvas.width = image.naturalWidth || image.width;
-  canvas.height = image.naturalHeight || image.height;
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  const scale = OUTPUT_SHORT_EDGE / Math.min(sourceWidth, sourceHeight);
+  canvas.width = Math.max(1, Math.round(sourceWidth * scale));
+  canvas.height = Math.max(1, Math.round(sourceHeight * scale));
   const ctx = canvas.getContext("2d");
   if (!ctx) return imageUrl;
 
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
   ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
 
   const headlineSize = Math.round(canvas.width * 0.05);

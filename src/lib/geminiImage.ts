@@ -22,8 +22,8 @@ interface InlineImage {
   data: string;
 }
 
-const OUTPUT_LONG_EDGE = 2048;
-const OUTPUT_QUALITY = 0.98;
+const OUTPUT_SHORT_EDGE = 2048;
+const OUTPUT_QUALITY = 0.99;
 
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
   if (!value) return null;
@@ -93,7 +93,7 @@ async function normalizeTo2K(blob: Blob): Promise<Blob> {
   const image = await loadBlobImage(blob);
   const sourceWidth = image.naturalWidth || image.width;
   const sourceHeight = image.naturalHeight || image.height;
-  const scale = OUTPUT_LONG_EDGE / Math.max(sourceWidth, sourceHeight);
+  const scale = OUTPUT_SHORT_EDGE / Math.min(sourceWidth, sourceHeight);
   const width = Math.max(1, Math.round(sourceWidth * scale));
   const height = Math.max(1, Math.round(sourceHeight * scale));
   const canvas = document.createElement("canvas");
@@ -172,7 +172,8 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
         options.prompt,
         "",
         "FIXED OUTPUT QUALITY:",
-        "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px long edge. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
+        "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px short edge. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
+        "Use clean skin texture, crisp garment edges, readable text/callouts, and premium catalog clarity.",
         "",
         "REFERENCE IMAGE RULES:",
         "Use the uploaded reference images as product/model references. Preserve garment identity, color, construction, shape, and visible details.",
