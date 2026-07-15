@@ -58,6 +58,15 @@ function modelCandidates(engine: EngineId): string[] {
     : ["gemini-2.5-flash-image", "gemini-2.5-flash-image-preview"];
 }
 
+function base64ToBlob(data: string, mimeType: string): Blob {
+  const binary = atob(data);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+  return new Blob([bytes], { type: mimeType });
+}
+
 function extractImageUrl(response: unknown): string | null {
   const data = response as {
     candidates?: Array<{
@@ -78,7 +87,8 @@ function extractImageUrl(response: unknown): string | null {
       } : undefined);
 
       if (inline?.data) {
-        return `data:${inline.mimeType ?? "image/png"};base64,${inline.data}`;
+        const blob = base64ToBlob(inline.data, inline.mimeType ?? "image/png");
+        return URL.createObjectURL(blob);
       }
     }
   }

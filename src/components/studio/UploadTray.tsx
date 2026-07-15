@@ -14,8 +14,8 @@ interface UploadTrayProps {
   needsBack: boolean;
 }
 
-const MAX_UPLOAD_EDGE = 1280;
-const UPLOAD_QUALITY = 0.82;
+const MAX_UPLOAD_EDGE = 900;
+const UPLOAD_QUALITY = 0.72;
 
 function blobToDataUrl(blob: Blob): Promise<string> {
   return new Promise((resolve, reject) => {

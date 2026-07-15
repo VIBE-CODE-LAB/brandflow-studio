@@ -52,7 +52,7 @@ const Stage = lazy(() =>
 
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
-const GENERATION_CONCURRENCY = 2;
+const GENERATION_CONCURRENCY = 1;
 
 function nextFrame(): Promise<void> {
   return new Promise((resolve) => {
@@ -92,6 +92,7 @@ export function StudioFlow() {
   const [shots, setShots] = useState<GeneratedShot[]>([]);
   const [generating, setGenerating] = useState(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
+  const generatedUrls = useRef<string[]>([]);
 
   useEffect(() => {
     void getStudioAuth()
@@ -162,6 +163,29 @@ export function StudioFlow() {
     timers.current = [];
   };
 
+  const rememberGeneratedUrl = (url: string) => {
+    if (url.startsWith("blob:")) generatedUrls.current.push(url);
+    return url;
+  };
+
+  const revokeGeneratedUrl = (url: string | undefined) => {
+    if (!url?.startsWith("blob:")) return;
+    URL.revokeObjectURL(url);
+    generatedUrls.current = generatedUrls.current.filter((item) => item !== url);
+  };
+
+  const clearGeneratedUrls = () => {
+    generatedUrls.current.forEach((url) => URL.revokeObjectURL(url));
+    generatedUrls.current = [];
+  };
+
+  useEffect(() => {
+    return () => {
+      clearTimers();
+      clearGeneratedUrls();
+    };
+  }, []);
+
   const startProgress = (id: string, start = 3) => {
     setShots((prev) =>
       prev.map((s) => (s.id === id ? { ...s, progress: Math.max(s.progress ?? 0, start) } : s)),
@@ -194,6 +218,7 @@ export function StudioFlow() {
     }
 
     clearTimers();
+    clearGeneratedUrls();
     const used = incrementStudioUsage();
     setAuth((prev) => ({ ...prev, used }));
     const brand = getBrand(brandId);
@@ -241,7 +266,7 @@ export function StudioFlow() {
             userNote: shot.userNote,
           });
 
-          const imageUrl = await generateGeminiImage({
+          const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
             apiKey,
             prompt: promptData.prompt,
             images,
@@ -249,7 +274,7 @@ export function StudioFlow() {
             pushupBraOnly: shot.pushupBraOnly,
             deckShot: shot.deckShot,
             engine,
-          });
+          }));
 
           setShots((prev) =>
             prev.map((s) =>
@@ -305,6 +330,7 @@ export function StudioFlow() {
 
     const shot = shots.find((item) => item.id === id);
     if (!shot) return;
+    revokeGeneratedUrl(shot.imageUrl);
 
     setShots((prev) =>
       prev.map((s) =>
@@ -331,7 +357,7 @@ export function StudioFlow() {
         regenerationNote: redoNote,
       });
 
-      const imageUrl = await generateGeminiImage({
+      const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
         apiKey,
         prompt: promptData.prompt,
         images,
@@ -339,7 +365,7 @@ export function StudioFlow() {
         pushupBraOnly: shot.pushupBraOnly,
         deckShot: shot.deckShot,
         engine,
-      });
+      }));
 
       setShots((prev) =>
         prev.map((s) =>
