@@ -23,6 +23,7 @@ import {
 import {
   emptyAuth,
   getStudioAuth,
+  getGeminiApiKey,
   incrementStudioUsage,
   loadStudioUsage,
   logoutStudio,
@@ -136,9 +137,15 @@ export function StudioFlow() {
     timers.current = [];
   };
 
-  const generate = useCallback(() => {
+  const generate = useCallback(async () => {
     if (!setupReady || !brandId || generating) return;
     if (!auth.unlocked || !auth.hasGeminiKey) {
+      setAuthOpen(true);
+      return;
+    }
+
+    const apiKey = getGeminiApiKey();
+    if (!apiKey) {
       setAuthOpen(true);
       return;
     }
@@ -160,24 +167,57 @@ export function StudioFlow() {
     setShots(queued);
     setGenerating(true);
 
-    queued.forEach((shot, i) => {
-      timers.current.push(
-        setTimeout(() => {
+    const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
+      import("@/lib/promptComposer"),
+      import("@/lib/geminiImage"),
+    ]);
+
+    await Promise.all(
+      queued.map(async (shot) => {
+        setShots((prev) =>
+          prev.map((s) => (s.id === shot.id ? { ...s, status: "rendering", error: undefined } : s)),
+        );
+
+        try {
+          const promptData = composeDeckPrompt({
+            shootType: shot.shootType,
+            pushupBraOnly: shot.pushupBraOnly,
+            deckShot: shot.deckShot,
+            brand,
+            aspect: shot.aspect,
+            userNote: shot.userNote,
+          });
+
+          const imageUrl = await generateGeminiImage({
+            apiKey,
+            prompt: promptData.prompt,
+            images,
+            shootType: shot.shootType,
+            pushupBraOnly: shot.pushupBraOnly,
+            deckShot: shot.deckShot,
+            engine,
+          });
+
           setShots((prev) =>
-            prev.map((s) => (s.id === shot.id ? { ...s, status: "rendering" } : s)),
+            prev.map((s) => (s.id === shot.id ? { ...s, status: "done", imageUrl } : s)),
           );
-        }, i * 900 + 150),
-      );
-      timers.current.push(
-        setTimeout(
-          () => {
-            setShots((prev) => prev.map((s) => (s.id === shot.id ? { ...s, status: "done" } : s)));
-            if (i === queued.length - 1) setGenerating(false);
-          },
-          i * 900 + 900,
-        ),
-      );
-    });
+        } catch (error) {
+          setShots((prev) =>
+            prev.map((s) =>
+              s.id === shot.id
+                ? {
+                    ...s,
+                    status: "error",
+                    error: error instanceof Error ? error.message : "Image generation failed.",
+                  }
+                : s,
+            ),
+          );
+        }
+      }),
+    );
+
+    setGenerating(false);
   }, [
     setupReady,
     brandId,
@@ -189,23 +229,75 @@ export function StudioFlow() {
     pushupBraOnly,
     aspect,
     note,
+    images,
+    engine,
   ]);
 
-  const regenerate = useCallback((id: string, redoNote: string) => {
+  const regenerate = useCallback(async (id: string, redoNote: string) => {
     if (!auth.unlocked || !auth.hasGeminiKey) {
       setAuthOpen(true);
       return;
     }
 
+    const apiKey = getGeminiApiKey();
+    if (!apiKey) {
+      setAuthOpen(true);
+      return;
+    }
+
+    const shot = shots.find((item) => item.id === id);
+    if (!shot) return;
+
     setShots((prev) =>
-      prev.map((s) => (s.id === id ? { ...s, status: "rendering", note: redoNote } : s)),
+      prev.map((s) =>
+        s.id === id ? { ...s, status: "rendering", note: redoNote, error: undefined } : s,
+      ),
     );
-    timers.current.push(
-      setTimeout(() => {
-        setShots((prev) => prev.map((s) => (s.id === id ? { ...s, status: "done" } : s)));
-      }, 900),
-    );
-  }, [auth.unlocked, auth.hasGeminiKey]);
+
+    const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
+      import("@/lib/promptComposer"),
+      import("@/lib/geminiImage"),
+    ]);
+
+    try {
+      const promptData = composeDeckPrompt({
+        shootType: shot.shootType,
+        pushupBraOnly: shot.pushupBraOnly,
+        deckShot: shot.deckShot,
+        brand: getBrand(shot.brandId),
+        aspect: shot.aspect,
+        userNote: shot.userNote,
+        regenerationNote: redoNote,
+      });
+
+      const imageUrl = await generateGeminiImage({
+        apiKey,
+        prompt: promptData.prompt,
+        images,
+        shootType: shot.shootType,
+        pushupBraOnly: shot.pushupBraOnly,
+        deckShot: shot.deckShot,
+        engine,
+      });
+
+      setShots((prev) =>
+        prev.map((s) => (s.id === id ? { ...s, status: "done", note: redoNote, imageUrl } : s)),
+      );
+    } catch (error) {
+      setShots((prev) =>
+        prev.map((s) =>
+          s.id === id
+            ? {
+                ...s,
+                status: "error",
+                note: redoNote,
+                error: error instanceof Error ? error.message : "Image generation failed.",
+              }
+            : s,
+        ),
+      );
+    }
+  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine]);
 
   const logout = useCallback(async () => {
     try {
@@ -434,11 +526,9 @@ export function StudioFlow() {
               onRegenerate={regenerate}
               onDownloadAll={() => {
                 const done = shots.filter((s) => s.status === "done");
-                void import("@/components/studio/Stage").then(({ downloadShot }) => {
-                  done.forEach((s, i) =>
-                    timers.current.push(setTimeout(() => downloadShot(s), i * 250)),
-                  );
-                });
+                void import("@/components/studio/Stage").then(({ downloadShotsZip }) =>
+                  downloadShotsZip(done),
+                );
               }}
             />
           </Suspense>

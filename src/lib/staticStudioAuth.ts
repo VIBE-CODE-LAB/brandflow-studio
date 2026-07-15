@@ -1,6 +1,7 @@
 const ACCESS_PASSWORD = "Studio@5678";
 const USAGE_KEY = "studioflow.freePlanUsed";
 const AUTH_KEY = "studioflow.staticUnlocked";
+const GEMINI_KEY = "studioflow.geminiApiKey";
 
 export interface StudioAuthState {
   unlocked: boolean;
@@ -36,7 +37,10 @@ export function incrementStudioUsage(): number {
 }
 
 export async function getStudioAuth(): Promise<StudioAuthState> {
-  const unlocked = storageAvailable() && window.sessionStorage.getItem(AUTH_KEY) === "true";
+  const unlocked =
+    storageAvailable() &&
+    window.sessionStorage.getItem(AUTH_KEY) === "true" &&
+    Boolean(window.sessionStorage.getItem(GEMINI_KEY));
   return {
     unlocked,
     hasGeminiKey: unlocked,
@@ -63,6 +67,7 @@ export async function unlockStudio({
   // Keep only a browser-session unlock flag and never persist the API key.
   if (storageAvailable()) {
     window.sessionStorage.setItem(AUTH_KEY, "true");
+    window.sessionStorage.setItem(GEMINI_KEY, geminiApiKey);
   }
 
   return {
@@ -75,10 +80,16 @@ export async function unlockStudio({
 export async function logoutStudio(): Promise<StudioAuthState> {
   if (storageAvailable()) {
     window.sessionStorage.removeItem(AUTH_KEY);
+    window.sessionStorage.removeItem(GEMINI_KEY);
   }
 
   return {
     ...emptyAuth,
     used: loadStudioUsage(),
   };
+}
+
+export function getGeminiApiKey(): string | null {
+  if (!storageAvailable()) return null;
+  return window.sessionStorage.getItem(GEMINI_KEY);
 }

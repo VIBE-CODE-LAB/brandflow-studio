@@ -36,7 +36,9 @@ export interface GeneratedShot {
   brandId: string;
   shootType: ShootType;
   pushupBraOnly: boolean;
-  status: "queued" | "rendering" | "done";
+  status: "queued" | "rendering" | "done" | "error";
+  imageUrl?: string;
+  error?: string;
   userNote?: string;
   note?: string;
   selected?: boolean;

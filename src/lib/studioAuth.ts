@@ -99,3 +99,7 @@ export const logoutStudio = createServerFn({ method: "POST" }).handler(async () 
   await clearSession(getSessionConfig());
   return emptyAuth;
 });
+
+export function getGeminiApiKey(): string | null {
+  return null;
+}

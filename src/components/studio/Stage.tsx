@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Textarea } from "@/components/ui/textarea";
+import { createZip } from "@/lib/zip";
 import { cn } from "@/lib/utils";
 import {
   ASPECTS,
@@ -64,20 +65,25 @@ export function ShotFrame({
           background: `radial-gradient(120% 90% at 50% 0%, ${bg} 0%, color-mix(in srgb, ${bg} 55%, #ffffff) 70%, #ffffff 100%)`,
         }}
       />
-      {/* silhouette suggestion */}
-      <div
-        className="absolute bottom-0 left-1/2 h-[78%] w-[46%] -translate-x-1/2 rounded-t-[999px] opacity-25"
-        style={{ background: `linear-gradient(180deg, ${fg}, transparent)` }}
-      />
-      <div
-        className="absolute bottom-[14%] left-1/2 h-[26%] w-[30%] -translate-x-1/2 rounded-[40%] opacity-70"
-        style={{ background: fg }}
-      />
+      {shot.imageUrl ? (
+        <img src={shot.imageUrl} alt={`${name} ${poseLabel}`} className="absolute inset-0 h-full w-full object-cover" />
+      ) : (
+        <>
+          <div
+            className="absolute bottom-0 left-1/2 h-[78%] w-[46%] -translate-x-1/2 rounded-t-[999px] opacity-25"
+            style={{ background: `linear-gradient(180deg, ${fg}, transparent)` }}
+          />
+          <div
+            className="absolute bottom-[14%] left-1/2 h-[26%] w-[30%] -translate-x-1/2 rounded-[40%] opacity-70"
+            style={{ background: fg }}
+          />
+        </>
+      )}
       {shot.status !== "done" && (
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-paper/55 backdrop-blur-sm">
-          <Loader2 className="h-5 w-5 animate-spin" style={{ color: fg }} />
-          <span className="text-xs font-medium text-foreground/70">
-            {shot.status === "rendering" ? "Rendering…" : "Queued"}
+          {shot.status === "error" ? null : <Loader2 className="h-5 w-5 animate-spin" style={{ color: fg }} />}
+          <span className="max-w-[80%] text-center text-xs font-medium text-foreground/70">
+            {shot.status === "error" ? shot.error ?? "Generation failed" : shot.status === "rendering" ? "Rendering…" : "Queued"}
           </span>
         </div>
       )}
@@ -112,7 +118,9 @@ export function ShotFrame({
   );
 }
 
-export function downloadShot(shot: GeneratedShot) {
+async function shotBlob(shot: GeneratedShot): Promise<Blob> {
+  if (shot.imageUrl) return await fetch(shot.imageUrl).then((response) => response.blob());
+
   const { bg, fg, name } = brandColors(shot.brandId);
   const [w, h] = shot.aspect === "9:16" ? [720, 1280] : shot.aspect === "1:1" ? [1000, 1000] : [900, 1200];
   const canvas = document.createElement("canvas");
@@ -138,10 +146,33 @@ export function downloadShot(shot: GeneratedShot) {
   ctx.fillStyle = "#333";
   ctx.font = "500 30px Instrument Sans, sans-serif";
   ctx.fillText(poseLabel, 40, 60);
+  return await new Promise((resolve) => canvas.toBlob((blob) => resolve(blob ?? new Blob()), "image/png"));
+}
+
+export async function downloadShot(shot: GeneratedShot) {
+  const { name } = brandColors(shot.brandId);
+  const blob = await shotBlob(shot);
   const link = document.createElement("a");
   link.download = `studioflow-${name}-${shot.deckShot}.png`;
-  link.href = canvas.toDataURL("image/png");
+  link.href = URL.createObjectURL(blob);
   link.click();
+  URL.revokeObjectURL(link.href);
+}
+
+export async function downloadShotsZip(shots: GeneratedShot[]) {
+  const done = shots.filter((shot) => shot.status === "done");
+  const files = await Promise.all(
+    done.map(async (shot, index) => ({
+      name: `${String(index + 1).padStart(2, "0")}-${DECK_SHOT_LABELS[shot.deckShot].toLowerCase().replace(/\s+/g, "-")}.png`,
+      bytes: new Uint8Array(await (await shotBlob(shot)).arrayBuffer()),
+    })),
+  );
+  const zip = createZip(files);
+  const link = document.createElement("a");
+  link.download = `studioflow-${done.length}-image-deck.zip`;
+  link.href = URL.createObjectURL(zip);
+  link.click();
+  URL.revokeObjectURL(link.href);
 }
 
 interface StageProps {
@@ -260,7 +291,7 @@ export function Stage({
                 size="sm"
                 className="h-7 flex-1 justify-center rounded-full text-xs"
                 disabled={shot.status !== "done"}
-                onClick={() => downloadShot(shot)}
+                onClick={() => void downloadShot(shot)}
               >
                 <Download className="h-3 w-3" />
                 Save

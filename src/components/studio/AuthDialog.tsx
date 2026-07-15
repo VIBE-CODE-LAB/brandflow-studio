@@ -88,7 +88,7 @@ export function AuthDialog({ open, onOpenChange, onUnlock }: AuthDialogProps) {
           <div className="mx-auto max-w-md text-center">
             <h2 className="text-xl font-semibold">Access Required</h2>
             <p className="mt-2 text-sm leading-6 text-muted-foreground">
-              Enter your access code and your personal Gemini API key to continue. Your key is kept in a secure backend session.
+              Enter your access code and your personal Gemini API key to continue. On GitHub Pages, your key is kept only for this browser session.
             </p>
           </div>
 
@@ -147,7 +147,7 @@ export function AuthDialog({ open, onOpenChange, onUnlock }: AuthDialogProps) {
                 </button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Your key is stored in a secure HttpOnly server session and is never exposed back to the browser.
+                Your key is not saved to the repo or a server. It is used from this browser session to call Gemini.
               </p>
             </div>
 
