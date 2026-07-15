@@ -388,6 +388,7 @@ export function StudioFlow() {
                 heading: preset.heading,
                 subHeading: preset.subHeading,
                 callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+                calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
               }
             : undefined;
 
@@ -496,6 +497,7 @@ export function StudioFlow() {
             heading: preset.heading,
             subHeading: preset.subHeading,
             callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+            calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
           }
         : undefined;
 

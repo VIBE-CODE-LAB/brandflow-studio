@@ -318,6 +318,7 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
   const callouts = content.callouts
     .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
     .filter(Boolean);
+  const iconPlan = buildCalloutIconPlan(content, brand);
 
   return [
     "SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:",
@@ -330,6 +331,80 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
     `Heading: ${content.heading || "Use no heading text."}`,
     content.subHeading ? `Sub-heading: ${content.subHeading}` : "Sub-heading: Use no sub-heading text.",
     callouts.length > 0 ? callouts.join("\n") : "Callouts: Use no callout text.",
+    iconPlan,
+  ].join("\n");
+}
+
+function normalizeCalloutZone(zone?: string): string {
+  return (zone ?? "auto").trim().toLowerCase().replace(/[\s-]+/g, "_");
+}
+
+function iconConceptForCallout(callout: string, zone?: string): string {
+  const text = `${normalizeCalloutZone(zone)} ${callout}`.toLowerCase();
+
+  if (/armhole|underarm|rash|chafe|digging/.test(text)) {
+    return "a smooth underarm curve / armhole comfort symbol";
+  }
+  if (/bottom|band|underbust|elastic/.test(text)) {
+    return "a curved bra band / underbust support symbol";
+  }
+  if (/strap|shoulder/.test(text)) {
+    return "an adjustable shoulder strap symbol";
+  }
+  if (/hook|closure|adjustable|3[\s_/-]*level/.test(text)) {
+    return "three hook-and-eye closure rows";
+  }
+  if (/wing|side[\s_/-]*wing|back[\s_/-]*smooth|smoothen/.test(text)) {
+    return "wide side wing panels smoothing the back";
+  }
+  if (/pad|padding|lift|push/.test(text)) {
+    return "a lifted padded cup / gentle lift symbol";
+  }
+  if (/v[\s_/-]*neck|neckline/.test(text)) {
+    return "a clean V-neckline outline";
+  }
+  if (/coverage|cover/.test(text)) {
+    return "a full coverage cup outline";
+  }
+  if (/wire[\s_/-]*free|w[\s_/-]*hold|support/.test(text)) {
+    return "a wire-free support arc";
+  }
+  if (/u[\s_/-]*back/.test(text)) {
+    return "a back-view U-shape strap support symbol";
+  }
+  if (/fabric|seamless|stitch|no[\s_/-]*stitch|smooth|polyamide|breath|cotton|weave/.test(text)) {
+    return "a seamless fabric weave / smooth wave symbol";
+  }
+  if (/grip|gripper|anti[\s_/-]*slip/.test(text)) {
+    return "a grip-strip texture symbol";
+  }
+  if (/spill|spillage|bulge/.test(text)) {
+    return "a contained side-cup anti-spillage symbol";
+  }
+
+  return "a simple product-feature symbol inferred from the exact callout words";
+}
+
+function buildCalloutIconPlan(content: ShotPresetContent, brand: Brand): string {
+  const rows = content.callouts
+    .map((callout, index) => {
+      const trimmed = callout.trim();
+      if (!trimmed) return "";
+      const zone = content.calloutZones?.[index];
+      return `Callout ${index + 1} icon: auto-detect from "${trimmed}" -> draw ${iconConceptForCallout(trimmed, zone)}.`;
+    })
+    .filter(Boolean);
+
+  if (rows.length === 0) {
+    return "AUTO-DETECTED ICON RULE: no selected callout text is present, so do not render any callout icons.";
+  }
+
+  return [
+    "AUTO-DETECTED ICON RULE — CRITICAL:",
+    "Do not copy fixed icon examples from the source prompt when selected style content is active.",
+    "For each callout, choose the icon symbol from that callout's actual words and garment zone. The icon meaning must match the callout content exactly.",
+    `Every icon must be a solid ${brand.fg} circular icon with a clear white interior line illustration. The icon fill, border ring, connector line, and touch/connector dots must all use ${brand.fg}; never black, grey, blue, magenta, or any other color unless it is exactly ${brand.fg}.`,
+    ...rows,
   ].join("\n");
 }
 
@@ -352,6 +427,7 @@ function finalBrandRenderContract(
     "FINAL RENDER CONTRACT — HIGHEST PRIORITY:",
     `Selected brand is ${brand.name}. Use ONLY this brand's visual specification in the final image.`,
     `FINAL TEXT/CALLOUT/ICON HEX: ${brand.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${brand.fg}.`,
+    `FINAL LINE COLOR LOCK: every connector line on every pose, especially Back and Side 1, must use ${brand.fg} exactly. Do not render black, grey, blue, pink, magenta, faded purple, gradient, transparent, or approximate lines.`,
     `FINAL BACKGROUND HEX: ${brand.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${brand.bg}, not an approximate blue/beige/grey substitute.`,
     `FINAL FONTS: headings/display text must use ${brand.headingsDisplay}; sub-headings, body copy, and callouts must use ${brand.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,
     "Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.",
@@ -359,9 +435,19 @@ function finalBrandRenderContract(
       ? [
           "SIDE 1 ICON/CALLOUT LOCK:",
           "Render exactly three product feature callout groups, matching the source prompt positions.",
-          `Each Side 1 icon must be a clean circular icon with solid ${brand.fg} fill and a simple white line-art lingerie/fabric symbol inside.`,
+          "Do not omit icons. Side 1 must contain exactly three visible circular icons, one attached to each callout group.",
+          `Each Side 1 icon must be a clean circular icon with solid ${brand.fg} fill and a simple white line-art lingerie/product-feature symbol inside.`,
+          "The white line-art symbol inside each icon must be auto-detected from that callout's selected text, not copied from the source prompt examples.",
           "Do NOT render numbered icon badges such as 1, 2, or 3. Do NOT render arrow glyphs, random symbols, broken brackets, or text inside the icons.",
           `Every Side 1 connector line and product touch dot must use ${brand.fg}. Lines must be thin, clean, and connected to the correct product zone.`,
+        ].join("\n")
+      : "",
+    deckShot === "back"
+      ? [
+          "BACK VIEW COLOR/GRAPHIC LOCK:",
+          `Back headline, sub-heading, all three feature labels, benefit lines, circular icon fills, icon rings, interior icon strokes, and connector lines must use ${brand.fg} only, with white interior icon drawings only.`,
+          "Do not use black text for Back callouts. Do not use pink/magenta/purple variants unless the exact selected brand hex is that value.",
+          "Back connector lines must be thin, clean, and visible in the selected brand hex; no faded alternate color and no mismatched line color.",
         ].join("\n")
       : "",
     content

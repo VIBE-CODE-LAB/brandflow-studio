@@ -34,6 +34,7 @@ export interface ShotPresetContent {
   heading: string;
   subHeading: string;
   callouts: string[];
+  calloutZones?: string[];
 }
 
 export interface GeneratedShot {
