@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
-    "build:pages": "node scripts/clean-pages-root.mjs && vite build --mode github-pages && node scripts/prepare-github-pages.mjs",
+    "build:pages": "node scripts/clean-pages-root.mjs && vite build --config vite.static.config.ts && node scripts/finalize-static-pages.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",

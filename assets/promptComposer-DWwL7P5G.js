@@ -1,4 +1,4 @@
-import{i as e,u as t}from"./studio-BRhNEr0U.js";var n=`SIDE VIEW PROMPT\r
+import{a as e,c as t}from"./static-index-DZ0O5XPd.js";var n=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r

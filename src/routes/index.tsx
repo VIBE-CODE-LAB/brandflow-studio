@@ -52,7 +52,7 @@ const Stage = lazy(() =>
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
 
-function StudioFlow() {
+export function StudioFlow() {
   const [auth, setAuth] = useState<StudioAuthState>(emptyAuth);
   const [authOpen, setAuthOpen] = useState(false);
   const [shootType, setShootType] = useState<ShootType>("bra_panty");
