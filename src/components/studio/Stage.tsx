@@ -381,7 +381,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
 
   useEffect(() => {
     setPromptData(null);
-  }, [shot.id, shot.note, shot.userNote, shot.brandId, shot.aspect]);
+  }, [shot.id, shot.note, shot.userNote, shot.brandId, shot.aspect, shot.presetContent]);
 
   useEffect(() => {
     if (!open || promptData) return;
@@ -398,7 +398,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           aspect: shot.aspect,
           userNote: shot.userNote,
           regenerationNote: shot.note,
-          cleanPhoto: Boolean(shot.presetContent),
+          presetContent: shot.presetContent,
         }),
       );
     });
@@ -434,7 +434,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
         {shot.presetContent ? (
           <div className="rounded-xl border border-primary/30 bg-primary/5 p-2.5 text-[0.68rem] leading-snug">
             <p className="mb-1 font-semibold text-primary">
-              Style {shot.presetContent.styleName} content (drawn on top of the photo)
+              Style {shot.presetContent.styleName} content injected into the exact pose prompt
             </p>
             <p className="font-medium text-foreground">{shot.presetContent.heading}</p>
             {shot.presetContent.subHeading ? (

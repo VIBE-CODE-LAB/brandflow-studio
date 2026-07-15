@@ -29,7 +29,6 @@ import {
   logoutStudio,
   type StudioAuthState,
 } from "@/lib/studioAuth";
-import { getCalloutLayout } from "@/lib/calloutLayout";
 import {
   fetchStylePresetsFromGoogleSheet,
   findPreset,
@@ -67,7 +66,7 @@ const StylePresetPanel = lazy(() =>
 
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
-const GENERATION_CONCURRENCY = 3;
+const GENERATION_CONCURRENCY = 1;
 
 function nextFrame(): Promise<void> {
   return new Promise((resolve) => {
@@ -316,7 +315,14 @@ export function StudioFlow() {
             selectedStyleName && isPresetPose(shot.deckShot)
               ? findPreset(presets, selectedStyleName, shot.deckShot)
               : undefined;
-          const layout = preset ? getCalloutLayout(shot.shootType, shot.pushupBraOnly, shot.deckShot) : null;
+          const presetContent = preset
+            ? {
+                styleName: preset.styleName,
+                heading: preset.heading,
+                subHeading: preset.subHeading,
+                callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              }
+            : undefined;
 
           const promptData = composeDeckPrompt({
             shootType: shot.shootType,
@@ -325,10 +331,10 @@ export function StudioFlow() {
             brand,
             aspect: shot.aspect,
             userNote: shot.userNote,
-            cleanPhoto: Boolean(preset && layout),
+            presetContent,
           });
 
-          const rawUrl = await generateGeminiImage({
+          const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
             apiKey,
             prompt: promptData.prompt,
             images,
@@ -337,23 +343,7 @@ export function StudioFlow() {
             deckShot: shot.deckShot,
             engine,
             aspect: shot.aspect,
-          });
-
-          let finalUrl = rawUrl;
-          const callouts = preset ? [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text] : [];
-          if (preset && layout) {
-            const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
-            finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
-              heading: preset.heading,
-              subHead: preset.subHeading,
-              callouts,
-            });
-            if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
-          }
-          const imageUrl = rememberGeneratedUrl(finalUrl);
-          const presetContent = preset
-            ? { styleName: preset.styleName, heading: preset.heading, subHeading: preset.subHeading, callouts }
-            : undefined;
+          }));
 
           setShots((prev) =>
             prev.map((s) =>
@@ -433,7 +423,14 @@ export function StudioFlow() {
         selectedStyleName && isPresetPose(shot.deckShot)
           ? findPreset(presets, selectedStyleName, shot.deckShot)
           : undefined;
-      const layout = preset ? getCalloutLayout(shot.shootType, shot.pushupBraOnly, shot.deckShot) : null;
+      const presetContent = preset
+        ? {
+            styleName: preset.styleName,
+            heading: preset.heading,
+            subHeading: preset.subHeading,
+            callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+          }
+        : undefined;
 
       const promptData = composeDeckPrompt({
         shootType: shot.shootType,
@@ -443,10 +440,10 @@ export function StudioFlow() {
         aspect: shot.aspect,
         userNote: shot.userNote,
         regenerationNote: redoNote,
-        cleanPhoto: Boolean(preset && layout),
+        presetContent,
       });
 
-      const rawUrl = await generateGeminiImage({
+      const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
         apiKey,
         prompt: promptData.prompt,
         images,
@@ -455,23 +452,7 @@ export function StudioFlow() {
         deckShot: shot.deckShot,
         engine,
         aspect: shot.aspect,
-      });
-
-      let finalUrl = rawUrl;
-      const callouts = preset ? [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text] : [];
-      if (preset && layout) {
-        const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
-        finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
-          heading: preset.heading,
-          subHead: preset.subHeading,
-          callouts,
-        });
-        if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
-      }
-      const imageUrl = rememberGeneratedUrl(finalUrl);
-      const presetContent = preset
-        ? { styleName: preset.styleName, heading: preset.heading, subHeading: preset.subHeading, callouts }
-        : undefined;
+      }));
 
       setShots((prev) =>
         prev.map((s) =>

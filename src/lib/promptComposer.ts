@@ -8,10 +8,10 @@ import {
   type AspectId,
   type Brand,
   type DeckShotKey,
+  type ShotPresetContent,
   type ShootType,
   buildBrandLock,
 } from "@/lib/studio";
-import { buildGeometryLock, getCalloutLayout } from "@/lib/calloutLayout";
 
 type PromptSourceId = "bra" | "bra_panty" | "panty" | "pushup_bra_only" | "pushup_set";
 
@@ -30,9 +30,7 @@ interface ComposeDeckPromptOptions {
   aspect: AspectId;
   userNote?: string;
   regenerationNote?: string;
-  /** When true, ask Gemini for a clean product photo only — no headline/callouts/icons.
-   *  Used when a style preset is driving the overlay, composited client-side afterward. */
-  cleanPhoto?: boolean;
+  presetContent?: ShotPresetContent;
 }
 
 const BRA_SOURCE: PromptSource = {
@@ -232,14 +230,6 @@ function resolvePlaceholders(text: string, brand: Brand): string {
     .replace(/\{\{BRAND_FONT_COLOR\}\}/g, brand.fg);
 }
 
-function cleanPhotoOverride(): string {
-  return [
-    "CLEAN PHOTO OVERRIDE — CRITICAL, TAKES PRIORITY OVER ANY CONFLICTING INSTRUCTION ABOVE:",
-    "KEEP every instruction above about model pose, model position/zone, framing, crop, and composition split — but the exact reserved-zone geometry lock below takes priority over any vaguer positioning language above wherever they conflict.",
-    "Do not paint any actual text glyphs, headline, sub-heading, callout copy, callout lines, icons, badges, or watermark pixels into the image. Every zone reserved for text below must instead stay perfectly plain — just the flat background/backdrop color, nothing drawn there. Real text is added afterward in post-production.",
-  ].join("\n");
-}
-
 function brandOverride(brand: Brand): string {
   return [
     "IMPORTANT SELECTED BRAND OVERRIDE:",
@@ -252,6 +242,24 @@ function brandOverride(brand: Brand): string {
   ].join("\n");
 }
 
+function stylePresetOverride(content: ShotPresetContent): string {
+  const callouts = content.callouts
+    .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
+    .filter(Boolean);
+
+  return [
+    "SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:",
+    `Selected style: ${content.styleName}.`,
+    "Use the exact source prompt section above for pose, crop, model position, negative space, callout count, callout direction, icon/line style, headline position, sub-heading position, and all layout/placement rules.",
+    "Only replace the written copy/content inside that existing layout with the selected style content below.",
+    "Do not invent extra labels, extra callouts, badges, captions, logos, or alternate wording.",
+    "Do not move callouts away from the source prompt layout. Keep every text block and callout in the same placement zones described in the source prompt.",
+    `Heading: ${content.heading || "Use no heading text."}`,
+    content.subHeading ? `Sub-heading: ${content.subHeading}` : "Sub-heading: Use no sub-heading text.",
+    callouts.length > 0 ? callouts.join("\n") : "Callouts: Use no callout text.",
+  ].join("\n");
+}
+
 export function composeDeckPrompt({
   shootType,
   pushupBraOnly,
@@ -260,7 +268,7 @@ export function composeDeckPrompt({
   aspect,
   userNote,
   regenerationNote,
-  cleanPhoto,
+  presetContent,
 }: ComposeDeckPromptOptions): { prompt: string; sourceFile: string; section: string } {
   const source = getPromptSource(shootType, pushupBraOnly);
   const section = sectionHeading(source.id, deckShot);
@@ -270,17 +278,16 @@ export function composeDeckPrompt({
     `Deck shot: ${DECK_SHOT_LABELS[deckShot]}.`,
     `Aspect selected in Studio Flow: ${aspect}.`,
     "Fixed image quality: generate a 2K final ecommerce image with a 2048px long edge, crisp fabric detail, clean product edges, and sharp brand text/callouts.",
+    presetContent
+      ? "Content/layout lock: render the selected style preset text inside the exact headline, sub-heading, and callout placement described by the source prompt. The source prompt layout is mandatory."
+      : "",
     "Generate only this deck shot. Keep model identity, product identity, and brand identity consistent with the rest of the deck.",
     userNote?.trim() ? `User refinement note: ${userNote.trim()}` : "",
     regenerationNote?.trim() ? `Regeneration correction note: ${regenerationNote.trim()}` : "",
   ].filter(Boolean);
 
   const sections = [sourcePrompt, brandOverride(brand), controls.join("\n")];
-  if (cleanPhoto) {
-    sections.push(cleanPhotoOverride());
-    const layout = getCalloutLayout(shootType, pushupBraOnly, deckShot);
-    if (layout) sections.push(buildGeometryLock(layout));
-  }
+  if (presetContent) sections.push(stylePresetOverride(presetContent));
 
   return {
     prompt: sections.join("\n\n"),
