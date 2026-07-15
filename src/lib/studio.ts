@@ -37,6 +37,7 @@ export interface GeneratedShot {
   shootType: ShootType;
   pushupBraOnly: boolean;
   status: "queued" | "rendering" | "done" | "error";
+  progress?: number;
   imageUrl?: string;
   error?: string;
   userNote?: string;

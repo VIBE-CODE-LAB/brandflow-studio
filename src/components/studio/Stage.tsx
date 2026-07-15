@@ -52,6 +52,7 @@ export function ShotFrame({
 }) {
   const { bg, fg, name } = brandColors(shot.brandId);
   const poseLabel = DECK_SHOT_LABELS[shot.deckShot];
+  const progress = Math.round(shot.progress ?? (shot.status === "done" ? 100 : 0));
 
   return (
     <div
@@ -83,8 +84,20 @@ export function ShotFrame({
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 bg-paper/55 backdrop-blur-sm">
           {shot.status === "error" ? null : <Loader2 className="h-5 w-5 animate-spin" style={{ color: fg }} />}
           <span className="max-w-[80%] text-center text-xs font-medium text-foreground/70">
-            {shot.status === "error" ? shot.error ?? "Generation failed" : shot.status === "rendering" ? "Rendering…" : "Queued"}
+            {shot.status === "error"
+              ? shot.error ?? "Generation failed"
+              : shot.status === "rendering"
+                ? `Generating ${progress}%`
+                : `Queued ${progress}%`}
           </span>
+          {shot.status !== "error" ? (
+            <div className="h-1.5 w-28 overflow-hidden rounded-full bg-paper/80 shadow-inner">
+              <div
+                className="h-full rounded-full transition-all duration-500"
+                style={{ width: `${progress}%`, background: fg }}
+              />
+            </div>
+          ) : null}
         </div>
       )}
       {shot.status === "done" && (
@@ -112,7 +125,7 @@ export function ShotFrame({
         {name}
       </div>
       <div className="absolute bottom-2.5 right-2.5 rounded-full bg-paper/85 px-2 py-1 text-[0.62rem] font-medium text-muted-foreground">
-        {shot.aspect}
+        {shot.status === "done" ? shot.aspect : `${progress}%`}
       </div>
     </div>
   );

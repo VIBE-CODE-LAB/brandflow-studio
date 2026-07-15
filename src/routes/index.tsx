@@ -52,6 +52,31 @@ const Stage = lazy(() =>
 
 let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
+const GENERATION_CONCURRENCY = 2;
+
+function nextFrame(): Promise<void> {
+  return new Promise((resolve) => {
+    if (typeof requestAnimationFrame === "function") {
+      requestAnimationFrame(() => resolve());
+      return;
+    }
+    setTimeout(resolve, 0);
+  });
+}
+
+async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Promise<void>) {
+  let cursor = 0;
+  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
+    while (cursor < items.length) {
+      const index = cursor++;
+      const item = items[index];
+      if (item === undefined) return;
+      await worker(item);
+    }
+  });
+
+  await Promise.all(runners);
+}
 
 export function StudioFlow() {
   const [auth, setAuth] = useState<StudioAuthState>(emptyAuth);
@@ -66,7 +91,7 @@ export function StudioFlow() {
   const [note, setNote] = useState("");
   const [shots, setShots] = useState<GeneratedShot[]>([]);
   const [generating, setGenerating] = useState(false);
-  const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const timers = useRef<ReturnType<typeof setInterval>[]>([]);
 
   useEffect(() => {
     void getStudioAuth()
@@ -133,8 +158,26 @@ export function StudioFlow() {
   const orderedDeckShots = useMemo(() => activeDeck.shots, [activeDeck]);
 
   const clearTimers = () => {
-    timers.current.forEach(clearTimeout);
+    timers.current.forEach(clearInterval);
     timers.current = [];
+  };
+
+  const startProgress = (id: string, start = 3) => {
+    setShots((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, progress: Math.max(s.progress ?? 0, start) } : s)),
+    );
+    const timer = setInterval(() => {
+      setShots((prev) =>
+        prev.map((s) => {
+          if (s.id !== id || s.status !== "rendering") return s;
+          const current = s.progress ?? start;
+          const step = current < 50 ? 4 : current < 80 ? 2 : 1;
+          return { ...s, progress: Math.min(92, current + step) };
+        }),
+      );
+    }, 900);
+    timers.current.push(timer);
+    return timer;
   };
 
   const generate = useCallback(async () => {
@@ -162,21 +205,31 @@ export function StudioFlow() {
       shootType,
       pushupBraOnly,
       status: "queued",
+      progress: 0,
       userNote: note,
     }));
     setShots(queued);
     setGenerating(true);
+    await nextFrame();
 
     const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
       import("@/lib/promptComposer"),
       import("@/lib/geminiImage"),
     ]);
+    await nextFrame();
 
-    await Promise.all(
-      queued.map(async (shot) => {
+    await runLimited(
+      queued,
+      GENERATION_CONCURRENCY,
+      async (shot) => {
         setShots((prev) =>
-          prev.map((s) => (s.id === shot.id ? { ...s, status: "rendering", error: undefined } : s)),
+          prev.map((s) =>
+            s.id === shot.id
+              ? { ...s, status: "rendering", progress: Math.max(s.progress ?? 0, 5), error: undefined }
+              : s,
+          ),
         );
+        const progressTimer = startProgress(shot.id, 5);
 
         try {
           const promptData = composeDeckPrompt({
@@ -199,7 +252,9 @@ export function StudioFlow() {
           });
 
           setShots((prev) =>
-            prev.map((s) => (s.id === shot.id ? { ...s, status: "done", imageUrl } : s)),
+            prev.map((s) =>
+              s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl } : s,
+            ),
           );
         } catch (error) {
           setShots((prev) =>
@@ -208,13 +263,16 @@ export function StudioFlow() {
                 ? {
                     ...s,
                     status: "error",
+                    progress: s.progress ?? 0,
                     error: error instanceof Error ? error.message : "Image generation failed.",
                   }
                 : s,
             ),
           );
+        } finally {
+          clearInterval(progressTimer);
         }
-      }),
+      },
     );
 
     setGenerating(false);
@@ -250,9 +308,12 @@ export function StudioFlow() {
 
     setShots((prev) =>
       prev.map((s) =>
-        s.id === id ? { ...s, status: "rendering", note: redoNote, error: undefined } : s,
+        s.id === id
+          ? { ...s, status: "rendering", progress: 5, userNote: redoNote, error: undefined }
+          : s,
       ),
     );
+    const progressTimer = startProgress(id, 5);
 
     const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
       import("@/lib/promptComposer"),
@@ -281,7 +342,9 @@ export function StudioFlow() {
       });
 
       setShots((prev) =>
-        prev.map((s) => (s.id === id ? { ...s, status: "done", note: redoNote, imageUrl } : s)),
+        prev.map((s) =>
+          s.id === id ? { ...s, status: "done", progress: 100, userNote: redoNote, imageUrl } : s,
+        ),
       );
     } catch (error) {
       setShots((prev) =>
@@ -290,12 +353,15 @@ export function StudioFlow() {
             ? {
                 ...s,
                 status: "error",
-                note: redoNote,
+                progress: s.progress ?? 0,
+                userNote: redoNote,
                 error: error instanceof Error ? error.message : "Image generation failed.",
               }
             : s,
         ),
       );
+    } finally {
+      clearInterval(progressTimer);
     }
   }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine]);
 
