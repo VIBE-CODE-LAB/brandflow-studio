@@ -267,7 +267,38 @@ function applyBrandSpecification(text: string, brand: Brand): string {
     next = replaceAllInsensitive(next, catalogBrand.overallLookFeel, brand.overallLookFeel);
   }
 
-  return next;
+  return normalizeRemainingHexCodes(next, brand);
+}
+
+function normalizeRemainingHexCodes(text: string, brand: Brand): string {
+  return text
+    .split("\n")
+    .map((line) => {
+      let next = line;
+
+      next = next.replace(
+        /(background(?:\s+color)?|backdrop|wall|bedroom|studio(?:\s+backdrop)?|negative[- ]space|breathing space|text panel|right panel|left panel)([^#\n]*?)#[0-9a-f]{6}/gi,
+        (_match, label: string, middle: string) => `${label}${middle}${brand.bg}`,
+      );
+      next = next.replace(
+        /(font|text color|color|callout|line|icon|dot|fill|stroke|border|ring|badge|heading|sub-heading|feature text|benefit text)([^#\n]*?)#[0-9a-f]{6}/gi,
+        (_match, label: string, middle: string) => `${label}${middle}${brand.fg}`,
+      );
+
+      const hasHex = /#[0-9a-f]{6}/i.test(next);
+      if (!hasHex) return next;
+
+      if (/(background|backdrop|wall|bedroom|studio|negative[- ]space|breathing space|panel)/i.test(next)) {
+        return next.replace(/#[0-9a-f]{6}/gi, brand.bg);
+      }
+
+      if (/(font|text|color|callout|line|icon|dot|fill|stroke|border|ring|badge|heading|sub-heading|feature|benefit)/i.test(next)) {
+        return next.replace(/#[0-9a-f]{6}/gi, brand.fg);
+      }
+
+      return next;
+    })
+    .join("\n");
 }
 
 function brandOverride(brand: Brand): string {
@@ -277,8 +308,8 @@ function brandOverride(brand: Brand): string {
     "The source prompt section has already been rewritten with the selected brand fonts and hex codes. Follow those rewritten values exactly.",
     "If any old brand value still appears, ignore it and replace it with the selected brand values below.",
     buildBrandLock(brand),
-    `HARD-CODED TEXT HEX: every visible heading, sub-heading, callout label, feature text, benefit text, icon fill, icon stroke, circular icon fill, border ring, callout line, pointer dot, badge text, and brand chip text must use exactly ${brand.fg}. Do not use blue, black, grey, white, or any source-prompt color for text/graphics unless it equals ${brand.fg}.`,
-    `HARD-CODED BACKGROUND HEX: every studio backdrop, lifestyle wall, negative-space panel, right/left text panel, product panel, and flat background must use exactly ${brand.bg}. Do not use any source-prompt background hex unless it equals ${brand.bg}.`,
+    `HARD-CODED TEXT HEX: every visible heading, sub-heading, callout label, callout content, feature text, benefit text, callout body copy, icon fill, icon stroke, circular icon fill, border ring, callout line, pointer dot, badge text, and brand chip text must use exactly ${brand.fg}. Heading, sub-heading, and every callout text line must share this same ${brand.fg} hex. Do not use blue, black, grey, white, or any source-prompt color for text/graphics unless it equals ${brand.fg}.`,
+    `HARD-CODED BACKGROUND HEX: every studio backdrop, lifestyle wall, negative-space panel, right/left text panel, product panel, flat background, and visible empty background area must use exactly ${brand.bg}. Do not use any source-prompt background hex, tint, approximate color, or generated substitute unless it equals ${brand.bg}.`,
     `Use ${brand.headingsDisplay} for headlines/display text and ${brand.bodyUi} for sub-headings/body/callout text.`,
   ].join("\n");
 }
@@ -295,7 +326,7 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand): string {
     "Only replace the written copy/content inside that existing layout with the selected style content below.",
     "Do not invent extra labels, extra callouts, badges, captions, logos, or alternate wording.",
     "Do not move callouts, icons, lines, dots, or text blocks away from the source prompt layout. Keep every visual element in the same placement zones described in the source prompt.",
-    `All selected-style text, icons, dots, lines, and callout graphics must use the selected brand font hex ${brand.fg}; headings use ${brand.headingsDisplay}, sub-heading/callouts use ${brand.bodyUi}; backgrounds use ${brand.bg}.`,
+    `All selected-style text, callout content, icons, dots, lines, and callout graphics must use the selected brand font hex ${brand.fg}; headings use ${brand.headingsDisplay}, sub-heading/callouts use ${brand.bodyUi}; backgrounds use ${brand.bg}.`,
     `Heading: ${content.heading || "Use no heading text."}`,
     content.subHeading ? `Sub-heading: ${content.subHeading}` : "Sub-heading: Use no sub-heading text.",
     callouts.length > 0 ? callouts.join("\n") : "Callouts: Use no callout text.",
@@ -320,8 +351,8 @@ function finalBrandRenderContract(
   return [
     "FINAL RENDER CONTRACT — HIGHEST PRIORITY:",
     `Selected brand is ${brand.name}. Use ONLY this brand's visual specification in the final image.`,
-    `FINAL TEXT/CALLOUT/ICON HEX: ${brand.fg} only. Headings, sub-headings, callout text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use ${brand.fg}.`,
-    `FINAL BACKGROUND HEX: ${brand.bg} only for studio backgrounds, text panels, negative-space areas, and lifestyle wall/backdrop areas.`,
+    `FINAL TEXT/CALLOUT/ICON HEX: ${brand.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${brand.fg}.`,
+    `FINAL BACKGROUND HEX: ${brand.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${brand.bg}, not an approximate blue/beige/grey substitute.`,
     `FINAL FONTS: headings/display text must use ${brand.headingsDisplay}; sub-headings, body copy, and callouts must use ${brand.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,
     "Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.",
     deckShot === "side1"
