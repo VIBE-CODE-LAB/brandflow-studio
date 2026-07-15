@@ -244,6 +244,7 @@ export function composeDeckPrompt({
     "DECK SHOT LOCK:",
     `Deck shot: ${DECK_SHOT_LABELS[deckShot]}.`,
     `Aspect selected in Studio Flow: ${aspect}.`,
+    "Fixed image quality: generate a 2K final ecommerce image with a 2048px long edge, crisp fabric detail, clean product edges, and sharp brand text/callouts.",
     "Generate only this deck shot. Keep model identity, product identity, and brand identity consistent with the rest of the deck.",
     userNote?.trim() ? `User refinement note: ${userNote.trim()}` : "",
     regenerationNote?.trim() ? `Regeneration correction note: ${regenerationNote.trim()}` : "",

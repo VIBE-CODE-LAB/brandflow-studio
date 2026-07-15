@@ -17,6 +17,9 @@ interface InlineImage {
   data: string;
 }
 
+const OUTPUT_LONG_EDGE = 2048;
+const OUTPUT_QUALITY = 0.92;
+
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
   if (!value) return null;
   const match = /^data:([^;,]+);base64,(.+)$/i.exec(value);
@@ -67,7 +70,45 @@ function base64ToBlob(data: string, mimeType: string): Blob {
   return new Blob([bytes], { type: mimeType });
 }
 
-function extractImageUrl(response: unknown): string | null {
+function loadBlobImage(blob: Blob): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const objectUrl = URL.createObjectURL(blob);
+    const image = new Image();
+    image.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+      resolve(image);
+    };
+    image.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error("Generated image could not be loaded for 2K export."));
+    };
+    image.src = objectUrl;
+  });
+}
+
+async function normalizeTo2K(blob: Blob): Promise<Blob> {
+  const image = await loadBlobImage(blob);
+  const sourceWidth = image.naturalWidth || image.width;
+  const sourceHeight = image.naturalHeight || image.height;
+  const scale = OUTPUT_LONG_EDGE / Math.max(sourceWidth, sourceHeight);
+  const width = Math.max(1, Math.round(sourceWidth * scale));
+  const height = Math.max(1, Math.round(sourceHeight * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext("2d", { alpha: false });
+  if (!ctx) return blob;
+
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = "high";
+  ctx.drawImage(image, 0, 0, width, height);
+
+  return await new Promise((resolve) => {
+    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/jpeg", OUTPUT_QUALITY);
+  });
+}
+
+async function extractImageUrl(response: unknown): Promise<string | null> {
   const data = response as {
     candidates?: Array<{
       content?: {
@@ -88,7 +129,7 @@ function extractImageUrl(response: unknown): string | null {
 
       if (inline?.data) {
         const blob = base64ToBlob(inline.data, inline.mimeType ?? "image/png");
-        return URL.createObjectURL(blob);
+        return URL.createObjectURL(await normalizeTo2K(blob));
       }
     }
   }
@@ -102,6 +143,9 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
     {
       text: [
         options.prompt,
+        "",
+        "FIXED OUTPUT QUALITY:",
+        "Return a polished 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px long edge.",
         "",
         "REFERENCE IMAGE RULES:",
         "Use the uploaded reference images as product/model references. Preserve garment identity, color, construction, shape, and visible details.",
@@ -143,7 +187,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
     throw new Error(message);
   }
 
-  const imageUrl = extractImageUrl(json);
+  const imageUrl = await extractImageUrl(json);
   if (!imageUrl) {
     throw new Error("Gemini returned no image. Try another engine or simplify the prompt.");
   }
