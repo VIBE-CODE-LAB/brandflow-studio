@@ -23,6 +23,7 @@ interface InlineImage {
 }
 
 const OUTPUT_LONG_EDGE = 2048;
+const OUTPUT_QUALITY = 0.98;
 
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
   if (!value) return null;
@@ -103,10 +104,34 @@ async function normalizeTo2K(blob: Blob): Promise<Blob> {
 
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
+  ctx.filter = "contrast(1.05) saturate(1.03)";
   ctx.drawImage(image, 0, 0, width, height);
+  ctx.filter = "none";
+
+  const imageData = ctx.getImageData(0, 0, width, height);
+  const source = imageData.data;
+  const sharpened = new Uint8ClampedArray(source);
+  const mix = 0.18;
+  for (let y = 1; y < height - 1; y++) {
+    for (let x = 1; x < width - 1; x++) {
+      const index = (y * width + x) * 4;
+      for (let channel = 0; channel < 3; channel++) {
+        const center = source[index + channel] * 5;
+        const neighbors =
+          source[index - 4 + channel] +
+          source[index + 4 + channel] +
+          source[index - width * 4 + channel] +
+          source[index + width * 4 + channel];
+        const sharp = Math.max(0, Math.min(255, center - neighbors));
+        sharpened[index + channel] = source[index + channel] * (1 - mix) + sharp * mix;
+      }
+    }
+  }
+  imageData.data.set(sharpened);
+  ctx.putImageData(imageData, 0, 0);
 
   return await new Promise((resolve) => {
-    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/png");
+    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/jpeg", OUTPUT_QUALITY);
   });
 }
 

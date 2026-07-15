@@ -560,8 +560,7 @@ straps, cups, and panel
 BOTH OPTIONS — NON-NEGOTIABLE RULES:
 Shoulders completely relaxed | No tension anywhere in body
 Expression: warm, feminine, genuinely at ease
-Shot framed STRICT HEAD-TO-NAVEL only — the image stops at the natural navel/waistline.
-No hips, thighs, legs, waistband, panty, briefs, shorts, or lower garment visible.
+Shot framed HEAD-TO-MID-THIGH for Mood only — seated lifestyle composition may show waist, hips, upper thighs, and the required matching lower outfit.
 Hair: loose, tousled morning feel | COMPLETELY CLEAR of 
 all bra zones at all times
 Skin: completely tattoo-free, blemish-free, mark-free
@@ -569,22 +568,26 @@ NO hands or arms overlapping any part of bra — straps,
 cups, panel, or band
 
 ═══════════════════════════════════════════════════════
-LOWER BODY EXCLUSION — NON-NEGOTIABLE
+LOWER OUTFIT — MOOD ONLY NON-NEGOTIABLE
 ═══════════════════════════════════════════════════════
 
 This is PUSHUP BRA ONLY mode.
-The final image must show only the bra and the model's natural upper body from head to navel.
-Do NOT generate any lower outfit or bottom garment.
-Do NOT generate panty, brief, underwear bottom, boxer shorts, sleep shorts, waistband, hips, pelvis, thighs, legs, or anything below the navel.
+For this MOOD image only, add a modest lower outfit so the seated lifestyle pose feels complete.
+Lower outfit type: simple soft lounge shorts / modest high-waist comfort shorts only.
+The lower outfit color MUST match the upper bra color exactly as extracted from Reference Image 2.
+The lower outfit fabric tone, hue, saturation, and lighting response must look like the same coordinated set color as the bra.
+The lower outfit must be plain, minimal, smooth, and non-distracting — no prints, logos, lace, ribbons, patterns, pockets, drawstrings, buttons, or extra decoration.
+The lower outfit must not become the hero product; the pushup bra remains the hero product.
+Do NOT generate panty, brief underwear, thong, bikini bottom, transparent fabric, low-rise intimate bottom, denim shorts, skirt, jeans, leggings, or any unrelated lower garment.
 Do NOT widen, spread, exaggerate, or make the waist/hips more curvy.
-Preserve the model's natural torso proportions and keep the crop tight at the navel.
+Preserve the model's natural torso, waist, hip, and thigh proportions.
 
 ═══════════════════════════════════════════════════════
 COLOR INSTRUCTION — CRITICAL
 ═══════════════════════════════════════════════════════
 → Extract EXACT color from Reference Image 2 bra
-→ Apply the exact color only to the bra product
-→ Do NOT apply bra color to any lower garment because no lower garment may appear
+→ Apply the exact color to the bra product
+→ In this Mood image only, apply the exact same extracted bra color to the modest lower outfit so upper and lower outfit match perfectly
 → Do NOT neutralize or change the bra color
 
 ═══════════════════════════════════════════════════════

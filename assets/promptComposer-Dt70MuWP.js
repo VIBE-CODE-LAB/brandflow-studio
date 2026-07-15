@@ -1,4 +1,4 @@
-import{f as e,l as t}from"./static-index-DeYMpvfh.js";var n=`SIDE VIEW PROMPT\r
+import{f as e,l as t}from"./static-index-DyYwZHdo.js";var n=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
@@ -2407,35 +2407,38 @@ Body language: relaxed, unhurried, genuine morning comfort\r
 Hair loose, slightly tousled — FULLY CLEAR of all bra \r
 straps, cups, and panel\r
 \r
-BOTH OPTIONS — NON-NEGOTIABLE RULES:\r
-Shoulders completely relaxed | No tension anywhere in body\r
-Expression: warm, feminine, genuinely at ease\r
-Shot framed STRICT HEAD-TO-NAVEL only — the image stops at the natural navel/waistline.\r
-No hips, thighs, legs, waistband, panty, briefs, shorts, or lower garment visible.\r
-Hair: loose, tousled morning feel | COMPLETELY CLEAR of \r
-all bra zones at all times\r
-Skin: completely tattoo-free, blemish-free, mark-free\r
-NO hands or arms overlapping any part of bra — straps, \r
-cups, panel, or band\r
+BOTH OPTIONS — NON-NEGOTIABLE RULES:
+Shoulders completely relaxed | No tension anywhere in body
+Expression: warm, feminine, genuinely at ease
+Shot framed HEAD-TO-MID-THIGH for Mood only — seated lifestyle composition may show waist, hips, upper thighs, and the required matching lower outfit.
+Hair: loose, tousled morning feel | COMPLETELY CLEAR of 
+all bra zones at all times
+Skin: completely tattoo-free, blemish-free, mark-free
+NO hands or arms overlapping any part of bra — straps, 
+cups, panel, or band
+
+═══════════════════════════════════════════════════════
+LOWER OUTFIT — MOOD ONLY NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+This is PUSHUP BRA ONLY mode.
+For this MOOD image only, add a modest lower outfit so the seated lifestyle pose feels complete.
+Lower outfit type: simple soft lounge shorts / modest high-waist comfort shorts only.
+The lower outfit color MUST match the upper bra color exactly as extracted from Reference Image 2.
+The lower outfit fabric tone, hue, saturation, and lighting response must look like the same coordinated set color as the bra.
+The lower outfit must be plain, minimal, smooth, and non-distracting — no prints, logos, lace, ribbons, patterns, pockets, drawstrings, buttons, or extra decoration.
+The lower outfit must not become the hero product; the pushup bra remains the hero product.
+Do NOT generate panty, brief underwear, thong, bikini bottom, transparent fabric, low-rise intimate bottom, denim shorts, skirt, jeans, leggings, or any unrelated lower garment.
+Do NOT widen, spread, exaggerate, or make the waist/hips more curvy.
+Preserve the model's natural torso, waist, hip, and thigh proportions.
 \r
 ═══════════════════════════════════════════════════════\r
-LOWER BODY EXCLUSION — NON-NEGOTIABLE\r
-═══════════════════════════════════════════════════════\r
-\r
-This is PUSHUP BRA ONLY mode.\r
-The final image must show only the bra and the model's natural upper body from head to navel.\r
-Do NOT generate any lower outfit or bottom garment.\r
-Do NOT generate panty, brief, underwear bottom, boxer shorts, sleep shorts, waistband, hips, pelvis, thighs, legs, or anything below the navel.\r
-Do NOT widen, spread, exaggerate, or make the waist/hips more curvy.\r
-Preserve the model's natural torso proportions and keep the crop tight at the navel.\r
-\r
-═══════════════════════════════════════════════════════\r
-COLOR INSTRUCTION — CRITICAL\r
-═══════════════════════════════════════════════════════\r
-→ Extract EXACT color from Reference Image 2 bra\r
-→ Apply the exact color only to the bra product\r
-→ Do NOT apply bra color to any lower garment because no lower garment may appear\r
-→ Do NOT neutralize or change the bra color\r
+COLOR INSTRUCTION — CRITICAL
+═══════════════════════════════════════════════════════
+→ Extract EXACT color from Reference Image 2 bra
+→ Apply the exact color to the bra product
+→ In this Mood image only, apply the exact same extracted bra color to the modest lower outfit so upper and lower outfit match perfectly
+→ Do NOT neutralize or change the bra color
 \r
 ═══════════════════════════════════════════════════════\r
 PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
