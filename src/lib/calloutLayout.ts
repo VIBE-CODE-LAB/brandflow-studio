@@ -112,3 +112,57 @@ export function getCalloutLayout(
 ): DeckShotCalloutLayout | null {
   return LAYOUTS[promptSourceId(shootType, pushupBraOnly)][deckShot] ?? null;
 }
+
+function isPanelAnchor(id: AnchorId): boolean {
+  return id.startsWith("panel_");
+}
+
+/**
+ * Builds an explicit "x=N% to M%" geometry lock, in the same style and rigor as the
+ * one hard-coded example in the source prompts (Pushup-Bra-Only Side 2's "SIDE 2 CANVAS
+ * GEOMETRY LOCK"), generated from this layout's actual anchor positions so the model is
+ * scaled/positioned to leave exactly the space the overlay will draw into — for every
+ * mode, not just the one that happened to spell it out.
+ */
+export function buildGeometryLock(layout: DeckShotCalloutLayout): string {
+  const allAnchorIds = [layout.headline, ...layout.callouts];
+
+  if (allAnchorIds.some(isPanelAnchor)) {
+    return [
+      "CANVAS GEOMETRY LOCK — FINAL, EXACT, NON-NEGOTIABLE:",
+      "Keep the LEFT ~60-65% of the frame as the product/model photo zone, and the RIGHT ~35-40% as a completely flat, seamless panel in the exact brand background color — no gradient, no texture, no props.",
+      "The right panel must stay perfectly empty (flat color only) top to bottom — the model, product, hands, or any shadow must never cross into it.",
+    ].join("\n");
+  }
+
+  const hasLeft = allAnchorIds.some((id) => ANCHORS[id].align === "left");
+  const hasRight = allAnchorIds.some((id) => ANCHORS[id].align === "right");
+
+  const lines = ["CANVAS GEOMETRY LOCK — FINAL, EXACT, NON-NEGOTIABLE:"];
+  lines.push(
+    "TOP MARGIN: scale and position the model so there is completely clean, empty background across the FULL WIDTH of the frame from the very top edge down to at least x-height 14% of the frame — no hair, head, or shoulder may enter that top strip. The headline sits in this margin.",
+  );
+
+  if (hasLeft && hasRight) {
+    lines.push(
+      "Scale the model down and center her narrowly: the entire visible model/product silhouette (including hair and arms) must stay inside x=32% to x=68% of the frame width.",
+      "Reserve x=0% to x=30% on the LEFT and x=70% to x=100% on the RIGHT as completely clean, empty brand-colored background — no skin, hair, or product may enter either zone. Callout text goes in these two zones.",
+    );
+  } else if (hasLeft) {
+    lines.push(
+      "Position and scale the model toward the RIGHT: the entire visible model/product silhouette (including hair and arms) must stay inside x=38% to x=92% of the frame width.",
+      "Reserve x=0% to x=36% on the LEFT as completely clean, empty brand-colored background — no skin, hair, or product may enter it. The headline and callout text column goes here.",
+    );
+  } else if (hasRight) {
+    lines.push(
+      "Position and scale the model toward the LEFT: the entire visible model/product silhouette (including hair and arms) must stay inside x=8% to x=62% of the frame width.",
+      "Reserve x=64% to x=100% on the RIGHT as completely clean, empty brand-colored background — no skin, hair, or product may enter it. The callout text column goes here (headline still sits top-left in the model's own margin).",
+    );
+  }
+
+  lines.push(
+    "Do NOT use a tight close-up crop to fill these reserved zones with more of the model — shrink/scale the model down instead, keeping the full product visible.",
+  );
+
+  return lines.join("\n");
+}
