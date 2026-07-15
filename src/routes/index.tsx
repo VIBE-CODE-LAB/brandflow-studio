@@ -29,6 +29,18 @@ import {
   logoutStudio,
   type StudioAuthState,
 } from "@/lib/studioAuth";
+import { getCalloutLayout } from "@/lib/calloutLayout";
+import {
+  fetchStylePresetsFromGoogleSheet,
+  findPreset,
+  isPresetPose,
+  loadGoogleSheetUrlFromStorage,
+  loadPresetsFromStorage,
+  removeGoogleSheetUrlFromStorage,
+  saveGoogleSheetUrlToStorage,
+  savePresetsToStorage,
+  type StylePreset,
+} from "@/lib/stylePresets";
 
 export const Route = createFileRoute("/")({
   component: StudioFlow,
@@ -48,6 +60,9 @@ const RefinePanel = lazy(() =>
 );
 const Stage = lazy(() =>
   import("@/components/studio/Stage").then((module) => ({ default: module.Stage })),
+);
+const StylePresetPanel = lazy(() =>
+  import("@/components/studio/StylePresetPanel").then((module) => ({ default: module.StylePresetPanel })),
 );
 
 let shotCounter = 0;
@@ -91,8 +106,48 @@ export function StudioFlow() {
   const [note, setNote] = useState("");
   const [shots, setShots] = useState<GeneratedShot[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [sheetUrl, setSheetUrl] = useState("");
+  const [presets, setPresets] = useState<StylePreset[]>([]);
+  const [syncing, setSyncing] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
+  const [syncError, setSyncError] = useState<string | null>(null);
+  const [selectedStyleName, setSelectedStyleName] = useState<string | null>(null);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
+
+  useEffect(() => {
+    setSheetUrl(loadGoogleSheetUrlFromStorage());
+    setPresets(loadPresetsFromStorage());
+  }, []);
+
+  const syncStylePresets = useCallback(async () => {
+    if (!sheetUrl.trim() || syncing) return;
+    setSyncing(true);
+    setSyncError(null);
+    setSyncMessage(null);
+    try {
+      const result = await fetchStylePresetsFromGoogleSheet(sheetUrl);
+      setPresets(result.presets);
+      savePresetsToStorage(result.presets);
+      saveGoogleSheetUrlToStorage(sheetUrl);
+      const errorNote = result.errors.length > 0 ? ` (${result.errors.length} row${result.errors.length === 1 ? "" : "s"} skipped)` : "";
+      setSyncMessage(`${result.presets.length} preset rows synced from Google Sheet.${errorNote}`);
+    } catch (error) {
+      setSyncError(error instanceof Error ? error.message : "Google Sheet sync failed.");
+    } finally {
+      setSyncing(false);
+    }
+  }, [sheetUrl, syncing]);
+
+  const disconnectStylePresets = useCallback(() => {
+    setSheetUrl("");
+    setPresets([]);
+    setSelectedStyleName(null);
+    setSyncMessage(null);
+    setSyncError(null);
+    removeGoogleSheetUrlFromStorage();
+    savePresetsToStorage([]);
+  }, []);
 
   useEffect(() => {
     void getStudioAuth()
@@ -257,6 +312,12 @@ export function StudioFlow() {
         const progressTimer = startProgress(shot.id, 5);
 
         try {
+          const preset =
+            selectedStyleName && isPresetPose(shot.deckShot)
+              ? findPreset(presets, selectedStyleName, shot.deckShot)
+              : undefined;
+          const layout = preset ? getCalloutLayout(shot.shootType, shot.pushupBraOnly, shot.deckShot) : null;
+
           const promptData = composeDeckPrompt({
             shootType: shot.shootType,
             pushupBraOnly: shot.pushupBraOnly,
@@ -264,9 +325,10 @@ export function StudioFlow() {
             brand,
             aspect: shot.aspect,
             userNote: shot.userNote,
+            cleanPhoto: Boolean(preset && layout),
           });
 
-          const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
+          const rawUrl = await generateGeminiImage({
             apiKey,
             prompt: promptData.prompt,
             images,
@@ -275,7 +337,19 @@ export function StudioFlow() {
             deckShot: shot.deckShot,
             engine,
             aspect: shot.aspect,
-          }));
+          });
+
+          let finalUrl = rawUrl;
+          if (preset && layout) {
+            const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
+            finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
+              heading: preset.heading,
+              subHead: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+            });
+            if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
+          }
+          const imageUrl = rememberGeneratedUrl(finalUrl);
 
           setShots((prev) =>
             prev.map((s) =>
@@ -315,6 +389,8 @@ export function StudioFlow() {
     note,
     images,
     engine,
+    selectedStyleName,
+    presets,
   ]);
 
   const regenerate = useCallback(async (id: string, redoNote: string) => {
@@ -348,17 +424,25 @@ export function StudioFlow() {
     ]);
 
     try {
+      const brand = getBrand(shot.brandId);
+      const preset =
+        selectedStyleName && isPresetPose(shot.deckShot)
+          ? findPreset(presets, selectedStyleName, shot.deckShot)
+          : undefined;
+      const layout = preset ? getCalloutLayout(shot.shootType, shot.pushupBraOnly, shot.deckShot) : null;
+
       const promptData = composeDeckPrompt({
         shootType: shot.shootType,
         pushupBraOnly: shot.pushupBraOnly,
         deckShot: shot.deckShot,
-        brand: getBrand(shot.brandId),
+        brand,
         aspect: shot.aspect,
         userNote: shot.userNote,
         regenerationNote: redoNote,
+        cleanPhoto: Boolean(preset && layout),
       });
 
-      const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
+      const rawUrl = await generateGeminiImage({
         apiKey,
         prompt: promptData.prompt,
         images,
@@ -367,7 +451,19 @@ export function StudioFlow() {
         deckShot: shot.deckShot,
         engine,
         aspect: shot.aspect,
-      }));
+      });
+
+      let finalUrl = rawUrl;
+      if (preset && layout) {
+        const { compositeCalloutOverlay } = await import("@/lib/imageComposite");
+        finalUrl = await compositeCalloutOverlay(rawUrl, brand, layout, {
+          heading: preset.heading,
+          subHead: preset.subHeading,
+          callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+        });
+        if (finalUrl !== rawUrl) URL.revokeObjectURL(rawUrl);
+      }
+      const imageUrl = rememberGeneratedUrl(finalUrl);
 
       setShots((prev) =>
         prev.map((s) =>
@@ -391,7 +487,7 @@ export function StudioFlow() {
     } finally {
       clearInterval(progressTimer);
     }
-  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine]);
+  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine, selectedStyleName, presets]);
 
   const logout = useCallback(async () => {
     try {
@@ -566,7 +662,7 @@ export function StudioFlow() {
 
               <div className="flex items-center justify-between">
                 <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  Deck shots
+                  {activeDeck.hint}
                 </p>
                 <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
                   <RefinePanel
@@ -579,20 +675,21 @@ export function StudioFlow() {
                   />
                 </Suspense>
               </div>
-              <div className="flex flex-wrap gap-1.5">
-                {activeDeck.shots.map((shot) => (
-                  <span
-                    key={shot}
-                    className="rounded-full bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground"
-                  >
-                    {shot === "side1"
-                      ? "Side 1"
-                      : shot === "side2"
-                        ? "Side 2"
-                        : shot[0].toUpperCase() + shot.slice(1)}
-                  </span>
-                ))}
-              </div>
+              <Suspense fallback={<PanelSkeleton rows={2} />}>
+                <StylePresetPanel
+                  sheetUrl={sheetUrl}
+                  onSheetUrlChange={setSheetUrl}
+                  onSync={() => void syncStylePresets()}
+                  onDisconnect={disconnectStylePresets}
+                  syncing={syncing}
+                  syncMessage={syncMessage}
+                  syncError={syncError}
+                  presets={presets}
+                  selectedStyleName={selectedStyleName}
+                  onSelectStyle={setSelectedStyleName}
+                  activeDeckShots={activeDeck.shots}
+                />
+              </Suspense>
             </div>
           </section>
 

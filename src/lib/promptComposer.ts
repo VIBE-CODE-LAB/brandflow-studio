@@ -29,6 +29,9 @@ interface ComposeDeckPromptOptions {
   aspect: AspectId;
   userNote?: string;
   regenerationNote?: string;
+  /** When true, ask Gemini for a clean product photo only — no headline/callouts/icons.
+   *  Used when a style preset is driving the overlay, composited client-side afterward. */
+  cleanPhoto?: boolean;
 }
 
 const BRA_SOURCE: PromptSource = {
@@ -228,6 +231,15 @@ function resolvePlaceholders(text: string, brand: Brand): string {
     .replace(/\{\{BRAND_FONT_COLOR\}\}/g, brand.fg);
 }
 
+function cleanPhotoOverride(): string {
+  return [
+    "CLEAN PHOTO OVERRIDE — CRITICAL, TAKES PRIORITY OVER ANY CONFLICTING INSTRUCTION ABOVE:",
+    "Ignore every instruction above about headlines, sub-headings, callout lines, callout text, icons, badges, or any infographic/typography layout.",
+    "Do NOT render any text, headline, sub-heading, callout, icon, label, badge, watermark, or typography of any kind anywhere in the image.",
+    "This must be a completely clean product photograph — only the model/product, background, and lighting as described above. All copy and callouts are added separately afterward.",
+  ].join("\n");
+}
+
 function brandOverride(brand: Brand): string {
   return [
     "IMPORTANT SELECTED BRAND OVERRIDE:",
@@ -248,6 +260,7 @@ export function composeDeckPrompt({
   aspect,
   userNote,
   regenerationNote,
+  cleanPhoto,
 }: ComposeDeckPromptOptions): { prompt: string; sourceFile: string; section: string } {
   const source = getPromptSource(shootType, pushupBraOnly);
   const section = sectionHeading(source.id, deckShot);
@@ -262,8 +275,11 @@ export function composeDeckPrompt({
     regenerationNote?.trim() ? `Regeneration correction note: ${regenerationNote.trim()}` : "",
   ].filter(Boolean);
 
+  const sections = [sourcePrompt, brandOverride(brand), controls.join("\n")];
+  if (cleanPhoto) sections.push(cleanPhotoOverride());
+
   return {
-    prompt: [sourcePrompt, brandOverride(brand), controls.join("\n")].join("\n\n"),
+    prompt: sections.join("\n\n"),
     sourceFile: source.fileName,
     section,
   };
