@@ -39,6 +39,8 @@ export interface ShotPresetContent {
 
 export interface GeneratedShot {
   id: string;
+  /** Which Gear 2 bra deck this shot belongs to, if generated via the multi-bra batch workflow. */
+  braId?: string;
   deckShot: DeckShotKey;
   aspect: AspectId;
   brandId: string;

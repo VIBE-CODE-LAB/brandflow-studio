@@ -2,6 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { Check, ImagePlus, RotateCcw, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
+import { readAndDownsizeImage } from "@/lib/imageFile";
 import { type ShootType, type SlotKey, requiredSlots, slotLabel } from "@/lib/studio";
 
 export type ImageMap = Partial<Record<string, string>>;
@@ -12,51 +13,8 @@ interface UploadTrayProps {
   images: ImageMap;
   onChange: (key: string, value: string | null) => void;
   needsBack: boolean;
-}
-
-const MAX_UPLOAD_EDGE = 1600;
-const UPLOAD_QUALITY = 0.9;
-
-function blobToDataUrl(blob: Blob): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = reject;
-    reader.readAsDataURL(blob);
-  });
-}
-
-function loadImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const image = new Image();
-    image.onload = () => resolve(image);
-    image.onerror = reject;
-    image.src = src;
-  });
-}
-
-async function readFile(file: File): Promise<string> {
-  const objectUrl = URL.createObjectURL(file);
-
-  try {
-    const image = await loadImage(objectUrl);
-    const scale = Math.min(1, MAX_UPLOAD_EDGE / Math.max(image.naturalWidth, image.naturalHeight));
-    const width = Math.max(1, Math.round(image.naturalWidth * scale));
-    const height = Math.max(1, Math.round(image.naturalHeight * scale));
-    const canvas = document.createElement("canvas");
-    canvas.width = width;
-    canvas.height = height;
-    const ctx = canvas.getContext("2d", { alpha: false });
-    if (!ctx) return await blobToDataUrl(file);
-
-    ctx.drawImage(image, 0, 0, width, height);
-    const blob = await new Promise<Blob | null>((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg", UPLOAD_QUALITY),
-    );
-    return await blobToDataUrl(blob ?? file);
-  } finally {
-    URL.revokeObjectURL(objectUrl);
-  }
+  /** Render only these slots instead of the shoot type's full requiredSlots() set. */
+  slotsOverride?: SlotKey[];
 }
 
 function Slot({
@@ -151,13 +109,14 @@ export function UploadTray({
   images,
   onChange,
   needsBack,
+  slotsOverride,
 }: UploadTrayProps) {
-  const slots = requiredSlots(shootType, pushupBraOnly);
+  const slots = slotsOverride ?? requiredSlots(shootType, pushupBraOnly);
   const [showBack, setShowBack] = useState(false);
 
   const handleFile = useCallback(
     async (key: string, file: File) => {
-      const data = await readFile(file);
+      const data = await readAndDownsizeImage(file);
       onChange(key, data);
     },
     [onChange],

@@ -1,11 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Camera, LogOut, Monitor, Moon, Plus, Settings, Sparkles, Sun, Zap, type LucideIcon } from "lucide-react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { nextFrame, runLimited } from "@/lib/concurrency";
+import { GhostLoader } from "@/components/gear2/GhostLoader";
+import type { ThemeMode } from "@/components/studio/ThemeSettings";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import {
   DECKS,
@@ -55,6 +57,9 @@ export const Route = createFileRoute("/")({
 const AuthDialog = lazy(() =>
   import("@/components/studio/AuthDialog").then((module) => ({ default: module.AuthDialog })),
 );
+const Gear2View = lazy(() =>
+  import("@/components/gear2/Gear2View").then((module) => ({ default: module.Gear2View })),
+);
 const UploadTray = lazy(() =>
   import("@/components/studio/UploadTray").then((module) => ({ default: module.UploadTray })),
 );
@@ -75,86 +80,6 @@ let shotCounter = 0;
 const nextId = () => `shot-${Date.now()}-${shotCounter++}`;
 const GENERATION_CONCURRENCY = 5;
 const THEME_STORAGE_KEY = "studioflow_theme_mode";
-type ThemeMode = "system" | "light" | "dark";
-
-function nextFrame(): Promise<void> {
-  return new Promise((resolve) => {
-    if (typeof requestAnimationFrame === "function") {
-      requestAnimationFrame(() => resolve());
-      return;
-    }
-    setTimeout(resolve, 0);
-  });
-}
-
-async function runLimited<T>(items: T[], limit: number, worker: (item: T) => Promise<void>) {
-  let cursor = 0;
-  const runners = Array.from({ length: Math.min(limit, items.length) }, async () => {
-    while (cursor < items.length) {
-      const index = cursor++;
-      const item = items[index];
-      if (item === undefined) return;
-      await worker(item);
-    }
-  });
-
-  await Promise.all(runners);
-}
-
-function ThemeSettings({
-  mode,
-  onChange,
-  onAddBrand,
-}: {
-  mode: ThemeMode;
-  onChange: (mode: ThemeMode) => void;
-  onAddBrand: () => void;
-}) {
-  const options: Array<{ value: ThemeMode; label: string; icon: LucideIcon }> = [
-    { value: "system", label: "System", icon: Monitor },
-    { value: "light", label: "Light", icon: Sun },
-    { value: "dark", label: "Dark", icon: Moon },
-  ];
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="Theme settings">
-          <Settings className="h-4 w-4" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent align="end" className="w-44 space-y-1 p-2">
-        {options.map((option) => {
-          const Icon = option.icon;
-          const active = mode === option.value;
-          return (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => onChange(option.value)}
-              className={cn(
-                "flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-sm transition-colors",
-                active ? "bg-primary text-primary-foreground" : "text-foreground hover:bg-muted",
-              )}
-            >
-              <Icon className="h-4 w-4" />
-              <span className="font-medium">{option.label}</span>
-            </button>
-          );
-        })}
-        <div className="my-1 h-px bg-border" />
-        <button
-          type="button"
-          onClick={onAddBrand}
-          className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
-        >
-          <Plus className="h-4 w-4" />
-          <span className="font-medium">Add Brands</span>
-        </button>
-      </PopoverContent>
-    </Popover>
-  );
-}
 
 const EMPTY_BRAND_FORM: Omit<Brand, "id"> = {
   name: "",
@@ -361,9 +286,30 @@ export function StudioFlow() {
     const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
     return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
   });
+  const [gear2Open, setGear2Open] = useState(false);
+  const [gear2Origin, setGear2Origin] = useState<{ x: number; y: number } | null>(null);
+  const [gear2OverlayGrown, setGear2OverlayGrown] = useState(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
   const availableBrands = useMemo(() => getAvailableBrands(customBrands), [customBrands]);
+
+  const openGear2 = useCallback((event: MouseEvent<HTMLButtonElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    setGear2Origin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
+    setGear2OverlayGrown(false);
+  }, []);
+
+  const closeGear2 = useCallback(() => {
+    setGear2Open(false);
+    setGear2Origin(null);
+    setGear2OverlayGrown(false);
+  }, []);
+
+  useEffect(() => {
+    if (!gear2Origin || gear2Open) return;
+    const raf = requestAnimationFrame(() => setGear2OverlayGrown(true));
+    return () => cancelAnimationFrame(raf);
+  }, [gear2Origin, gear2Open]);
 
   const addCustomBrand = useCallback((brand: Brand) => {
     setCustomBrands((prev) => {
@@ -783,7 +729,8 @@ export function StudioFlow() {
         : `Generate ${activeDeck.shots.length} Image Deck`;
 
   return (
-    <div className="min-h-screen">
+    <>
+    <div className="min-h-screen" aria-hidden={gear2Open || undefined} inert={gear2Open || undefined}>
       <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5">
           <div className="flex items-center gap-2.5">
@@ -796,7 +743,7 @@ export function StudioFlow() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <ThemeSettings mode={themeMode} onChange={setThemeMode} onAddBrand={() => setAddBrandOpen(true)} />
+            <GhostLoader size="sm" onClick={openGear2} />
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
               <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
               Free plan · {auth.used}/3 used
@@ -1015,6 +962,34 @@ export function StudioFlow() {
       ) : null}
       <AddBrandDialog open={addBrandOpen} onOpenChange={setAddBrandOpen} onSubmit={addCustomBrand} />
     </div>
+
+      {gear2Origin && !gear2Open ? (
+        <div
+          className="gear2-transition-overlay"
+          style={{
+            clipPath: `circle(${gear2OverlayGrown ? "150%" : "0px"} at ${gear2Origin.x}px ${gear2Origin.y}px)`,
+          }}
+          onTransitionEnd={() => {
+            if (gear2OverlayGrown) setGear2Open(true);
+          }}
+        />
+      ) : null}
+
+      {gear2Open ? (
+        <Suspense fallback={null}>
+          <Gear2View
+            onClose={closeGear2}
+            auth={auth}
+            onNeedAuth={() => setAuthOpen(true)}
+            onAuthUsed={(used) => setAuth((prev) => ({ ...prev, used }))}
+            availableBrands={availableBrands}
+            themeMode={themeMode}
+            onThemeChange={setThemeMode}
+            onOpenAddBrand={() => setAddBrandOpen(true)}
+          />
+        </Suspense>
+      ) : null}
+    </>
   );
 }
 
