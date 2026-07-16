@@ -1,4 +1,4 @@
-import{_ as e,f as t,u as n}from"./static-index-ClarH2WH.js";var r=`SIDE VIEW PROMPT\r
+import{_ as e,f as t,u as n}from"./static-index-DWPs-BMI.js";var r=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
