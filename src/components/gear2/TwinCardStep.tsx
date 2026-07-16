@@ -3,6 +3,7 @@ import { Check, ImagePlus } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { readAndDownsizeImage } from "@/lib/imageFile";
+import { useTilt } from "@/lib/useTilt";
 import { SHOOT_TYPES, requiredSlots, type ShootType, type SlotKey } from "@/lib/studio";
 import type { ImageMap } from "@/components/studio/UploadTray";
 
@@ -11,7 +12,10 @@ const SLOT_LABEL: Record<Exclude<SlotKey, "bra">, string> = {
   panty: "Panty",
 };
 
-const CARD_COLORS = ["142, 202, 252", "252, 142, 200"];
+const CARD_TINT: Record<Exclude<SlotKey, "bra">, string> = {
+  model: "142, 202, 252",
+  panty: "252, 142, 200",
+};
 
 interface TwinCardStepProps {
   shootType: ShootType;
@@ -23,57 +27,52 @@ interface TwinCardStepProps {
 
 function Slot({
   slot,
-  index,
-  quantity,
   value,
   onFile,
 }: {
   slot: Exclude<SlotKey, "bra">;
-  index: number;
-  quantity: number;
   value?: string;
   onFile: (file: File) => void;
 }) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
+  const tilt = useTilt({ max: 14, scale: 1.05 });
 
   return (
-    <div
-      className="deck3d-card cursor-pointer"
-      style={
-        {
-          "--deck3d-index": index,
-          "--deck3d-color-card": CARD_COLORS[index % CARD_COLORS.length],
-        } as CSSProperties
-      }
-      onClick={() => inputRef.current?.click()}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDrag(true);
-      }}
-      onDragLeave={() => setDrag(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDrag(false);
-        const file = e.dataTransfer.files?.[0];
-        if (file) onFile(file);
-      }}
-    >
-      {value ? (
-        <img src={value} alt={SLOT_LABEL[slot]} className="deck3d-img" />
-      ) : (
-        <div className={cn("deck3d-img flex flex-col items-center justify-center gap-1", drag && "ring-2 ring-white/60")}>
-          <ImagePlus className="h-5 w-5 text-white/70" />
-        </div>
-      )}
-      <span className="absolute bottom-2 left-0 right-0 text-center text-xs font-semibold text-white drop-shadow">
-        {SLOT_LABEL[slot]}
-      </span>
-      {value ? (
-        <span className="absolute right-2 top-2 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500 text-white">
-          <Check className="h-3 w-3" />
-        </span>
-      ) : null}
+    <div className="flex flex-col items-center gap-3">
+      <p className="text-lg font-bold tracking-wide text-white">{SLOT_LABEL[slot]}</p>
+      <div
+        onClick={() => inputRef.current?.click()}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDrag(true);
+        }}
+        onDragLeave={() => setDrag(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDrag(false);
+          const file = e.dataTransfer.files?.[0];
+          if (file) onFile(file);
+        }}
+        style={{ ...tilt.style, "--twincard-color": CARD_TINT[slot] } as CSSProperties}
+        className={cn("twincard cursor-pointer", drag && "twincard--drag")}
+      >
+        {value ? (
+          <img src={value} alt={SLOT_LABEL[slot]} className="h-full w-full object-cover" />
+        ) : (
+          <div className="flex h-full w-full flex-col items-center justify-center gap-2.5 text-white/60">
+            <ImagePlus className="h-9 w-9" />
+            <span className="text-sm font-semibold">Drop or click</span>
+          </div>
+        )}
+        {value ? (
+          <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg">
+            <Check className="h-4 w-4" />
+          </span>
+        ) : null}
+      </div>
       <input
         ref={inputRef}
         type="file"
@@ -85,16 +84,13 @@ function Slot({
           e.target.value = "";
         }}
       />
-      {/* quantity kept for parity with deck3d-inner's --deck3d-quantity var, unused per-card */}
-      <span className="hidden">{quantity}</span>
     </div>
   );
 }
 
-/** Model (+Panty, if the shoot type needs it) as two rotating 3D cards — the second vanishes when not needed. */
+/** Model (+Panty, if the shoot type needs it) as two big cards that tilt freely toward the cursor — no box, no forced spin. */
 export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChange, onImageChange }: TwinCardStepProps) {
   const slots = requiredSlots(shootType, pushupBraOnly).filter((s): s is Exclude<SlotKey, "bra"> => s !== "bra");
-  const quantity = slots.length;
 
   const handleFile = async (key: string, file: File) => {
     const data = await readAndDownsizeImage(file);
@@ -102,7 +98,7 @@ export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChan
   };
 
   return (
-    <div className="flex flex-col items-center gap-8">
+    <div className="flex flex-col items-center gap-10">
       <div className="flex flex-wrap justify-center gap-2">
         {SHOOT_TYPES.map((t) => {
           const active = shootType === t.id;
@@ -120,21 +116,13 @@ export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChan
         })}
       </div>
 
-      <div className="gear2-glow deck3d-wrapper">
-        <div className="deck3d-inner" style={{ "--deck3d-quantity": quantity } as CSSProperties}>
-          {slots.map((slot, index) => (
-            <Slot
-              key={slot}
-              slot={slot}
-              index={index}
-              quantity={quantity}
-              value={images[slot]}
-              onFile={(file) => handleFile(slot, file)}
-            />
-          ))}
-        </div>
+      <div className="flex flex-wrap items-center justify-center gap-10">
+        {slots.map((slot) => (
+          <Slot key={slot} slot={slot} value={images[slot]} onFile={(file) => handleFile(slot, file)} />
+        ))}
       </div>
-      <p className="text-xs font-medium tracking-wide text-white/50">Drop or click a card to add that photo · hover to pause</p>
+
+      <p className="text-xs font-medium tracking-wide text-white/50">Drop or click a card to add that photo</p>
     </div>
   );
 }

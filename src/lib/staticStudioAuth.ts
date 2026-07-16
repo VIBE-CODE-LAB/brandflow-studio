@@ -16,20 +16,16 @@ export const emptyAuth: StudioAuthState = {
 };
 
 function storageAvailable() {
-  return typeof window !== "undefined" && typeof window.sessionStorage !== "undefined";
-}
-
-function localStorageAvailable() {
   return typeof window !== "undefined" && typeof window.localStorage !== "undefined";
 }
 
 export function loadStudioUsage(): number {
-  if (!localStorageAvailable()) return 0;
+  if (!storageAvailable()) return 0;
   return Number(window.localStorage.getItem(USAGE_KEY) ?? "0") || 0;
 }
 
 export function incrementStudioUsage(): number {
-  if (!localStorageAvailable()) return 0;
+  if (!storageAvailable()) return 0;
 
   const next = loadStudioUsage() + 1;
   window.localStorage.setItem(USAGE_KEY, String(next));
@@ -39,8 +35,8 @@ export function incrementStudioUsage(): number {
 export async function getStudioAuth(): Promise<StudioAuthState> {
   const unlocked =
     storageAvailable() &&
-    window.sessionStorage.getItem(AUTH_KEY) === "true" &&
-    Boolean(window.sessionStorage.getItem(GEMINI_KEY));
+    window.localStorage.getItem(AUTH_KEY) === "true" &&
+    Boolean(window.localStorage.getItem(GEMINI_KEY));
   return {
     unlocked,
     hasGeminiKey: unlocked,
@@ -63,11 +59,11 @@ export async function unlockStudio({
     return { ...emptyAuth, error: "Paste your Gemini API key to continue." };
   }
 
-  // GitHub Pages is static, so there is no secure backend session.
-  // Keep only a browser-session unlock flag and never persist the API key.
+  // GitHub Pages is static, so there is no secure backend session. Remember the
+  // unlock + key on this device so the user isn't asked again until they log out.
   if (storageAvailable()) {
-    window.sessionStorage.setItem(AUTH_KEY, "true");
-    window.sessionStorage.setItem(GEMINI_KEY, geminiApiKey);
+    window.localStorage.setItem(AUTH_KEY, "true");
+    window.localStorage.setItem(GEMINI_KEY, geminiApiKey);
   }
 
   return {
@@ -79,8 +75,8 @@ export async function unlockStudio({
 
 export async function logoutStudio(): Promise<StudioAuthState> {
   if (storageAvailable()) {
-    window.sessionStorage.removeItem(AUTH_KEY);
-    window.sessionStorage.removeItem(GEMINI_KEY);
+    window.localStorage.removeItem(AUTH_KEY);
+    window.localStorage.removeItem(GEMINI_KEY);
   }
 
   return {
@@ -91,5 +87,5 @@ export async function logoutStudio(): Promise<StudioAuthState> {
 
 export function getGeminiApiKey(): string | null {
   if (!storageAvailable()) return null;
-  return window.sessionStorage.getItem(GEMINI_KEY);
+  return window.localStorage.getItem(GEMINI_KEY);
 }
