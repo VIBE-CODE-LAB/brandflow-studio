@@ -16,11 +16,11 @@ cpSync(join(pagesDir, "assets"), join(root, "assets"), { recursive: true });
 copyFileSync(builtHtml, indexHtml);
 copyFileSync(indexHtml, notFoundHtml);
 
-for (const fileName of ["favicon.ico", "robots.txt"]) {
-  const source = join(root, "public", fileName);
-  if (existsSync(source)) {
-    copyFileSync(source, join(root, fileName));
-  }
+// Mirror every public/ asset (favicon, robots.txt, gear2/ video, etc.) to the repo
+// root, since GitHub Pages serves this branch's root directly.
+const publicDir = join(root, "public");
+if (existsSync(publicDir)) {
+  cpSync(publicDir, root, { recursive: true });
 }
 
 writeFileSync(join(root, ".nojekyll"), "");
