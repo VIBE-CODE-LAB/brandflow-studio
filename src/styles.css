@@ -1009,6 +1009,26 @@
   box-shadow: 0 8px 24px -8px rgba(91, 238, 189, 0.6);
 }
 
+.gear2-input {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 0.5rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #fff;
+  outline: none;
+  transition: border-color 200ms ease;
+}
+
+.gear2-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.gear2-input:focus {
+  border-color: rgba(91, 238, 189, 0.6);
+}
+
 /* --- Gear 2 v2: reusable ambient glow behind any step's hero content --- */
 
 .gear2-glow {

@@ -958,6 +958,14 @@ export function StudioFlow() {
             themeMode={themeMode}
             onThemeChange={setThemeMode}
             onOpenAddBrand={() => setAddBrandOpen(true)}
+            sheetUrl={sheetUrl}
+            onSheetUrlChange={setSheetUrl}
+            onSync={() => void syncStylePresets()}
+            onDisconnect={disconnectStylePresets}
+            syncing={syncing}
+            syncMessage={syncMessage}
+            syncError={syncError}
+            presets={presets}
           />
         </Suspense>
       ) : null}

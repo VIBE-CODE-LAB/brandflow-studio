@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Download } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -16,10 +16,13 @@ import {
   type SlotKey,
   allowedDecks,
   defaultDeck,
+  getDeck,
   requiredSlots,
 } from "@/lib/studio";
 import { type BraDeck, MAX_BRA_IMAGES, braDeckProgress, braDeckStatus, buildBraDecks } from "@/lib/gear2";
+import { downloadAllDecksZip } from "@/lib/gear2Export";
 import { useGear2InAppShortcuts } from "@/lib/gear2Shortcuts";
+import { findPreset, isPresetPose, type StylePreset } from "@/lib/stylePresets";
 import { ThemeSettings, type ThemeMode } from "@/components/studio/ThemeSettings";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import { GhostIntro } from "@/components/gear2/GhostIntro";
@@ -48,6 +51,14 @@ interface Gear2ViewProps {
   themeMode: ThemeMode;
   onThemeChange: (mode: ThemeMode) => void;
   onOpenAddBrand: () => void;
+  sheetUrl: string;
+  onSheetUrlChange: (url: string) => void;
+  onSync: () => void;
+  onDisconnect: () => void;
+  syncing: boolean;
+  syncMessage: string | null;
+  syncError: string | null;
+  presets: StylePreset[];
 }
 
 function StepShell({
@@ -95,6 +106,14 @@ export function Gear2View({
   themeMode,
   onThemeChange,
   onOpenAddBrand,
+  sheetUrl,
+  onSheetUrlChange,
+  onSync,
+  onDisconnect,
+  syncing,
+  syncMessage,
+  syncError,
+  presets,
 }: Gear2ViewProps) {
   const [closing, setClosing] = useState(false);
   const [phase, setPhase] = useState<Phase>("intro");
@@ -107,11 +126,13 @@ export function Gear2View({
   const [aspect, setAspect] = useState<AspectId>("3:4");
   const [engine, setEngine] = useState<EngineId>("fast");
   const [note] = useState("");
+  const [selectedStyleName, setSelectedStyleName] = useState<string | null>(null);
   const [braDecks, setBraDecks] = useState<BraDeck[]>([]);
   const [generating, setGenerating] = useState(false);
   const [openDeckId, setOpenDeckId] = useState<string | null>(null);
   const [selectedForRegen, setSelectedForRegen] = useState<string[]>([]);
   const [regenDialogOpen, setRegenDialogOpen] = useState(false);
+  const [downloadingAll, setDownloadingAll] = useState(false);
 
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
@@ -123,6 +144,7 @@ export function Gear2View({
     [shootType, pushupBraOnly],
   );
   const validDecks = allowedDecks(shootType);
+  const activeDeckShots = getDeck(deckType).shots;
   const missingPhotos = slots.filter((s) => !baseImages[s]);
   const setupReady = missingPhotos.length === 0 && braImages.length > 0 && Boolean(brandId);
   const ready = setupReady && !generating;
@@ -274,6 +296,20 @@ export function Gear2View({
       const progressTimer = startProgress(shot.id, 5);
 
       try {
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
+            : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
+
         const promptData = composeDeckPrompt({
           shootType: shot.shootType,
           pushupBraOnly: shot.pushupBraOnly,
@@ -281,6 +317,7 @@ export function Gear2View({
           brand,
           aspect: shot.aspect,
           userNote: shot.userNote,
+          presetContent,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -296,7 +333,7 @@ export function Gear2View({
           }),
         );
 
-        updateShot(shot.id, (s) => ({ ...s, status: "done", progress: 100, imageUrl }));
+        updateShot(shot.id, (s) => ({ ...s, status: "done", progress: 100, imageUrl, presetContent }));
       } catch (error) {
         updateShot(shot.id, (s) => ({
           ...s,
@@ -327,6 +364,8 @@ export function Gear2View({
     note,
     baseImages,
     engine,
+    selectedStyleName,
+    presets,
     updateShot,
     startProgress,
   ]);
@@ -358,6 +397,20 @@ export function Gear2View({
 
       try {
         const brand = findBrand(shot.brandId, availableBrands);
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
+            : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
+
         const promptData = composeDeckPrompt({
           shootType: shot.shootType,
           pushupBraOnly: shot.pushupBraOnly,
@@ -366,6 +419,7 @@ export function Gear2View({
           aspect: shot.aspect,
           userNote: shot.userNote,
           regenerationNote: redoNote,
+          presetContent,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -381,7 +435,7 @@ export function Gear2View({
           }),
         );
 
-        updateShot(shotId, (s) => ({ ...s, status: "done", progress: 100, userNote: redoNote, imageUrl }));
+        updateShot(shotId, (s) => ({ ...s, status: "done", progress: 100, userNote: redoNote, imageUrl, presetContent }));
       } catch (error) {
         updateShot(shotId, (s) => ({
           ...s,
@@ -394,7 +448,19 @@ export function Gear2View({
         clearInterval(progressTimer);
       }
     },
-    [auth.unlocked, auth.hasGeminiKey, onNeedAuth, braDecks, availableBrands, baseImages, engine, updateShot, startProgress],
+    [
+      auth.unlocked,
+      auth.hasGeminiKey,
+      onNeedAuth,
+      braDecks,
+      availableBrands,
+      baseImages,
+      engine,
+      selectedStyleName,
+      presets,
+      updateShot,
+      startProgress,
+    ],
   );
 
   const toggleSelectForRegen = useCallback((shotId: string) => {
@@ -438,6 +504,16 @@ export function Gear2View({
   const doneDecks = braDecks.filter((d) => braDeckStatus(d) === "done").length;
   const openDeck = braDecks.find((d) => d.id === openDeckId) ?? null;
   const openDeckIndex = openDeck ? braDecks.indexOf(openDeck) : -1;
+
+  const handleDownloadAll = useCallback(async () => {
+    if (downloadingAll) return;
+    setDownloadingAll(true);
+    try {
+      await downloadAllDecksZip(braDecks);
+    } finally {
+      setDownloadingAll(false);
+    }
+  }, [braDecks, downloadingAll]);
 
   return (
     <div
@@ -492,6 +568,17 @@ export function Gear2View({
                   onAspect={setAspect}
                   engine={engine}
                   onEngine={setEngine}
+                  activeDeckShots={activeDeckShots}
+                  sheetUrl={sheetUrl}
+                  onSheetUrlChange={onSheetUrlChange}
+                  onSync={onSync}
+                  onDisconnect={onDisconnect}
+                  syncing={syncing}
+                  syncMessage={syncMessage}
+                  syncError={syncError}
+                  presets={presets}
+                  selectedStyleName={selectedStyleName}
+                  onSelectStyle={setSelectedStyleName}
                   ready={ready}
                   generating={generating}
                   label={generateLabel}
@@ -521,6 +608,16 @@ export function Gear2View({
                       {doneDecks}/{braDecks.length} decks ready
                     </h2>
                   </div>
+                  <Button
+                    variant="soft"
+                    size="sm"
+                    className="rounded-full"
+                    disabled={doneDecks === 0 || downloadingAll}
+                    onClick={() => void handleDownloadAll()}
+                  >
+                    <Download className="h-3.5 w-3.5" />
+                    {downloadingAll ? "Zipping..." : "Download all decks"}
+                  </Button>
                 </div>
 
                 <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 xl:grid-cols-4">
