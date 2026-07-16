@@ -819,16 +819,6 @@
   }
 }
 
-/* Full-viewport click-to-expand transition into Gear 2 */
-.gear2-transition-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  background: radial-gradient(circle at center, #efffc8 0%, #e5f295 45%, #5beebd 100%);
-  pointer-events: none;
-  transition: clip-path 550ms cubic-bezier(0.65, 0, 0.35, 1);
-}
-
 /* --- Gear 2: 3D rotating bra deck dropzone --- */
 
 .deck3d-wrapper {
@@ -887,4 +877,66 @@
       rgba(var(--deck3d-color-card), 0.6) 80%,
       rgba(var(--deck3d-color-card), 0.9) 100%
     );
+}
+
+/* --- Gear 2 v2: free-floating circular bra deck --- */
+
+.circle-float {
+  animation: circle-float 4.5s ease-in-out infinite;
+}
+
+@keyframes circle-float {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+}
+
+/* --- Gear 2 v2: step slide-in transition --- */
+
+.gear2-slide-in {
+  animation: gear2-slide-in 420ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes gear2-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* --- Gear 2 v2: free-floating pill chips (no bordered panel) --- */
+
+.gear2-chip {
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.55rem 1.1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.03);
+  transition:
+    border-color 200ms ease,
+    color 200ms ease,
+    background-color 200ms ease,
+    transform 200ms ease;
+}
+
+.gear2-chip:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.4);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.gear2-chip--active {
+  border-color: transparent;
+  background: linear-gradient(135deg, #5beebd, #8ef9fc);
+  color: #04151f;
 }

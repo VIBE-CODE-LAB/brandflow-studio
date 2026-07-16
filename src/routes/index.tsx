@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type MouseEvent } from "react";
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { nextFrame, runLimited } from "@/lib/concurrency";
-import { GhostLoader } from "@/components/gear2/GhostLoader";
-import type { ThemeMode } from "@/components/studio/ThemeSettings";
+import { useGear2OpenShortcut } from "@/lib/gear2Shortcuts";
+import { ThemeSettings, type ThemeMode } from "@/components/studio/ThemeSettings";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import {
   DECKS,
@@ -287,29 +287,13 @@ export function StudioFlow() {
     return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
   });
   const [gear2Open, setGear2Open] = useState(false);
-  const [gear2Origin, setGear2Origin] = useState<{ x: number; y: number } | null>(null);
-  const [gear2OverlayGrown, setGear2OverlayGrown] = useState(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
   const availableBrands = useMemo(() => getAvailableBrands(customBrands), [customBrands]);
 
-  const openGear2 = useCallback((event: MouseEvent<HTMLButtonElement>) => {
-    const rect = event.currentTarget.getBoundingClientRect();
-    setGear2Origin({ x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 });
-    setGear2OverlayGrown(false);
-  }, []);
+  const closeGear2 = useCallback(() => setGear2Open(false), []);
 
-  const closeGear2 = useCallback(() => {
-    setGear2Open(false);
-    setGear2Origin(null);
-    setGear2OverlayGrown(false);
-  }, []);
-
-  useEffect(() => {
-    if (!gear2Origin || gear2Open) return;
-    const raf = requestAnimationFrame(() => setGear2OverlayGrown(true));
-    return () => cancelAnimationFrame(raf);
-  }, [gear2Origin, gear2Open]);
+  useGear2OpenShortcut(() => setGear2Open(true), !gear2Open);
 
   const addCustomBrand = useCallback((brand: Brand) => {
     setCustomBrands((prev) => {
@@ -743,7 +727,7 @@ export function StudioFlow() {
             </div>
           </div>
           <div className="flex items-center gap-3">
-            <GhostLoader size="sm" onClick={openGear2} />
+            <ThemeSettings mode={themeMode} onChange={setThemeMode} onAddBrand={() => setAddBrandOpen(true)} />
             <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
               <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
               Free plan · {auth.used}/3 used
@@ -962,18 +946,6 @@ export function StudioFlow() {
       ) : null}
       <AddBrandDialog open={addBrandOpen} onOpenChange={setAddBrandOpen} onSubmit={addCustomBrand} />
     </div>
-
-      {gear2Origin && !gear2Open ? (
-        <div
-          className="gear2-transition-overlay"
-          style={{
-            clipPath: `circle(${gear2OverlayGrown ? "150%" : "0px"} at ${gear2Origin.x}px ${gear2Origin.y}px)`,
-          }}
-          onTransitionEnd={() => {
-            if (gear2OverlayGrown) setGear2Open(true);
-          }}
-        />
-      ) : null}
 
       {gear2Open ? (
         <Suspense fallback={null}>
