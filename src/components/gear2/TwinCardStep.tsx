@@ -111,13 +111,8 @@ export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChan
               key={t.id}
               type="button"
               onClick={() => onShootTypeChange(t.id)}
-              className={cn(
-                "rounded-full border px-4 py-1.5 text-xs font-semibold tracking-wide transition-all",
-                active
-                  ? "border-transparent text-white shadow-lg"
-                  : "border-white/20 text-white/60 hover:border-white/40 hover:text-white",
-              )}
-              style={active ? { background: t.tint } : undefined}
+              className={cn("gear2-chip", active && "gear2-chip--active")}
+              style={active ? { background: t.tint, color: "#fff" } : undefined}
             >
               {t.label}
             </button>
@@ -125,7 +120,7 @@ export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChan
         })}
       </div>
 
-      <div className="deck3d-wrapper h-56 w-56 sm:h-64 sm:w-64">
+      <div className="gear2-glow deck3d-wrapper">
         <div className="deck3d-inner" style={{ "--deck3d-quantity": quantity } as CSSProperties}>
           {slots.map((slot, index) => (
             <Slot
@@ -139,7 +134,7 @@ export function TwinCardStep({ shootType, pushupBraOnly, images, onShootTypeChan
           ))}
         </div>
       </div>
-      <p className="text-xs font-medium tracking-wide text-white/50">Drop or click a card to add that photo</p>
+      <p className="text-xs font-medium tracking-wide text-white/50">Drop or click a card to add that photo · hover to pause</p>
     </div>
   );
 }

@@ -831,8 +831,8 @@
 }
 
 .deck3d-inner {
-  --deck3d-w: 100px;
-  --deck3d-h: 150px;
+  --deck3d-w: clamp(120px, 20dvh, 210px);
+  --deck3d-h: clamp(170px, 28dvh, 296px);
   --deck3d-translateZ: calc((var(--deck3d-w) + var(--deck3d-h)) + 0px);
   --deck3d-rotateX: -15deg;
   --deck3d-perspective: 1000px;
@@ -845,6 +845,23 @@
   transform-style: preserve-3d;
   transform: perspective(var(--deck3d-perspective));
   animation: deck3d-rotating 20s linear infinite;
+}
+
+.deck3d-wrapper {
+  width: clamp(260px, 40dvh, 460px);
+  height: clamp(260px, 40dvh, 460px);
+}
+
+.deck3d-wrapper:hover .deck3d-inner {
+  animation-play-state: paused;
+}
+
+.deck3d-card {
+  transition: filter 200ms ease;
+}
+
+.deck3d-wrapper:hover .deck3d-card:hover {
+  filter: brightness(1.15);
 }
 
 @keyframes deck3d-rotating {
@@ -879,19 +896,119 @@
     );
 }
 
-/* --- Gear 2 v2: free-floating circular bra deck --- */
+/* --- Gear 2 v2: circular bra deck — real 3D cards on a slowly spinning tilted ring --- */
 
-.circle-float {
-  animation: circle-float 4.5s ease-in-out infinite;
+.bracard-stage {
+  position: relative;
+  isolation: isolate;
+  width: clamp(300px, min(56dvh, 52dvw), 600px);
+  height: clamp(300px, min(56dvh, 52dvw), 600px);
+  perspective: 1600px;
 }
 
-@keyframes circle-float {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) translateY(0);
+.bracard-stage::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  background: radial-gradient(circle at center, rgba(91, 238, 189, 0.18) 0%, rgba(142, 249, 252, 0.07) 45%, transparent 72%);
+  filter: blur(24px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.bracard-ring {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: bracard-spin 46s linear infinite;
+}
+
+/* Freeze the whole ring the instant the pointer enters the stage — hovering a single
+   card on a moving disc is a chicken-and-egg problem, so pause on the flat outer
+   box (reliable hit-testing) rather than the tilted 3D ring itself. */
+.bracard-stage:hover .bracard-ring {
+  animation-play-state: paused;
+}
+
+@keyframes bracard-spin {
+  from {
+    transform: rotateX(58deg) rotateZ(0deg);
   }
-  50% {
-    transform: translate(-50%, -50%) translateY(-10px);
+  to {
+    transform: rotateX(58deg) rotateZ(360deg);
+  }
+}
+
+.bracard {
+  position: absolute;
+  width: 17%;
+  aspect-ratio: 0.71;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 18px 30px -14px rgba(0, 0, 0, 0.7);
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease,
+    color 220ms ease,
+    background-color 220ms ease;
+}
+
+.bracard--filled {
+  border: 2px solid rgba(255, 255, 255, 0.18);
+}
+
+.bracard--filled:hover {
+  transform: translate(-50%, -50%) scale(1.16) translateZ(30px) !important;
+  box-shadow: 0 26px 44px -12px rgba(0, 0, 0, 0.8);
+  z-index: 5;
+}
+
+.bracard--empty {
+  border: 1.5px dashed rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.32);
+  cursor: pointer;
+}
+
+.bracard--empty:hover {
+  border-color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.06);
+  transform: translate(-50%, -50%) scale(1.08) translateZ(20px) !important;
+}
+
+.bracard-hub {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateZ(60px);
+  z-index: 10;
+  width: 20%;
+  aspect-ratio: 1;
+}
+
+.bracard-hub-btn {
+  width: 100%;
+  height: 100%;
+}
+
+.bracard-hub-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 9999px;
+  background: conic-gradient(from 0deg, #5beebd, #8ef9fc, #efffc8, #5beebd);
+  animation: bracard-hub-spin 6s linear infinite;
+  opacity: 0.55;
+  filter: blur(1px);
+}
+
+@keyframes bracard-hub-spin {
+  to {
+    transform: rotate(360deg);
   }
 }
 
@@ -932,11 +1049,40 @@
 .gear2-chip:hover:not(:disabled) {
   border-color: rgba(255, 255, 255, 0.4);
   color: #fff;
-  transform: translateY(-1px);
 }
 
 .gear2-chip--active {
   border-color: transparent;
   background: linear-gradient(135deg, #5beebd, #8ef9fc);
   color: #04151f;
+  box-shadow: 0 8px 24px -8px rgba(91, 238, 189, 0.6);
+}
+
+/* --- Gear 2 v2: reusable ambient glow behind any step's hero content --- */
+
+.gear2-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.gear2-glow::before {
+  content: "";
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(circle at center, rgba(91, 238, 189, 0.14) 0%, rgba(142, 249, 252, 0.05) 45%, transparent 70%);
+  filter: blur(30px);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* --- Gear 2 v2: engine-phase deck tiles --- */
+
+.gear2-tile {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+.gear2-tile-progress {
+  background: linear-gradient(90deg, #5beebd, #8ef9fc);
+  box-shadow: 0 0 12px rgba(91, 238, 189, 0.6);
 }

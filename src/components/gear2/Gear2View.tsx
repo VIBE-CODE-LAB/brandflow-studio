@@ -4,6 +4,7 @@ import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { nextFrame, runLimited } from "@/lib/concurrency";
+import { useTilt } from "@/lib/useTilt";
 import { getGeminiApiKey, incrementStudioUsage, type StudioAuthState } from "@/lib/studioAuth";
 import {
   type AspectId,
@@ -59,7 +60,7 @@ function StepShell({
   children: ReactNode;
 }) {
   return (
-    <div className="gear2-slide-in flex min-h-full flex-col items-center justify-center gap-8 px-6 py-16">
+    <div className="gear2-slide-in flex min-h-full flex-col items-center justify-center gap-6 px-6 py-8">
       <div className="w-full max-w-3xl">{children}</div>
       <div className="flex items-center gap-3">
         <button
@@ -522,43 +523,10 @@ export function Gear2View({
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
-                  {braDecks.map((deck, index) => {
-                    const status = braDeckStatus(deck);
-                    const progress = braDeckProgress(deck);
-                    return (
-                      <button
-                        key={deck.id}
-                        type="button"
-                        disabled={status !== "done"}
-                        onClick={() => setOpenDeckId(deck.id)}
-                        className={cn(
-                          "group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 text-left transition-all",
-                          status === "done" ? "cursor-pointer hover:border-white/40" : "cursor-default",
-                        )}
-                      >
-                        <img src={deck.braImage} alt={`Bra ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                        <div className="absolute left-2.5 top-2.5 rounded-full bg-black/60 px-2.5 py-1 text-[0.68rem] font-semibold text-white shadow-sm">
-                          {index < 9 ? index + 1 : index === 9 ? 0 : ""} · Bra {index + 1}
-                        </div>
-                        <div className="absolute inset-x-2.5 bottom-2.5 space-y-1.5">
-                          <p className="text-xs font-semibold text-white">
-                            {status === "done"
-                              ? "Ready · tap to review"
-                              : status === "error"
-                                ? "Some shots failed"
-                                : `Generating · ${progress}%`}
-                          </p>
-                          {status !== "done" ? (
-                            <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
-                              <div className="h-full rounded-full bg-white transition-all" style={{ width: `${progress}%` }} />
-                            </div>
-                          ) : null}
-                        </div>
-                      </button>
-                    );
-                  })}
+                <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 xl:grid-cols-4">
+                  {braDecks.map((deck, index) => (
+                    <DeckTile key={deck.id} deck={deck} index={index} onOpen={() => setOpenDeckId(deck.id)} />
+                  ))}
                 </div>
               </div>
             ) : null}
@@ -577,5 +545,46 @@ export function Gear2View({
         </>
       )}
     </div>
+  );
+}
+
+function DeckTile({ deck, index, onOpen }: { deck: BraDeck; index: number; onOpen: () => void }) {
+  const status = braDeckStatus(deck);
+  const progress = braDeckProgress(deck);
+  const tilt = useTilt({ max: 8, scale: 1.05 });
+
+  return (
+    <button
+      type="button"
+      disabled={status !== "done"}
+      onClick={onOpen}
+      onMouseMove={tilt.onMouseMove}
+      onMouseLeave={tilt.onMouseLeave}
+      style={tilt.style}
+      className={cn(
+        "gear2-tile group relative aspect-[3/4] overflow-hidden rounded-2xl border border-white/10 text-left shadow-lg shadow-black/40",
+        status === "done" ? "cursor-pointer hover:border-white/40" : "cursor-default",
+      )}
+    >
+      <img src={deck.braImage} alt={`Bra ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
+      <div className="absolute left-2.5 top-2.5 rounded-full bg-black/60 px-2.5 py-1 text-[0.68rem] font-semibold text-white shadow-sm">
+        {index < 9 ? index + 1 : index === 9 ? 0 : ""} · Bra {index + 1}
+      </div>
+      <div className="absolute inset-x-2.5 bottom-2.5 space-y-1.5">
+        <p className="text-xs font-semibold text-white">
+          {status === "done"
+            ? "Ready · tap to review"
+            : status === "error"
+              ? "Some shots failed"
+              : `Generating · ${progress}%`}
+        </p>
+        {status !== "done" ? (
+          <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
+            <div className="gear2-tile-progress h-full rounded-full transition-all" style={{ width: `${progress}%` }} />
+          </div>
+        ) : null}
+      </div>
+    </button>
   );
 }

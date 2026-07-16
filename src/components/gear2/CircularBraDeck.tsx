@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import { readAndDownsizeImage } from "@/lib/imageFile";
 import { MAX_BRA_IMAGES } from "@/lib/gear2";
 
-const RADIUS = 150;
-const SIZE = 400;
+const RADIUS_PCT = 35;
+const MIN_SLOTS = 8;
 
 interface CircularBraDeckProps {
   images: string[];
@@ -14,11 +14,12 @@ interface CircularBraDeckProps {
   onRemove: (index: number) => void;
 }
 
-/** Bra photos arranged freely in a ring around a center drop hub — no boxes. */
+/** Bra photos as real 3D cards, fanned around a slowly spinning ring — sized in viewport units so it always fits. */
 export function CircularBraDeck({ images, onAdd, onRemove }: CircularBraDeckProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const [drag, setDrag] = useState(false);
   const remaining = MAX_BRA_IMAGES - images.length;
+  const totalSlots = Math.min(MAX_BRA_IMAGES, Math.max(images.length + 4, MIN_SLOTS));
 
   const ingest = async (files: FileList | File[]) => {
     const list = Array.from(files)
@@ -29,8 +30,10 @@ export function CircularBraDeck({ images, onAdd, onRemove }: CircularBraDeckProp
     onAdd(dataUrls);
   };
 
+  const openPicker = () => inputRef.current?.click();
+
   return (
-    <div className="flex flex-col items-center gap-4">
+    <div className="flex flex-col items-center gap-5">
       <div
         onDragOver={(e) => {
           e.preventDefault();
@@ -42,48 +45,70 @@ export function CircularBraDeck({ images, onAdd, onRemove }: CircularBraDeckProp
           setDrag(false);
           if (e.dataTransfer.files?.length) void ingest(e.dataTransfer.files);
         }}
-        className="relative mx-auto"
-        style={{ width: SIZE, height: SIZE }}
+        className="bracard-stage relative mx-auto"
       >
-        <button
-          type="button"
-          onClick={() => inputRef.current?.click()}
-          aria-label="Add bra photos"
-          className={cn(
-            "absolute left-1/2 top-1/2 flex h-24 w-24 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center gap-1 rounded-full border-2 border-dashed text-white/70 transition-colors",
-            drag ? "border-primary bg-primary/10 text-primary" : "border-white/25 hover:border-white/50",
-          )}
-        >
-          <Plus className="h-6 w-6" />
-          <span className="text-[0.65rem] font-semibold tracking-wide">
-            {images.length}/{MAX_BRA_IMAGES}
-          </span>
-        </button>
+        <div className="bracard-ring">
+          {Array.from({ length: totalSlots }).map((_, index) => {
+            const angle = (2 * Math.PI * index) / totalSlots - Math.PI / 2;
+            const x = 50 + RADIUS_PCT * Math.cos(angle);
+            const y = 50 + RADIUS_PCT * Math.sin(angle);
+            const src = images[index];
 
-        {images.map((src, index) => {
-          const angle = (2 * Math.PI * index) / Math.max(images.length, 1) - Math.PI / 2;
-          const x = SIZE / 2 + RADIUS * Math.cos(angle);
-          const y = SIZE / 2 + RADIUS * Math.sin(angle);
-          return (
-            <div
-              key={index}
-              className="circle-float group absolute h-20 w-20 -translate-x-1/2 -translate-y-1/2"
-              style={{ left: x, top: y, animationDelay: `${(index % 6) * 0.35}s` } as CSSProperties}
-            >
-              <div className="relative h-full w-full overflow-hidden rounded-full border-2 border-white/20 shadow-lg shadow-black/40">
-                <img src={src} alt={`Bra ${index + 1}`} className="h-full w-full object-cover" />
-              </div>
+            if (src) {
+              return (
+                <div
+                  key={index}
+                  className="bracard bracard--filled group"
+                  style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" } as CSSProperties}
+                >
+                  <img src={src} alt={`Bra ${index + 1}`} className="h-full w-full object-cover" />
+                  <button
+                    type="button"
+                    onClick={() => onRemove(index)}
+                    aria-label={`Remove bra ${index + 1}`}
+                    className="absolute right-1.5 top-1.5 flex h-6 w-6 items-center justify-center rounded-full bg-black/80 text-white opacity-0 shadow transition-opacity group-hover:opacity-100"
+                  >
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                  <span className="absolute bottom-1.5 left-0 right-0 text-center text-[0.65rem] font-semibold text-white/80">
+                    {index + 1}
+                  </span>
+                </div>
+              );
+            }
+
+            return (
               <button
+                key={index}
                 type="button"
-                onClick={() => onRemove(index)}
-                aria-label={`Remove bra ${index + 1}`}
-                className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-black/80 text-white opacity-0 shadow transition-opacity group-hover:opacity-100"
+                onClick={openPicker}
+                aria-label="Add a bra photo"
+                className="bracard bracard--empty"
+                style={{ left: `${x}%`, top: `${y}%`, transform: "translate(-50%, -50%)" } as CSSProperties}
               >
-                <X className="h-3.5 w-3.5" />
+                <Plus className="h-5 w-5" />
               </button>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
+
+        <div className="bracard-hub">
+          <div className="bracard-hub-ring" />
+          <button
+            type="button"
+            onClick={openPicker}
+            aria-label="Add bra photos"
+            className={cn(
+              "bracard-hub-btn relative flex flex-col items-center justify-center gap-1 rounded-full border text-white/80 transition-colors",
+              drag ? "border-primary bg-primary/20 text-primary" : "border-white/15 bg-[#050608] hover:text-white",
+            )}
+          >
+            <Plus className="h-6 w-6" />
+            <span className="text-[0.65rem] font-semibold tracking-wide">
+              {images.length}/{MAX_BRA_IMAGES}
+            </span>
+          </button>
+        </div>
 
         <input
           ref={inputRef}
@@ -98,7 +123,7 @@ export function CircularBraDeck({ images, onAdd, onRemove }: CircularBraDeckProp
         />
       </div>
       <p className="text-xs font-medium tracking-wide text-white/50">
-        Drop bra photos anywhere in the ring · up to {MAX_BRA_IMAGES}
+        Drop bra photos anywhere in the ring, or click a card · up to {MAX_BRA_IMAGES}
       </p>
     </div>
   );
