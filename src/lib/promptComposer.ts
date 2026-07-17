@@ -254,8 +254,99 @@ function replaceAllInsensitive(text: string, search: string, replacement: string
   return text.replace(new RegExp(escapeRegExp(search), "gi"), replacement);
 }
 
-function applyBrandSpecification(text: string, brand: Brand): string {
+/**
+ * Known typo'd/near-miss hex codes baked into the source prompt files, normalized to
+ * their intended catalog value so the catalog-brand replacement can swap them correctly.
+ * e.g. the Souminie sections of Bra-prompt.txt use #2D4FA0 instead of the real #2D4EA0.
+ */
+const HEX_ALIASES: Record<string, string> = {
+  "#2d4fa0": "#2D4EA0",
+};
+
+function normalizeHexAliases(text: string): string {
+  return text.replace(/#[0-9a-f]{6}/gi, (match) => HEX_ALIASES[match.toLowerCase()] ?? match);
+}
+
+/**
+ * Brand-specific descriptive color phrases that leak past the exact-hex replacement (they are
+ * paraphrases, not literal catalog strings) and pull the generated background/palette toward the
+ * wrong brand. Every occurrence is rewritten to the *selected* brand's palette so the source
+ * section stops fighting the brand hex locks. Only distinctive multi-word phrases are listed —
+ * never bare color words ("white", "beige", "blue") which also appear in product/icon copy.
+ */
+const FOREIGN_COLOR_PHRASES: string[] = [
+  // Tweens
+  "warm creamy beige",
+  "creamy beige",
+  "warm cream",
+  "soft taupe",
+  "earthy brown-anchored",
+  "earthy brown anchored",
+  "warm earthy tone",
+  // Dressberry
+  "soft ivory",
+  "berry-plum",
+  "berry plum",
+  "muted sage",
+  "warm feminine tone",
+  // Souminie
+  "fresh icy white",
+  "icy white",
+  "aqua-blue sheer panels",
+  "aqua-blue softness",
+  "aqua-blue soft",
+  "aqua-blue",
+  "rich cobalt anchor",
+  "cobalt anchored",
+  "cobalt-anchored",
+  // Invisi-Soft
+  "cool airy off-white",
+  "powder blue-grey base",
+  "powder blue-grey",
+  "deep blue anchor",
+];
+
+/**
+ * Rewrite every foreign brand descriptive color phrase (curated paraphrases + verbatim
+ * palette-note fragments from all non-selected catalog brands) to the selected brand's palette.
+ * Runs as a single pass so inserted palette text is never re-scanned/duplicated.
+ */
+function neutralizeForeignColorLanguage(text: string, brand: Brand): string {
+  const fragments = BRANDS.filter((catalogBrand) => catalogBrand.id !== brand.id)
+    .flatMap((catalogBrand) => catalogBrand.paletteNotes.split(";").map((piece) => piece.trim()))
+    .filter((piece) => piece.length >= 8);
+
+  const phrases = Array.from(new Set([...FOREIGN_COLOR_PHRASES, ...fragments]))
+    .filter(Boolean)
+    .sort((a, b) => b.length - a.length);
+
+  if (phrases.length === 0) return text;
+
+  const pattern = new RegExp(phrases.map(escapeRegExp).join("|"), "gi");
+  return text.replace(pattern, brand.paletteNotes);
+}
+
+/**
+ * Replace leaked catalog brand names (bare or possessive) with the selected brand name, so
+ * phrases like "consistent with Souminie's identity" or "true to Tweens identity" stop anchoring
+ * the model to the baseline brand the source section was originally authored for.
+ */
+function neutralizeForeignBrandNames(text: string, brand: Brand): string {
+  const names = BRANDS.map((catalogBrand) => catalogBrand.name)
+    .filter((name) => name.toLowerCase() !== brand.name.toLowerCase())
+    .sort((a, b) => b.length - a.length);
+
   let next = text;
+  for (const name of names) {
+    // Match the brand name plus an optional possessive (straight or curly apostrophe, with/without s).
+    const pattern = new RegExp(`${escapeRegExp(name)}(?:['’]s|['’])?`, "gi");
+    next = next.replace(pattern, brand.name);
+  }
+  return next;
+}
+
+function applyBrandSpecification(text: string, brand: Brand): string {
+  let next = normalizeHexAliases(text);
 
   for (const catalogBrand of BRANDS) {
     next = replaceAllInsensitive(next, catalogBrand.fg, brand.fg);
@@ -266,6 +357,9 @@ function applyBrandSpecification(text: string, brand: Brand): string {
     next = replaceAllInsensitive(next, catalogBrand.paletteNotes, brand.paletteNotes);
     next = replaceAllInsensitive(next, catalogBrand.overallLookFeel, brand.overallLookFeel);
   }
+
+  next = neutralizeForeignColorLanguage(next, brand);
+  next = neutralizeForeignBrandNames(next, brand);
 
   return normalizeRemainingHexCodes(next, brand);
 }
@@ -432,6 +526,7 @@ function finalBrandRenderContract(
     `FINAL TEXT/CALLOUT/ICON HEX: ${brand.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${brand.fg}.`,
     `FINAL LINE COLOR LOCK: every connector line on every pose, especially Back and Side 1, must use ${brand.fg} exactly. Do not render black, grey, blue, pink, magenta, faded purple, gradient, transparent, or approximate lines.`,
     `FINAL BACKGROUND HEX: ${brand.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${brand.bg}, not an approximate blue/beige/grey substitute.`,
+    `BACKGROUND TIE-BREAKER: render the background as a flat, even, solid ${brand.bg} field. If any leftover scene-color adjective in the text above (for example "icy white", "creamy beige", "off-white", "ivory", "aqua-blue", "cobalt", "taupe", "cool-fresh", "warm cream") conflicts with ${brand.bg}, ignore that adjective and use ${brand.bg}. Any tint from lighting must still resolve to ${brand.bg}.`,
     `FINAL FONTS: headings/display text must use ${brand.headingsDisplay}; sub-headings, body copy, and callouts must use ${brand.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,
     "Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.",
     deckShot === "side1"

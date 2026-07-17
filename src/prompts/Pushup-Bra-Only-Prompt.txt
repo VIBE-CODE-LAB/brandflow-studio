@@ -92,6 +92,34 @@ DO NOT change the external cup fabric, color, or structure.
 The push is INTERNAL padding lift — external silhouette result must be 
 clearly visible, natural, and catalogue-appropriate.
 ═══════════════════════════════════════════════════════
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+
+The bra cups MUST visibly show a strong, natural Level 3 push-up padding
+effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
+
+Specific rendering instructions:
+— Both cups must appear visibly LIFTED upward and pushed inward toward
+  center simultaneously
+— The upper cup area must show clear, natural fullness and visible rounded
+  projection — NOT flat or deflated
+— There must be a visible, modest, natural-looking center cleavage definition
+  created by the inward push of both cups
+— The cup silhouette must appear three-dimensional, projected, and lifted —
+  NOT flat against the chest
+— The underside of each cup must show a visible upward curve indicating
+  strong padding lift from beneath
+— The push must look symmetric — both cups lifted equally
+— The overall bust silhouette must read as clearly enhanced, lifted, and
+  fuller in shape compared to an unpadded bra
+— This must be visible even at full body frame distance — the lift effect
+  must read clearly without zooming in
+
+DO NOT render flat, deflated, or projection-less cups.
+DO NOT make the effect anatomically exaggerated or unrealistic.
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be
+clearly visible, natural, and catalogue-appropriate.
+
 POSE & BODY DIRECTION
 ═══════════════════════════════════════════════════════
 Model stands balanced near CENTER with enough negative space for callouts. The model must remain fully inside the frame and must NOT touch or be cut by the right edge.
@@ -220,7 +248,8 @@ Primary lighting on bra | No hands, hair, or arms overlapping bra
 BACKGROUND & LIGHTING
 ═══════════════════════════════════════════════════════
 
-Clean, airy, brand-specific background using the selected brand background color exactly
+Clean, airy, brand-specific background using the selected brand background color exactly.
+Keep the active brand backdrop locked to its exact palette value — do not drift to neutral beige, cool blue, mixed tones, gradients, or lifestyle scenery.
 Minimal seamless studio or very soft flat environment only
 No aqua-blue sheer panels, curtains, drapes, windows, props, or distracting room elements
 Lighting is bright, crisp, and clean — cool-fresh toned, energising yet soft
