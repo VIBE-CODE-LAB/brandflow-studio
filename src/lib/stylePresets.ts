@@ -455,7 +455,7 @@ export const parseStylePresetsCSV = (csvText: string): StylePresetSyncResult => 
     const fallbackPoseRaw = toPresetPose(poseRaw) ? poseRaw : getFallbackPoseRaw(row);
 
     const heading = hasKnownHeaders ? getCell(row, headerMap, ["heading"]) : legacyHeading;
-    const subHeading = hasKnownHeaders ? getCell(row, headerMap, ["subheading"]) : legacySubHeading;
+    const subHeading = hasKnownHeaders ? getCell(row, headerMap, ["subheading", "subhead"]) : legacySubHeading;
     const c1Text = hasKnownHeaders ? getCell(row, headerMap, hasBelleTrackerHeaders ? ["point1"] : ["c1text", "point1"]) : legacyC1Text;
     const c2Text = hasKnownHeaders ? getCell(row, headerMap, hasBelleTrackerHeaders ? ["point2"] : ["c2text", "point2"]) : legacyC2Text;
     const c3Text = hasKnownHeaders ? getCell(row, headerMap, hasBelleTrackerHeaders ? ["point3"] : ["c3text", "point3"]) : legacyC3Text;

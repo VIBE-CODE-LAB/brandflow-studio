@@ -318,6 +318,17 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand, deckShot:
   const callouts = content.callouts
     .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
     .filter(Boolean);
+  const side2CopyLock =
+    deckShot === "side2"
+      ? [
+          "SIDE 2 EXACT TEXT LOCK:",
+          `Render the Side 2 headline exactly as: "${content.heading || ""}".`,
+          content.subHeading
+            ? `Render the Side 2 sub-heading exactly as: "${content.subHeading}".`
+            : "Render no Side 2 sub-heading text.",
+          "Do not use the Side 2 source-prompt headline or sub-heading if it differs from the selected style preset.",
+        ].join("\n")
+      : "";
   const iconPlan =
     deckShot === "mood"
       ? "MOOD STYLE PRESET GRAPHICS OVERRIDE: render selected style text only. Do not render icons, circular icon containers, symbol drawings, icon borders, icon fills, icon backgrounds, or decorative pictograms for Mood."
@@ -334,8 +345,9 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand, deckShot:
     `Heading: ${content.heading || "Use no heading text."}`,
     content.subHeading ? `Sub-heading: ${content.subHeading}` : "Sub-heading: Use no sub-heading text.",
     callouts.length > 0 ? callouts.join("\n") : "Callouts: Use no callout text.",
+    side2CopyLock,
     iconPlan,
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 function isPushupSource(sourceId: PromptSourceId): boolean {
@@ -343,23 +355,7 @@ function isPushupSource(sourceId: PromptSourceId): boolean {
 }
 
 function normalizePushupPresetContent(content: ShotPresetContent): ShotPresetContent {
-  const weakPushupCopy = /(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i;
-  const weakPushupHeadline = /(feels?\s+light|second\s+skin|easy\s+support|gentle\s+support|soft\s+touch|buttery\s+smooth|comfort\s+that\s+feels\s+light|light\s+lift|gentle\s+lift)/i;
-
-  return {
-    ...content,
-    heading: weakPushupHeadline.test(content.heading)
-      ? "Level 3 Push-Up Shape"
-      : content.heading,
-    subHeading: weakPushupHeadline.test(content.subHeading)
-      ? "Visible lift. Fuller rounded support."
-      : content.subHeading,
-    callouts: content.callouts.map((callout) =>
-      weakPushupCopy.test(callout)
-        ? "Level 3 Push-Up Padding / Visible lifted fuller shape"
-        : callout,
-    ),
-  };
+  return content;
 }
 
 function pushupEffectRenderLock(
@@ -380,7 +376,8 @@ function pushupEffectRenderLock(
       ? "For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra."
       : "For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.",
     "Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.",
-    "Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as \"Feels light\", \"second skin\", \"Light Padding\", \"Gentle Lift\", \"Soft Level 2 Padding\", or \"2nd Level Padding\" is forbidden in Pushup mode.",
+    "Do NOT let selected style preset wording weaken the visual product effect. Even if selected copy mentions comfort, softness, lightness, or gentle support, keep the visible bra shape as Level 3 push-up.",
+    "Do NOT replace, rewrite, or invent visible selected style text to describe the push-up effect. Copy stays exact; only the rendered garment shape is forced to Level 3 push-up.",
     selectedCallouts && selectedCallouts.length > 0
       ? ["VISIBLE PUSH-UP COPY OVERRIDE:", ...selectedCallouts].join("\n")
       : "",
