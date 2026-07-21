@@ -344,9 +344,16 @@ function isPushupSource(sourceId: PromptSourceId): boolean {
 
 function normalizePushupPresetContent(content: ShotPresetContent): ShotPresetContent {
   const weakPushupCopy = /(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i;
+  const weakPushupHeadline = /(feels?\s+light|second\s+skin|easy\s+support|gentle\s+support|soft\s+touch|buttery\s+smooth|comfort\s+that\s+feels\s+light|light\s+lift|gentle\s+lift)/i;
 
   return {
     ...content,
+    heading: weakPushupHeadline.test(content.heading)
+      ? "Level 3 Push-Up Shape"
+      : content.heading,
+    subHeading: weakPushupHeadline.test(content.subHeading)
+      ? "Visible lift. Fuller rounded support."
+      : content.subHeading,
     callouts: content.callouts.map((callout) =>
       weakPushupCopy.test(callout)
         ? "Level 3 Push-Up Padding / Visible lifted fuller shape"
@@ -373,7 +380,7 @@ function pushupEffectRenderLock(
       ? "For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra."
       : "For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.",
     "Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.",
-    "Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as \"Light Padding\", \"Gentle Lift\", \"Soft Level 2 Padding\", or \"2nd Level Padding\" is forbidden in Pushup mode.",
+    "Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as \"Feels light\", \"second skin\", \"Light Padding\", \"Gentle Lift\", \"Soft Level 2 Padding\", or \"2nd Level Padding\" is forbidden in Pushup mode.",
     selectedCallouts && selectedCallouts.length > 0
       ? ["VISIBLE PUSH-UP COPY OVERRIDE:", ...selectedCallouts].join("\n")
       : "",

@@ -1,4 +1,4 @@
-import{_ as e,f as t,u as n}from"./static-index-CiFL64NC.js";var r=`SIDE VIEW PROMPT\r
+import{_ as e,f as t,u as n}from"./static-index-_cGNC-1c.js";var r=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
@@ -1888,9 +1888,10 @@ Specific rendering instructions:\r
 \r
 DO NOT render flat, deflated, or projection-less cups.\r
 DO NOT make the effect anatomically exaggerated or unrealistic.\r
-DO NOT change the external cup fabric, color, or structure.\r
-The push is INTERNAL padding lift — external silhouette result must be \r
-clearly visible, natural, and catalogue-appropriate.\r
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be\xA0
+clearly visible, natural, and catalogue-appropriate.
+SIDE 1 PUSH-UP HARD LOCK: In this Side 1 pose, the result is wrong if the bra reads as a flat comfort bra. The outer cup curve, under-cup lift, inward center push, rounded upper-cup fullness, and fuller Level 3 padded projection must be obvious from the three-quarter angle while remaining natural and modest.
 POSE & BODY POSITION: The model is standing upright with a slight, natural three-quarter body angle — body is very gently turned, NOT fully squared to the camera, NOT a side profile. Weight is shifted naturally to one side creating a relaxed hip stance. RIGHT ARM is raised — elbow bent, hand reaching back behind the head and lightly touching or loosely holding the hair at the back of the head — a casual, effortless hair-tuck gesture. The right elbow points upward and outward. LEFT ARM hangs naturally and relaxed at her side. STRICT: Do NOT place both hands behind the head. Do NOT cross arms. Do NOT place hands on hips or waist.\r
 EXPRESSION & FACE: Direct, confident gaze straight into the camera. Lips slightly parted in a natural, relaxed position — warm and approachable. NOT a full smile, NOT stern, NOT pouting. Expression is confident, soft, and engaging — classic lingerie campaign energy.\r
 \r
@@ -2001,9 +2002,9 @@ EXACT CALLOUT COUNT — CRITICAL:\r
 CALLOUT 1 — LEFT SIDE, UPPER: Points to VISIBLE LEFT ARMHOLE / SIDE FABRIC EDGE\r
 Line 1 (bold, Sora, #2D4FA0): "Elastic-free Armhole"\r
 Line 2 (DM Sans, #2D4FA0): "for Rashfree Comfort"\r
-CALLOUT 2 — LEFT SIDE, LOWER: Points to BOTTOM BAND\r
-Line 1 (bold, Sora, #2D4FA0): "Elastic-free Bottom Band"\r
-Line 2 (DM Sans, #2D4FA0): "for Seamless Support"\r
+CALLOUT 2 — LEFT SIDE, LOWER: Points to PADDED CUP / UNDER-CUP LIFT CURVE
+Line 1 (bold, Sora, #2D4FA0): "Level 3 Push-Up Padding"
+Line 2 (DM Sans, #2D4FA0): "Visible Lifted Fuller Shape"
 CALLOUT 3 — RIGHT SIDE, MIDDLE: Points to VISIBLE RIGHT/FRONT ARMHOLE EDGE or seamless cup-side area\r
 Line 1 (bold, Sora, #2D4FA0): "No-Stitch Design"\r
 Line 2 (DM Sans, #2D4FA0): "for Invisible Finish"\r
@@ -2067,6 +2068,7 @@ DO NOT render flat, light-padding, Level 1/2, deflated, or projection-less cups.
 DO NOT make the effect anatomically exaggerated or unrealistic.
 DO NOT change the external cup fabric, color, or structure.
 The push is INTERNAL Level 3 padding lift — external silhouette result must be clearly visible, natural, and catalogue-appropriate.
+SIDE 2 PUSH-UP HARD LOCK: In this front-facing Side 2 deck shot, the result is wrong if the bust silhouette looks light, soft, flat, or only gently lifted. Make the Level 3 padding visibly shape both cups with strong upward support, inward center push, rounded fullness, and lifted forward projection.
 ═══════════════════════════════════════════════════════
 POSE & BODY DIRECTION\r
 ═══════════════════════════════════════════════════════\r
@@ -2106,12 +2108,12 @@ Overall mood: clean, modern, premium lingerie — consistent with the selected b
 INFOGRAPHIC LAYOUT & TYPOGRAPHY\r
 ═══════════════════════════════════════════════════════\r
 HEADLINE — TOP LEFT\r
-Text: ""Comfort that feels light""\r
+Text: ""Level 3 Push-Up Shape""
 Font:Sora (bold display weight, large size)\r
 Color: #2D4FA0\r
 \r
 SUB-HEADING — TOP LEFT, directly below headline\r
-Text: ""Soft touch. Gentle support.""\r
+Text: ""Visible Lift. Fuller Rounded Support.""
 Font: DM Sans (medium weight, slightly smaller)\r
 Color: #2D4FA0\r
 \r
@@ -2212,9 +2214,10 @@ Specific rendering instructions:\r
 \r
 DO NOT render flat, deflated, or projection-less cups.\r
 DO NOT make the effect anatomically exaggerated or unrealistic.\r
-DO NOT change the external cup fabric, color, or structure.\r
-The push is INTERNAL padding lift — external silhouette result must be \r
-clearly visible, natural, and catalogue-appropriate.\r
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+MOOD PUSH-UP HARD LOCK: Even in the relaxed lifestyle pose, the bra must not become a soft comfort bra. The Level 3 padded cup projection, lifted under-cup curve, inward center push, rounded upper-cup fullness, and fuller supported silhouette must remain visible as the hero product feature.
 \r
 ═══════════════════════════════════════════════════════\r
 POSE & BODY DIRECTION — CRITICAL\r
@@ -2468,7 +2471,7 @@ Bra from REFERENCE IMAGE 2 worn exactly — same color, \r
 fabric, fit, silhouette\r
 ALL of the following FULLY VISIBLE, unobstructed, \r
 sharply in focus:\r
-→ Full front center panel (smooth, flat, seamless)\r
+→ Full front center panel (smooth, sculpted, seamless, with visible lifted Level 3 cup projection)
 → Complete V-neckline shape\r
 → Both shoulder straps — full length visible\r
 → Full bottom band left to right\r
@@ -2505,7 +2508,7 @@ INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY\r
 \r
 HEADLINE — TOP LEFT of image\r
 DISPLAY TEXT ONLY (do not render font name): \r
-"Bonded Finish, Always Elevated Support"\r
+"Level 3 Lift, Always Elevated Shape"
 Typeface: bold display sans-serif, large size, \r
 wraps naturally to 2 lines\r
 Color: #2D4FA0\r
@@ -2516,7 +2519,7 @@ with Arial, Helvetica, Inter, or any other sans-serif.\r
 \r
 SECONDARY TEXT — TOP LEFT directly below headline\r
 DISPLAY TEXT ONLY (do not render font name): \r
-"Comfort That Supports Every Curve"\r
+"Visible Push-Up Support for Every Curve"
 Typeface: medium weight clean sans-serif, slightly \r
 smaller than headline\r
 Color: #2D4FA0\r
@@ -2567,8 +2570,8 @@ CALLOUT 2 — LEFT SIDE, lower position \r
 Touch point: tiny 4px solid dot on FRONT CENTER \r
 PANEL at mid-chest\r
 Line: travels LEFT from dot to text callout\r
-Feature text: "W-Hold"\r
-Benefit text: "Wire-free Support"\r
+Feature text: "Level 3 Push-Up Padding"
+Benefit text: "Lifted Fuller Shape"
 \r
 CALLOUT 3 — RIGHT SIDE, upper position\r
 Touch point: tiny 4px solid dot on V-NECKLINE \r
@@ -2933,9 +2936,10 @@ Specific rendering instructions:\r
 \r
 DO NOT render flat, deflated, or projection-less cups.\r
 DO NOT make the effect anatomically exaggerated or unrealistic.\r
-DO NOT change the external cup fabric, color, or structure.\r
-The push is INTERNAL padding lift — external silhouette result must be \r
-clearly visible, natural, and catalogue-appropriate.\r
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+SIDE 1 PUSH-UP HARD LOCK: In this Side 1 pose, the result is wrong if the bra reads as a flat comfort bra. The outer cup curve, under-cup lift, inward center push, rounded upper-cup fullness, and fuller Level 3 padded projection must be obvious from the three-quarter angle while remaining natural and modest.
 POSE & BODY POSITION: The model is standing upright with a slight, natural three-quarter body angle — body is very gently turned, NOT fully squared to the camera, NOT a side profile. Weight is shifted naturally to one side creating a relaxed hip stance. RIGHT ARM is raised — elbow bent, hand reaching back behind the head and lightly touching or loosely holding the hair at the back of the head — a casual, effortless hair-tuck gesture. The right elbow points upward and outward. LEFT ARM hangs naturally and relaxed at her side. STRICT: Do NOT place both hands behind the head. Do NOT cross arms. Do NOT place hands on hips or waist.\r
 EXPRESSION & FACE: Direct, confident gaze straight into the camera. Lips slightly parted in a natural, relaxed position — warm and approachable. NOT a full smile, NOT stern, NOT pouting. Expression is confident, soft, and engaging — classic lingerie campaign energy.\r
 \r
@@ -3068,9 +3072,9 @@ CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE\r
 Line 1 (bold, Fraunces, #6F4940): ""Elastic-free Armhole""\r
 Line 2 (Inter, #6F4940): ""for Rashfree Comfort""\r
 \r
-CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND OF BRA\r
-Line 1 (bold, Fraunces, #6F4940): ""Elastic-free Bottom Band""\r
-Line 2 (Inter, #6F4940): ""for Seamless Support""\r
+CALLOUT 2 — BOTTOM LEFT: Points to PADDED CUP / UNDER-CUP LIFT CURVE
+Line 1 (bold, Fraunces, #6F4940): ""Level 3 Push-Up Padding""
+Line 2 (Inter, #6F4940): ""Visible Lifted Fuller Shape""
 \r
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE OF BRA\r
 Line 1 (bold, Fraunces, #6F4940): ""Seamless Design""\r
@@ -3155,9 +3159,10 @@ Specific rendering instructions:\r
 \r
 DO NOT render flat, deflated, or projection-less cups.\r
 DO NOT make the effect anatomically exaggerated or unrealistic.\r
-DO NOT change the external cup fabric, color, or structure.\r
-The push is INTERNAL padding lift — external silhouette result must be \r
-clearly visible, natural, and catalogue-appropriate.\r
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+SIDE 2 PUSH-UP HARD LOCK: In this front-facing Side 2 deck shot, the result is wrong if the bust silhouette looks light, soft, flat, or only gently lifted. Make the Level 3 padding visibly shape both cups with strong upward support, inward center push, rounded fullness, and lifted forward projection.
 \r
 ═══════════════════════════════════════════════════════\r
 POSE & BODY DIRECTION\r
@@ -3208,13 +3213,13 @@ INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY\r
 ═══════════════════════════════════════════════════════\r
 \r
 HEADLINE — TOP LEFT\r
-Text: ""Airy Comfort Enhanced Shape""\r
+Text: ""Level 3 Push-Up Shape""
 Font: Fraunces (MANDATORY — bold display weight, large size)\r
 Color: #6F4940 (MANDATORY)\r
 CRITICAL: Use ONLY Fraunces font family. Do NOT substitute with any other font.\r
 \r
 SUB-HEADING — TOP LEFT, directly below headline\r
-Text: ""Lift That Feels Light""\r
+Text: ""Visible Lift. Fuller Rounded Support.""
 Font: Inter (MANDATORY — medium weight, slightly smaller)\r
 Color: #6F4940 (MANDATORY)\r
 CRITICAL: Use ONLY Inter font family. Do NOT substitute with any other font.\r
@@ -3322,9 +3327,10 @@ Specific rendering instructions:\r
 \r
 DO NOT render flat, deflated, or projection-less cups.\r
 DO NOT make the effect anatomically exaggerated or unrealistic.\r
-DO NOT change the external cup fabric, color, or structure.\r
-The push is INTERNAL padding lift — external silhouette result must be \r
-clearly visible, natural, and catalogue-appropriate.\r
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+MOOD PUSH-UP HARD LOCK: Even in the relaxed lifestyle pose, the bra must not become a soft comfort bra. The Level 3 padded cup projection, lifted under-cup curve, inward center push, rounded upper-cup fullness, and fuller supported silhouette must remain visible as the hero product feature.
 \r
 ═══════════════════════════════════════════════════════\r
 POSE & BODY DIRECTION — CRITICAL\r
@@ -3568,7 +3574,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 Bra from REFERENCE IMAGE 2 worn exactly — same color, fabric, fit, silhouette\r
 Panty from REFERENCE IMAGE 3 worn exactly — same color as bra, same fabric, same fit\r
 ALL of the following BRA zones FULLY VISIBLE, unobstructed, sharply in focus:\r
-→ Full front center panel (smooth, flat, seamless)\r
+→ Full front center panel (smooth, sculpted, seamless, with visible lifted Level 3 cup projection)
 → Complete V-neckline shape\r
 → Both shoulder straps — full length visible\r
 → Full bottom band left to right\r
@@ -3605,7 +3611,7 @@ INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY\r
 ═══════════════════════════════════════════════════════\r
 \r
 HEADLINE — TOP LEFT of image\r
-DISPLAY TEXT ONLY (do not render font name): "Bonded Finish, Elevated Support"\r
+DISPLAY TEXT ONLY (do not render font name): "Level 3 Lift, Elevated Shape"
 Typeface: bold display serif, large size, wraps naturally to 2 lines\r
 Color: #6F4940\r
 Font: Fraunces (MANDATORY)\r
@@ -3613,7 +3619,7 @@ CRITICAL: Use ONLY Fraunces font family. Do NOT substitute with any other font.\
 — The word "Fraunces" must NEVER appear anywhere in the image —\r
 \r
 SECONDARY TEXT — TOP LEFT directly below headline\r
-DISPLAY TEXT ONLY (do not render font name): "Shape, Lift & Comfort for Every Curve"\r
+DISPLAY TEXT ONLY (do not render font name): "Visible Push-Up Support for Every Curve"
 Typeface: medium weight clean sans-serif, slightly smaller than headline\r
 Color: #6F4940\r
 Font: Inter (MANDATORY)\r
@@ -3653,7 +3659,8 @@ Benefit text: "Cups"\r
 CALLOUT 2 — LEFT SIDE, lower position (minimum 180px below Callout 1 text center)\r
 Touch point: tiny 4px solid dot on FRONT CENTER PANEL at mid-chest\r
 Line: travels LEFT from dot to text — fully outside model silhouette | Color: #6F4940\r
-Feature text: "W-Hold Support"\r
+Feature text: "Level 3 Push-Up Padding"
+Benefit text: "Lifted Fuller Shape"
 \r
 \r
 CALLOUT 3 — RIGHT SIDE, upper position\r
@@ -3942,7 +3949,7 @@ Font names must NEVER appear as visible text in image\r
 `)}function w(t){return[`IMPORTANT SELECTED BRAND OVERRIDE:`,`Use the source prompt above exactly for pose, product, crop, callout structure, and reference-image rules.`,`The source prompt section has already been rewritten with the selected brand fonts and hex codes. Follow those rewritten values exactly.`,`If any old brand value still appears, ignore it and replace it with the selected brand values below.`,e(t),`HARD-CODED TEXT HEX: every visible heading, sub-heading, callout label, callout content, feature text, benefit text, callout body copy, icon fill, icon stroke, circular icon fill, border ring, callout line, pointer dot, badge text, and brand chip text must use exactly ${t.fg}. Heading, sub-heading, and every callout text line must share this same ${t.fg} hex. Do not use blue, black, grey, white, or any source-prompt color for text/graphics unless it equals ${t.fg}.`,`HARD-CODED BACKGROUND HEX: every studio backdrop, lifestyle wall, negative-space panel, right/left text panel, product panel, flat background, and visible empty background area must use exactly ${t.bg}. Do not use any source-prompt background hex, tint, approximate color, or generated substitute unless it equals ${t.bg}.`,`Use ${t.headingsDisplay} for headlines/display text and ${t.bodyUi} for sub-headings/body/callout text.`].join(`
 `)}function T(e,t,n){let r=e.callouts.map((e,t)=>e.trim()?`Callout ${t+1}: ${e.trim()}`:``).filter(Boolean),i=n===`mood`?`MOOD STYLE PRESET GRAPHICS OVERRIDE: render selected style text only. Do not render icons, circular icon containers, symbol drawings, icon borders, icon fills, icon backgrounds, or decorative pictograms for Mood.`:j(e,t);return[`SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:`,`Selected style: ${e.styleName}.`,`Use the exact source prompt section above for pose, crop, model position, negative space, callout count, callout direction, icon/line style, headline position, sub-heading position, and all layout/placement rules.`,`Only replace the written copy/content inside that existing layout with the selected style content below.`,`Do not invent extra labels, extra callouts, badges, captions, logos, or alternate wording.`,`Do not move callouts, icons, lines, dots, or text blocks away from the source prompt layout. Keep every visual element in the same placement zones described in the source prompt.`,`All selected-style text, callout content, icons, dots, lines, and callout graphics must use the selected brand font hex ${t.fg}; headings use ${t.headingsDisplay}, sub-heading/callouts use ${t.bodyUi}; backgrounds use ${t.bg}.`,`Heading: ${e.heading||`Use no heading text.`}`,e.subHeading?`Sub-heading: ${e.subHeading}`:`Sub-heading: Use no sub-heading text.`,r.length>0?r.join(`
 `):`Callouts: Use no callout text.`,i].join(`
-`)}function E(e){return e===`pushup_bra_only`||e===`pushup_set`}function D(e){let t=/(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i;return{...e,callouts:e.callouts.map(e=>t.test(e)?`Level 3 Push-Up Padding / Visible lifted fuller shape`:e)}}function O(e,t,n){let r=n?.callouts.map((e,t)=>e.trim()?`Allowed push-up callout ${t+1}: "${e.trim()}"`:``).filter(Boolean);return[`PUSH-UP LEVEL 3 FINAL RENDER LOCK — HIGHEST PRIORITY:`,`This is Pushup mode. The bra must visibly render as a Level 3 push-up bra in the final pixels.`,`Both cups must be visibly lifted upward from beneath, pushed inward toward center, rounded through the upper cup, fuller than an unpadded bra, and three-dimensional with clear forward projection.`,`The under-cup curve must show strong padding lift. The center shaping must show the inward push clearly while staying modest, natural, symmetric, and catalogue-appropriate.`,t===`back`?`For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra.`:`For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.`,`Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.`,`Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as "Light Padding", "Gentle Lift", "Soft Level 2 Padding", or "2nd Level Padding" is forbidden in Pushup mode.`,r&&r.length>0?[`VISIBLE PUSH-UP COPY OVERRIDE:`,...r].join(`
+`)}function E(e){return e===`pushup_bra_only`||e===`pushup_set`}function D(e){let t=/(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i,n=/(feels?\s+light|second\s+skin|easy\s+support|gentle\s+support|soft\s+touch|buttery\s+smooth|comfort\s+that\s+feels\s+light|light\s+lift|gentle\s+lift)/i;return{...e,heading:n.test(e.heading)?`Level 3 Push-Up Shape`:e.heading,subHeading:n.test(e.subHeading)?`Visible lift. Fuller rounded support.`:e.subHeading,callouts:e.callouts.map(e=>t.test(e)?`Level 3 Push-Up Padding / Visible lifted fuller shape`:e)}}function O(e,t,n){let r=n?.callouts.map((e,t)=>e.trim()?`Allowed push-up callout ${t+1}: "${e.trim()}"`:``).filter(Boolean);return[`PUSH-UP LEVEL 3 FINAL RENDER LOCK — HIGHEST PRIORITY:`,`This is Pushup mode. The bra must visibly render as a Level 3 push-up bra in the final pixels.`,`Both cups must be visibly lifted upward from beneath, pushed inward toward center, rounded through the upper cup, fuller than an unpadded bra, and three-dimensional with clear forward projection.`,`The under-cup curve must show strong padding lift. The center shaping must show the inward push clearly while staying modest, natural, symmetric, and catalogue-appropriate.`,t===`back`?`For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra.`:`For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.`,`Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.`,`Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as "Feels light", "second skin", "Light Padding", "Gentle Lift", "Soft Level 2 Padding", or "2nd Level Padding" is forbidden in Pushup mode.`,r&&r.length>0?[`VISIBLE PUSH-UP COPY OVERRIDE:`,...r].join(`
 `):``,`All push-up callout text and icons still use ${e.fg}; background remains ${e.bg}; brand styling remains unchanged.`].filter(Boolean).join(`
 `)}function k(e){return(e??`auto`).trim().toLowerCase().replace(/[\s-]+/g,`_`)}function A(e,t){let n=`${k(t)} ${e}`.toLowerCase();return/armhole|underarm|rash|chafe|digging/.test(n)?`a smooth underarm curve / armhole comfort symbol`:/bottom|band|underbust|elastic/.test(n)?`a curved bra band / underbust support symbol`:/strap|shoulder/.test(n)?`an adjustable shoulder strap symbol`:/hook|closure|adjustable|3[\s_/-]*level/.test(n)?`three hook-and-eye closure rows`:/wing|side[\s_/-]*wing|back[\s_/-]*smooth|smoothen/.test(n)?`wide side wing panels smoothing the back`:/pad|padding|lift|push/.test(n)?`a lifted padded cup / gentle lift symbol`:/v[\s_/-]*neck|neckline/.test(n)?`a clean V-neckline outline`:/coverage|cover/.test(n)?`a full coverage cup outline`:/wire[\s_/-]*free|w[\s_/-]*hold|support/.test(n)?`a wire-free support arc`:/u[\s_/-]*back/.test(n)?`a back-view U-shape strap support symbol`:/fabric|seamless|stitch|no[\s_/-]*stitch|smooth|polyamide|breath|cotton|weave/.test(n)?`a seamless fabric weave / smooth wave symbol`:/grip|gripper|anti[\s_/-]*slip/.test(n)?`a grip-strip texture symbol`:/spill|spillage|bulge/.test(n)?`a contained side-cup anti-spillage symbol`:`a simple product-feature symbol inferred from the exact callout words`}function j(e,t){let n=e.callouts.map((t,n)=>{let r=t.trim();if(!r)return``;let i=e.calloutZones?.[n];return`Callout ${n+1} icon: auto-detect from "${r}" -> draw ${A(r,i)}.`}).filter(Boolean);return n.length===0?`AUTO-DETECTED ICON RULE: no selected callout text is present, so do not render any callout icons.`:[`AUTO-DETECTED ICON RULE — CRITICAL:`,`Do not copy fixed icon examples from the source prompt when selected style content is active.`,`For each callout, choose the icon symbol from that callout's actual words and garment zone. The icon meaning must match the callout content exactly.`,`Every icon must be a solid ${t.fg} circular icon with a clear white interior line illustration. The icon fill, border ring, connector line, and touch/connector dots must all use ${t.fg}; never black, grey, blue, magenta, or any other color unless it is exactly ${t.fg}.`,...n].join(`
 `)}function M(e,t,n){let r=n?[n.heading,n.subHeading,...n.callouts].map(e=>e.trim()).filter(Boolean):[];return[`FINAL RENDER CONTRACT — HIGHEST PRIORITY:`,`Selected brand is ${e.name}. Use ONLY this brand's visual specification in the final image.`,`FINAL TEXT/CALLOUT/ICON HEX: ${e.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${e.fg}.`,`FINAL LINE COLOR LOCK: every connector line on every pose, especially Back and Side 1, must use ${e.fg} exactly. Do not render black, grey, blue, pink, magenta, faded purple, gradient, transparent, or approximate lines.`,`FINAL BACKGROUND HEX: ${e.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${e.bg}, not an approximate blue/beige/grey substitute.`,`FINAL FONTS: headings/display text must use ${e.headingsDisplay}; sub-headings, body copy, and callouts must use ${e.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,`Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.`,t===`side1`?[`SIDE 1 ICON/CALLOUT LOCK:`,`Render exactly three product feature callout groups, matching the source prompt positions.`,`Do not omit icons. Side 1 must contain exactly three visible circular icons, one attached to each callout group.`,`Each Side 1 icon must be a clean circular icon with solid ${e.fg} fill and a simple white line-art lingerie/product-feature symbol inside.`,`The white line-art symbol inside each icon must be auto-detected from that callout's selected text, not copied from the source prompt examples.`,`Do NOT render numbered icon badges such as 1, 2, or 3. Do NOT render arrow glyphs, random symbols, broken brackets, or text inside the icons.`,`Every Side 1 connector line and product touch dot must use ${e.fg}. Lines must be thin, clean, and connected to the correct product zone.`].join(`

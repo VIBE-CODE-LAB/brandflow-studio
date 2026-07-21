@@ -29,6 +29,7 @@ DO NOT make the effect anatomically exaggerated or unrealistic.
 DO NOT change the external cup fabric, color, or structure.
 The push is INTERNAL padding lift — external silhouette result must be 
 clearly visible, natural, and catalogue-appropriate.
+SIDE 1 PUSH-UP HARD LOCK: In this Side 1 pose, the result is wrong if the bra reads as a flat comfort bra. The outer cup curve, under-cup lift, inward center push, rounded upper-cup fullness, and fuller Level 3 padded projection must be obvious from the three-quarter angle while remaining natural and modest.
 POSE & BODY POSITION: The model is standing upright with a slight, natural three-quarter body angle — body is very gently turned, NOT fully squared to the camera, NOT a side profile. Weight is shifted naturally to one side creating a relaxed hip stance. RIGHT ARM is raised — elbow bent, hand reaching back behind the head and lightly touching or loosely holding the hair at the back of the head — a casual, effortless hair-tuck gesture. The right elbow points upward and outward. LEFT ARM hangs naturally and relaxed at her side. STRICT: Do NOT place both hands behind the head. Do NOT cross arms. Do NOT place hands on hips or waist.
 EXPRESSION & FACE: Direct, confident gaze straight into the camera. Lips slightly parted in a natural, relaxed position — warm and approachable. NOT a full smile, NOT stern, NOT pouting. Expression is confident, soft, and engaging — classic lingerie campaign energy.
 
@@ -161,9 +162,9 @@ CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE
 Line 1 (bold, Fraunces, #6F4940): ""Elastic-free Armhole""
 Line 2 (Inter, #6F4940): ""for Rashfree Comfort""
 
-CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND OF BRA
-Line 1 (bold, Fraunces, #6F4940): ""Elastic-free Bottom Band""
-Line 2 (Inter, #6F4940): ""for Seamless Support""
+CALLOUT 2 — BOTTOM LEFT: Points to PADDED CUP / UNDER-CUP LIFT CURVE
+Line 1 (bold, Fraunces, #6F4940): ""Level 3 Push-Up Padding""
+Line 2 (Inter, #6F4940): ""Visible Lifted Fuller Shape""
 
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE OF BRA
 Line 1 (bold, Fraunces, #6F4940): ""Seamless Design""
@@ -251,6 +252,7 @@ DO NOT make the effect anatomically exaggerated or unrealistic.
 DO NOT change the external cup fabric, color, or structure.
 The push is INTERNAL padding lift — external silhouette result must be 
 clearly visible, natural, and catalogue-appropriate.
+SIDE 2 PUSH-UP HARD LOCK: In this front-facing Side 2 deck shot, the result is wrong if the bust silhouette looks light, soft, flat, or only gently lifted. Make the Level 3 padding visibly shape both cups with strong upward support, inward center push, rounded fullness, and lifted forward projection.
 
 ═══════════════════════════════════════════════════════
 POSE & BODY DIRECTION
@@ -301,13 +303,13 @@ INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
 ═══════════════════════════════════════════════════════
 
 HEADLINE — TOP LEFT
-Text: ""Airy Comfort Enhanced Shape""
+Text: ""Level 3 Push-Up Shape""
 Font: Fraunces (MANDATORY — bold display weight, large size)
 Color: #6F4940 (MANDATORY)
 CRITICAL: Use ONLY Fraunces font family. Do NOT substitute with any other font.
 
 SUB-HEADING — TOP LEFT, directly below headline
-Text: ""Lift That Feels Light""
+Text: ""Visible Lift. Fuller Rounded Support.""
 Font: Inter (MANDATORY — medium weight, slightly smaller)
 Color: #6F4940 (MANDATORY)
 CRITICAL: Use ONLY Inter font family. Do NOT substitute with any other font.
@@ -418,6 +420,7 @@ DO NOT make the effect anatomically exaggerated or unrealistic.
 DO NOT change the external cup fabric, color, or structure.
 The push is INTERNAL padding lift — external silhouette result must be 
 clearly visible, natural, and catalogue-appropriate.
+MOOD PUSH-UP HARD LOCK: Even in the relaxed lifestyle pose, the bra must not become a soft comfort bra. The Level 3 padded cup projection, lifted under-cup curve, inward center push, rounded upper-cup fullness, and fuller supported silhouette must remain visible as the hero product feature.
 
 ═══════════════════════════════════════════════════════
 POSE & BODY DIRECTION — CRITICAL
@@ -661,7 +664,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
 Bra from REFERENCE IMAGE 2 worn exactly — same color, fabric, fit, silhouette
 Panty from REFERENCE IMAGE 3 worn exactly — same color as bra, same fabric, same fit
 ALL of the following BRA zones FULLY VISIBLE, unobstructed, sharply in focus:
-→ Full front center panel (smooth, flat, seamless)
+→ Full front center panel (smooth, sculpted, seamless, with visible lifted Level 3 cup projection)
 → Complete V-neckline shape
 → Both shoulder straps — full length visible
 → Full bottom band left to right
@@ -698,7 +701,7 @@ INFOGRAPHIC LAYOUT & TYPOGRAPHY — MANDATORY
 ═══════════════════════════════════════════════════════
 
 HEADLINE — TOP LEFT of image
-DISPLAY TEXT ONLY (do not render font name): "Bonded Finish, Elevated Support"
+DISPLAY TEXT ONLY (do not render font name): "Level 3 Lift, Elevated Shape"
 Typeface: bold display serif, large size, wraps naturally to 2 lines
 Color: #6F4940
 Font: Fraunces (MANDATORY)
@@ -706,7 +709,7 @@ CRITICAL: Use ONLY Fraunces font family. Do NOT substitute with any other font.
 — The word "Fraunces" must NEVER appear anywhere in the image —
 
 SECONDARY TEXT — TOP LEFT directly below headline
-DISPLAY TEXT ONLY (do not render font name): "Shape, Lift & Comfort for Every Curve"
+DISPLAY TEXT ONLY (do not render font name): "Visible Push-Up Support for Every Curve"
 Typeface: medium weight clean sans-serif, slightly smaller than headline
 Color: #6F4940
 Font: Inter (MANDATORY)
@@ -746,7 +749,8 @@ Benefit text: "Cups"
 CALLOUT 2 — LEFT SIDE, lower position (minimum 180px below Callout 1 text center)
 Touch point: tiny 4px solid dot on FRONT CENTER PANEL at mid-chest
 Line: travels LEFT from dot to text — fully outside model silhouette | Color: #6F4940
-Feature text: "W-Hold Support"
+Feature text: "Level 3 Push-Up Padding"
+Benefit text: "Lifted Fuller Shape"
 
 
 CALLOUT 3 — RIGHT SIDE, upper position

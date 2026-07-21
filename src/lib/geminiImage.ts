@@ -64,6 +64,30 @@ function modelCandidates(engine: EngineId): string[] {
   return engine === "pro" ? ["gemini-3-pro-image-preview"] : ["gemini-3.1-flash-image-preview"];
 }
 
+function pushupGenerationLock(options: GenerateImageOptions): string {
+  if (options.shootType !== "pushup") return "";
+  if (options.deckShot !== "side1" && options.deckShot !== "side2" && options.deckShot !== "mood") {
+    return "";
+  }
+
+  const poseLabel =
+    options.deckShot === "side1"
+      ? "Side 1"
+      : options.deckShot === "side2"
+        ? "Side 2"
+        : "Mood";
+
+  return [
+    "FINAL GEMINI GENERATION LOCK — PUSHUP LEVEL 3 EFFECT:",
+    `This request is Pushup ${options.pushupBraOnly ? "Bra-Only" : "Set"} mode, ${poseLabel} pose.`,
+    "Before rendering pixels, verify the bra reads as a Level 3 push-up bra, not a light-padding comfort bra.",
+    "Both cups must show strong padded volume, upward lift from the under-cup, inward center push, rounded upper-cup fullness, visible fuller shape, and forward three-dimensional projection.",
+    "The result is wrong if the cups look flat, shallow, lightly padded, minimizer-like, sports-bra-like, or only gently lifted.",
+    "If any heading, sub-heading, or style-preset text says light padding, gentle lift, second skin, or easy support, ignore that weak meaning and render visible Level 3 push-up shaping instead.",
+    "Keep the effect natural, symmetric, modest, and ecommerce-catalog appropriate while making the Level 3 push-up lift clearly visible.",
+  ].join("\n");
+}
+
 function base64ToBlob(data: string, mimeType: string): Blob {
   const binary = atob(data);
   const bytes = new Uint8Array(binary.length);
@@ -170,6 +194,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
     {
       text: [
         options.prompt,
+        pushupGenerationLock(options),
         "",
         "FIXED OUTPUT QUALITY:",
         "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px short edge. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
