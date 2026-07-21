@@ -321,10 +321,9 @@ Text: ""Breathable Cotton Fabric""
 Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
 
 FEATURE 2:
-Icon: Small circular icon — thin line illustration of soft padding/gentle lift symbol (same style as Feature 1)
-Text: ""Soft 2nd Level Padding 
-1 Cup fuller Appearance. ""
-Line 2: ""1 Cups fuller""
+Icon: Small circular icon — thin line illustration of Level 3 push-up padding / strong lift symbol (same style as Feature 1)
+Text: ""Level 3 Push-Up Padding""
+Line 2: ""Lifted Fuller Shape""
 Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
 
 FEATURE 3:
@@ -818,6 +817,8 @@ ZOOM SHOT — CLOSE-UP TACTILE DETAIL
 ═══════════════════════════════════════════════════════
 REFERENCE IMAGE 1 (Model): Exact skin tone and body reference — chest to hip only. Face NOT shown.
 REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, seamless bonded construction. Replicate identically.
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+This zoom pose must clearly show the bra as a Level 3 push-up bra, not a flat bonded crop. The cups must have visible padded volume, upward under-cup lift, inward push toward center, rounded upper-cup fullness, and three-dimensional projection. Even in this close crop, the silhouette must read as strongly lifted and fuller than an unpadded bra. Do NOT render flat, soft Level 1/2, deflated, collapsed, or projection-less cups.
 ═══════════════════════════════════════════════════════
 SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT
 ═══════════════════════════════════════════════════════
@@ -834,6 +835,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
 ═══════════════════════════════════════════════════════
 All bra zones razor sharp: front panel smooth, bonded edges invisible, bottom band flat, side seamless, straps & neckline visible at top
 Fabric completely smooth, second-skin — NO stitching or seam lines
+LEVEL 3 PUSH-UP VISIBILITY: cup padding volume, rounded projection, lifted lower curve, and center shaping must be the hero product detail in this zoom shot.
 ═══════════════════════════════════════════════════════
 BACKGROUND & LIGHTING
 ═══════════════════════════════════════════════════════
@@ -905,7 +907,7 @@ MOCKUP SHOT — FLOATING PRODUCT ONLY
 IMPORTANT WORKFLOW NOTE: This is a PRODUCT MOCKUP SHOT — no model, no human. Upload ONLY the product flatlay image as your single reference. No model reference image needed.
 REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXACT reference for:
 - Bra color and fabric tone
-- Cup shape and padding volume
+- Cup shape and Level 3 push-up padding volume
 - Strap width and length
 - Side wing width and shape
 - Hook-and-eye closure detail
@@ -913,12 +915,14 @@ REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXA
 - V-neckline shape
 - Overall silhouette and proportions
 Replicate all of the above identically. Do not alter any construction detail.
+PUSH-UP PRODUCT LOCK — LEVEL 3 PADDING:
+The floating product must visibly read as a Level 3 push-up bra. Both cups must look sculpted, padded, lifted upward from beneath, pushed inward toward center, rounded through the upper cup, and projected forward with natural three-dimensional volume. Do NOT flatten the cups or reduce the effect to soft/light padding.
 ═══════════════════════════════════════════════════════
 SHOT TYPE — FLOATING PRODUCT MOCKUP
 ═══════════════════════════════════════════════════════
 This is a PRODUCT-ONLY shot — absolutely NO model, NO human body, NO hands, NO skin visible anywhere
 The bra is presented as a FLOATING / LIFTED product — NOT a flat lay on a surface
-The bra must have NATURAL VOLUME and DIMENSION — cups have realistic projection and shape as if being worn
+The bra must have NATURAL LEVEL 3 PUSH-UP VOLUME and DIMENSION — cups have realistic lifted projection, rounded padded shape, and inward push as if being worn
 The bra floats slightly above the background with a very soft, subtle shadow beneath it — shadow color warm cocoa-toned, never cold grey
 Straps are FULLY EXTENDED upward — both straps visible from cup to full strap length
 Adjustable slider hardware on both straps must be clearly visible
@@ -931,7 +935,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
 ALL of the following must be FULLY VISIBLE and sharply in focus:
 → ARMHOLE EDGES — both left and right armhole openings clearly defined — clean bonded edges
 → BOTTOM BAND — full width visible, sitting naturally, elastic-free bonded finish
-→ CUP FRONT PANEL — both cups with natural volume, full coverage shape visible
+→ CUP FRONT PANEL — both cups with Level 3 push-up padded volume, rounded projection, lifted lower curve, and full coverage shape visible
 → SIDE WINGS — wide side panels extending outward on both sides — seamless construction visible
 → ADJUSTABLE STRAPS — both straps fully extended, slider hardware clearly visible on at least one strap
 → V-NECKLINE — front center neckline shape clearly defined
@@ -986,7 +990,7 @@ Text (regular/light weight, no icon): ""3/4th Coverage""
 Color: #6F4940
 CALLOUT 2 — LEFT SIDE, lower zone
 → Thin straight line points to LEFT SIDE WING or BOTTOM BAND edge
-Text (regular/light weight, no icon):  Soft Level 2 Padding. 
+Text (regular/light weight, no icon):  Level 3 Push-Up Padding.
 Color: #6F4940
 CALLOUT 3 — RIGHT SIDE, upper zone
 → Thin straight line points to RIGHT STRAP SLIDER / ADJUSTABLE HARDWARE
