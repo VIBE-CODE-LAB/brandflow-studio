@@ -338,6 +338,51 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand, deckShot:
   ].join("\n");
 }
 
+function isPushupSource(sourceId: PromptSourceId): boolean {
+  return sourceId === "pushup_bra_only" || sourceId === "pushup_set";
+}
+
+function normalizePushupPresetContent(content: ShotPresetContent): ShotPresetContent {
+  const weakPushupCopy = /(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i;
+
+  return {
+    ...content,
+    callouts: content.callouts.map((callout) =>
+      weakPushupCopy.test(callout)
+        ? "Level 3 Push-Up Padding / Visible lifted fuller shape"
+        : callout,
+    ),
+  };
+}
+
+function pushupEffectRenderLock(
+  brand: Brand,
+  deckShot: DeckShotKey,
+  content?: ShotPresetContent,
+): string {
+  const selectedCallouts = content?.callouts
+    .map((callout, index) => (callout.trim() ? `Allowed push-up callout ${index + 1}: "${callout.trim()}"` : ""))
+    .filter(Boolean);
+
+  return [
+    "PUSH-UP LEVEL 3 FINAL RENDER LOCK — HIGHEST PRIORITY:",
+    "This is Pushup mode. The bra must visibly render as a Level 3 push-up bra in the final pixels.",
+    "Both cups must be visibly lifted upward from beneath, pushed inward toward center, rounded through the upper cup, fuller than an unpadded bra, and three-dimensional with clear forward projection.",
+    "The under-cup curve must show strong padding lift. The center shaping must show the inward push clearly while staying modest, natural, symmetric, and catalogue-appropriate.",
+    deckShot === "back"
+      ? "For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra."
+      : "For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.",
+    "Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.",
+    "Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as \"Light Padding\", \"Gentle Lift\", \"Soft Level 2 Padding\", or \"2nd Level Padding\" is forbidden in Pushup mode.",
+    selectedCallouts && selectedCallouts.length > 0
+      ? ["VISIBLE PUSH-UP COPY OVERRIDE:", ...selectedCallouts].join("\n")
+      : "",
+    `All push-up callout text and icons still use ${brand.fg}; background remains ${brand.bg}; brand styling remains unchanged.`,
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
 function normalizeCalloutZone(zone?: string): string {
   return (zone ?? "auto").trim().toLowerCase().replace(/[\s-]+/g, "_");
 }
@@ -505,6 +550,9 @@ export function composeDeckPrompt({
   const source = getPromptSource(shootType, pushupBraOnly);
   const section = sectionHeading(source.id, deckShot);
   const sourcePrompt = applyBrandSpecification(resolvePlaceholders(extractSection(source, section), brand), brand);
+  const pushupMode = isPushupSource(source.id);
+  const effectivePresetContent =
+    pushupMode && presetContent ? normalizePushupPresetContent(presetContent) : presetContent;
   const modeLock =
     source.id === "pushup_bra_only" && deckShot === "mood"
       ? [
@@ -529,7 +577,7 @@ export function composeDeckPrompt({
     `Prompt source section: ${section}.`,
     `Aspect selected in Studio Flow: ${aspect}.`,
     "Fixed image quality: generate a native, sharp 2K ecommerce image with a 2048px short edge. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.",
-    presetContent
+    effectivePresetContent
       ? "Content/layout lock: render the selected style preset text inside the exact headline, sub-heading, and callout placement described by the source prompt. The source prompt layout is mandatory."
       : "",
     "Generate only this deck shot. Keep model identity, product identity, and brand identity consistent with the rest of the deck.",
@@ -541,8 +589,9 @@ export function composeDeckPrompt({
   if (deckShot === "mood") sections.push(moodBackgroundLock(brand));
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
-  if (presetContent) sections.push(stylePresetOverride(presetContent, brand, deckShot));
-  sections.push(finalBrandRenderContract(brand, deckShot, presetContent));
+  if (effectivePresetContent) sections.push(stylePresetOverride(effectivePresetContent, brand, deckShot));
+  sections.push(finalBrandRenderContract(brand, deckShot, effectivePresetContent));
+  if (pushupMode) sections.push(pushupEffectRenderLock(brand, deckShot, effectivePresetContent));
   if (deckShot === "mood") sections.push(moodNoIconLock(brand));
 
   return {

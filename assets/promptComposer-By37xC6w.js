@@ -1,4 +1,4 @@
-import{_ as e,f as t,u as n}from"./static-index-Dd7feczx.js";var r=`SIDE VIEW PROMPT\r
+import{_ as e,f as t,u as n}from"./static-index-CiFL64NC.js";var r=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
@@ -2048,7 +2048,26 @@ Do NOT allow hair over bra, callouts over face or bra, harsh shadows, warm-yello
 SIDE 2 PUSH UP PROMPT — BRA ONLY\r
 """""""REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.\r
 Use Image 1 for the model's identity and body appearance only. Do NOT copy Image 1's original crop, framing, edge cuts, or missing side margins. If Image 1 has any arm/shoulder close to an edge or cropped, reconstruct the full visible viewer-right arm naturally inside this new layout.\r
-REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, silhouette. Replicate identically.═══════════════════════════════════════════════════════\r
+REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, silhouette. Replicate identically.
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+
+The bra cups MUST visibly show a strong, natural Level 3 push-up padding effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
+
+Specific rendering instructions:
+— Both cups must appear visibly LIFTED upward and pushed inward toward center simultaneously
+— The upper cup area must show clear, natural fullness and visible rounded projection — NOT flat or deflated
+— There must be a visible, modest, natural-looking center shaping created by the inward push of both cups
+— The cup silhouette must appear three-dimensional, projected, and lifted — NOT flat against the chest
+— The underside of each cup must show a visible upward curve indicating strong padding lift from beneath
+— The push must look symmetric — both cups lifted equally
+— The overall bust silhouette must read as clearly enhanced, lifted, and fuller in shape compared to an unpadded bra
+— This must be visible in the head-to-navel catalog crop without needing to zoom in
+
+DO NOT render flat, light-padding, Level 1/2, deflated, or projection-less cups.
+DO NOT make the effect anatomically exaggerated or unrealistic.
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL Level 3 padding lift — external silhouette result must be clearly visible, natural, and catalogue-appropriate.
+═══════════════════════════════════════════════════════
 POSE & BODY DIRECTION\r
 ═══════════════════════════════════════════════════════\r
 \r
@@ -2064,8 +2083,9 @@ Body language: clean, modern, effortlessly premium\r
 PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 ═══════════════════════════════════════════════════════\r
 \r
-Full front panel, both straps, full bottom band, both armhole edges — ALL fully visible, unobstructed, sharply in focus\r
-Primary lighting on bra | No hands, hair, or arms overlapping bra\r
+Full front panel, both straps, full bottom band, both armhole edges — ALL fully visible, unobstructed, sharply in focus
+Primary lighting on bra | No hands, hair, or arms overlapping bra
+LEVEL 3 PUSH-UP EFFECT CRITICAL: the lifted cup projection, rounded upper-cup fullness, inward center push, and fuller shaped bust silhouette must be the clear product feature in this Side 2 pose.
 ═══════════════════════════════════════════════════════\r
 BACKGROUND & LIGHTING\r
 ═══════════════════════════════════════════════════════\r
@@ -2104,10 +2124,10 @@ Icon: Small circular icon — thin line illustration of a cotton/fabric/breathab
 Text: ""Breathable Cotton Fabric "" ,""for airy comfort all day""\r
 Line 1 bold (Sora), Line 2 regular (DM Sans) | Color: #2D4FA0\r
 \r
-FEATURE 2:\r
-Icon: Small circular icon — thin line illustration of soft padding/gentle lift symbol \r
-(same style as Feature 1)\r
-Text: ""Light Padding gives"", ""Gentle Lift""\r
+FEATURE 2:
+Icon: Small circular icon — thin line illustration of Level 3 push-up padding / strong lift symbol
+(same style as Feature 1)
+Text: ""Level 3 Padding gives"", ""Visible Push-Up Lift""
 Line 1 bold (Sora), Line 2 regular (DM Sans) | Color: #2D4FA0\r
 \r
 FEATURE 3:\r
@@ -2407,38 +2427,38 @@ Body language: relaxed, unhurried, genuine morning comfort\r
 Hair loose, slightly tousled — FULLY CLEAR of all bra \r
 straps, cups, and panel\r
 \r
-BOTH OPTIONS — NON-NEGOTIABLE RULES:
-Shoulders completely relaxed | No tension anywhere in body
-Expression: warm, feminine, genuinely at ease
-Shot framed HEAD-TO-MID-THIGH for Mood only — seated lifestyle composition may show waist, hips, upper thighs, and the required matching lower outfit.
-Hair: loose, tousled morning feel | COMPLETELY CLEAR of 
-all bra zones at all times
-Skin: completely tattoo-free, blemish-free, mark-free
-NO hands or arms overlapping any part of bra — straps, 
-cups, panel, or band
-
-═══════════════════════════════════════════════════════
-LOWER OUTFIT — MOOD ONLY NON-NEGOTIABLE
-═══════════════════════════════════════════════════════
-
-This is PUSHUP BRA ONLY mode.
-For this MOOD image only, add a modest lower outfit so the seated lifestyle pose feels complete.
-Lower outfit type: simple soft lounge shorts / modest high-waist comfort shorts only.
-The lower outfit color MUST match the upper bra color exactly as extracted from Reference Image 2.
-The lower outfit fabric tone, hue, saturation, and lighting response must look like the same coordinated set color as the bra.
-The lower outfit must be plain, minimal, smooth, and non-distracting — no prints, logos, lace, ribbons, patterns, pockets, drawstrings, buttons, or extra decoration.
-The lower outfit must not become the hero product; the pushup bra remains the hero product.
-Do NOT generate panty, brief underwear, thong, bikini bottom, transparent fabric, low-rise intimate bottom, denim shorts, skirt, jeans, leggings, or any unrelated lower garment.
-Do NOT widen, spread, exaggerate, or make the waist/hips more curvy.
-Preserve the model's natural torso, waist, hip, and thigh proportions.
+BOTH OPTIONS — NON-NEGOTIABLE RULES:\r
+Shoulders completely relaxed | No tension anywhere in body\r
+Expression: warm, feminine, genuinely at ease\r
+Shot framed HEAD-TO-MID-THIGH for Mood only — seated lifestyle composition may show waist, hips, upper thighs, and the required matching lower outfit.\r
+Hair: loose, tousled morning feel | COMPLETELY CLEAR of \r
+all bra zones at all times\r
+Skin: completely tattoo-free, blemish-free, mark-free\r
+NO hands or arms overlapping any part of bra — straps, \r
+cups, panel, or band\r
 \r
 ═══════════════════════════════════════════════════════\r
-COLOR INSTRUCTION — CRITICAL
-═══════════════════════════════════════════════════════
-→ Extract EXACT color from Reference Image 2 bra
-→ Apply the exact color to the bra product
-→ In this Mood image only, apply the exact same extracted bra color to the modest lower outfit so upper and lower outfit match perfectly
-→ Do NOT neutralize or change the bra color
+LOWER OUTFIT — MOOD ONLY NON-NEGOTIABLE\r
+═══════════════════════════════════════════════════════\r
+\r
+This is PUSHUP BRA ONLY mode.\r
+For this MOOD image only, add a modest lower outfit so the seated lifestyle pose feels complete.\r
+Lower outfit type: simple soft lounge shorts / modest high-waist comfort shorts only.\r
+The lower outfit color MUST match the upper bra color exactly as extracted from Reference Image 2.\r
+The lower outfit fabric tone, hue, saturation, and lighting response must look like the same coordinated set color as the bra.\r
+The lower outfit must be plain, minimal, smooth, and non-distracting — no prints, logos, lace, ribbons, patterns, pockets, drawstrings, buttons, or extra decoration.\r
+The lower outfit must not become the hero product; the pushup bra remains the hero product.\r
+Do NOT generate panty, brief underwear, thong, bikini bottom, transparent fabric, low-rise intimate bottom, denim shorts, skirt, jeans, leggings, or any unrelated lower garment.\r
+Do NOT widen, spread, exaggerate, or make the waist/hips more curvy.\r
+Preserve the model's natural torso, waist, hip, and thigh proportions.\r
+\r
+═══════════════════════════════════════════════════════\r
+COLOR INSTRUCTION — CRITICAL\r
+═══════════════════════════════════════════════════════\r
+→ Extract EXACT color from Reference Image 2 bra\r
+→ Apply the exact color to the bra product\r
+→ In this Mood image only, apply the exact same extracted bra color to the modest lower outfit so upper and lower outfit match perfectly\r
+→ Do NOT neutralize or change the bra color\r
 \r
 ═══════════════════════════════════════════════════════\r
 PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
@@ -2761,22 +2781,24 @@ MOCKUP SHOT — FLOATING PRODUCT ONLY\r
 MOCKUP SHOT — FLOATING PRODUCT ONLY\r
 ═══════════════════════════════════════════════════════\r
 IMPORTANT WORKFLOW NOTE: This is a PRODUCT MOCKUP SHOT — no model, no human. Upload ONLY the product flatlay image as your single reference. No model reference image needed.\r
-REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXACT reference for:\r
-- Bra color and fabric tone\r
-- Cup shape and padding volume\r
+REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXACT reference for:
+- Bra color and fabric tone
+- Cup shape and Level 3 push-up padding volume
 - Strap width and length\r
 - Side wing width and shape\r
 - Hook-and-eye closure detail\r
 - Adjustable strap slider hardware\r
 - V-neckline shape\r
 - Overall silhouette and proportions\r
-Replicate all of the above identically. Do not alter any construction detail.\r
+Replicate all of the above identically. Do not alter any construction detail.
+PUSH-UP PRODUCT LOCK — LEVEL 3 PADDING:
+The floating product must visibly read as a Level 3 push-up bra. Both cups must look sculpted, padded, lifted upward from beneath, pushed inward toward center, rounded through the upper cup, and projected forward with natural three-dimensional volume. Do NOT flatten the cups or reduce the effect to soft/light padding.
 ═══════════════════════════════════════════════════════\r
 SHOT TYPE — FLOATING PRODUCT MOCKUP\r
 ═══════════════════════════════════════════════════════\r
 This is a PRODUCT-ONLY shot — absolutely NO model, NO human body, NO hands, NO skin visible anywhere\r
 The bra is presented as a FLOATING / LIFTED product — NOT a flat lay on a surface\r
-The bra must have NATURAL VOLUME and DIMENSION — cups have realistic projection and shape as if being worn\r
+The bra must have NATURAL LEVEL 3 PUSH-UP VOLUME and DIMENSION — cups have realistic lifted projection, rounded padded shape, and inward push as if being worn
 The bra floats slightly above the background with a very soft, subtle shadow beneath it — shadow color warm cocoa-toned, never cold grey\r
 Straps are FULLY EXTENDED upward — both straps visible from cup to full strap length\r
 Adjustable slider hardware on both straps must be clearly visible\r
@@ -2789,7 +2811,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 ALL of the following must be FULLY VISIBLE and sharply in focus:\r
 → ARMHOLE EDGES — both left and right armhole openings clearly defined — clean bonded edges\r
 → BOTTOM BAND — full width visible, sitting naturally, elastic-free bonded finish\r
-→ CUP FRONT PANEL — both cups with natural volume, full coverage shape visible\r
+→ CUP FRONT PANEL — both cups with Level 3 push-up padded volume, rounded projection, lifted lower curve, and full coverage shape visible
 → SIDE WINGS — wide side panels extending outward on both sides — seamless construction visible\r
 → ADJUSTABLE STRAPS — both straps fully extended, slider hardware clearly visible on at least one strap\r
 → V-NECKLINE — front center neckline shape clearly defined\r
@@ -2844,7 +2866,7 @@ Text (regular/light weight, no icon): "3/4th Coverage"\r
 Color: #6F4940\r
 CALLOUT 2 — LEFT SIDE, lower zone\r
 → Thin straight line points to LEFT SIDE WING or BOTTOM BAND edge\r
-Text (regular/light weight, no icon): Soft Level 2 Padding.\r
+Text (regular/light weight, no icon): Level 3 Push-Up Padding.
 Color: #6F4940\r
 CALLOUT 3 — RIGHT SIDE, upper zone\r
 → Thin straight line points to RIGHT STRAP SLIDER / ADJUSTABLE HARDWARE\r
@@ -2886,7 +2908,7 @@ Font names must NEVER appear as visible text in image\r
 `,o=`FRONT PUSH UP PROMPT\r
 ""Generate a high-quality clean commercial product photograph for a lingerie catalog. This is a plain image only, not an advertisement layout.\r
 IMAGE REFERENCES:\r
-Image 1 (Model Reference): Use ONLY for the model's face, skin tone, hair texture, and physical appearance. Do NOT replicate any bra, brief, or clothing from this image. Image 2 (Product Reference — Bra): Use ONLY to replicate the exact bra design — its shape, cup structure, neckline, strap style, band fit, fabric finish, and exact colorway. Image 3 (Product Reference — Panty): Use ONLY to replicate the exact panty design — its exact shape, waistband style, fabric finish, seamless construction, and coverage. COLOR OVERRIDE FOR ALL PUSHUP SET IMAGES: the panty color must be recolored to match the exact bra color from Image 2 unless Image 3 already matches Image 2. Do NOT keep a beige/nude panty if the bra is another color.
+Image 1 (Model Reference): Use ONLY for the model's face, skin tone, hair texture, and physical appearance. Do NOT replicate any bra, brief, or clothing from this image. Image 2 (Product Reference — Bra): Use ONLY to replicate the exact bra design — its shape, cup structure, neckline, strap style, band fit, fabric finish, and exact colorway. Image 3 (Product Reference — Panty): Use ONLY to replicate the exact panty design — its exact shape, waistband style, fabric finish, seamless construction, and coverage. COLOR OVERRIDE FOR ALL PUSHUP SET IMAGES: the panty color must be recolored to match the exact bra color from Image 2 unless Image 3 already matches Image 2. Do NOT keep a beige/nude panty if the bra is another color.\r
 Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):\r
 \r
 The bra cups MUST visibly show a strong, natural Level 3 push-up padding \r
@@ -2919,10 +2941,10 @@ EXPRESSION & FACE: Direct, confident gaze straight into the camera. Lips slightl
 \r
 BRA (HERO PRODUCT — CRITICAL): Replicate exactly the bra from Image 2. This is the PRIMARY product being showcased. The bra must be: — Fully visible and completely unobstructed across the entire front — Cup shape, neckline, strap width, band fit all exactly matched to Image 2 — Color extracted directly from Image 2 — do NOT alter, brighten, or change the colorway — Sitting naturally and correctly on the model's body with proper fit\r
 \r
-STYLING — BOTTOM: The model is wearing the exact panty silhouette from Image 3 as the lower outfit. — Replicate the exact panty design from Image 3 completely — shape, silhouette, waistband, fabric, texture, fit, coverage, and construction — COLOR OVERRIDE: extract the panty color from Image 2 bra, not Image 3, so bra and panty become a perfectly matching set — Fit: sits exactly as shown in Image 3 — waistband clean, smooth, and fully visible at the front — full front coverage visible and unobstructed — The panty must be fully visible and unobstructed from the front — DO NOT change the panty style, cut, or construction from what is shown in Image 3
+STYLING — BOTTOM: The model is wearing the exact panty silhouette from Image 3 as the lower outfit. — Replicate the exact panty design from Image 3 completely — shape, silhouette, waistband, fabric, texture, fit, coverage, and construction — COLOR OVERRIDE: extract the panty color from Image 2 bra, not Image 3, so bra and panty become a perfectly matching set — Fit: sits exactly as shown in Image 3 — waistband clean, smooth, and fully visible at the front — full front coverage visible and unobstructed — The panty must be fully visible and unobstructed from the front — DO NOT change the panty style, cut, or construction from what is shown in Image 3\r
 \r
 FRAME — CRITICAL: This is a head-to-upper-thigh product catalog crop. The frame MUST include the full bra, full midriff, and the complete panty from Image 3. The crop may end just below the panty leg openings / upper thighs, but it must NOT cut through the panty, waistband, side seams, crotch panel, or leg openings. Feet, ankles, knees, and lower legs are outside the frame. NOT a tight head-to-waist crop. NOT a bra-only crop.\r
-WHAT MUST BE VISIBLE IN FRAME: The full bra — cups, straps, and band — must be entirely visible. The full panty from Image 3 must be visible from waistband to leg openings, including front coverage, side edges, waistband, fabric texture, and Image 3 construction/design, but recolored to the exact bra color from Image 2. The full midriff between bra band and panty waistband must be visible. Do NOT crop out the panty body.
+WHAT MUST BE VISIBLE IN FRAME: The full bra — cups, straps, and band — must be entirely visible. The full panty from Image 3 must be visible from waistband to leg openings, including front coverage, side edges, waistband, fabric texture, and Image 3 construction/design, but recolored to the exact bra color from Image 2. The full midriff between bra band and panty waistband must be visible. Do NOT crop out the panty body.\r
 \r
 HAIR: Medium to long hair, loosely flowing and naturally textured — falling over one shoulder. The right hand is lightly holding/tucking the hair at the back of the head, creating a casual lifted effect on that side. Hair must NOT cover both bra straps simultaneously — at minimum one strap clearly visible on each side.\r
 \r
@@ -2933,7 +2955,7 @@ TECHNICAL SPECIFICATIONS: — Format: Portrait, head-to-upper-thigh product crop
 \r
 NO TEXT / NO GRAPHICS RULE — CRITICAL: Do NOT render any visible text, brand names, logos, headlines, font names, labels, callouts, arrows, pointer lines, icons, dots, decorative graphics, UI marks, watermarks, captions, or typography anywhere in the image. The background must stay completely clean.\r
 \r
-NEGATIVE GUIDANCE — STRICTLY AVOID: ✗ Do NOT render text or callouts of any kind ✗ Do NOT render the brand name or font names ✗ Do NOT crop out the panty ✗ Do NOT show only the panty waistband ✗ Do NOT generate a bra-only or head-to-waist crop ✗ Do NOT cut through the panty body, leg openings, side seams, or crotch panel ✗ Do NOT show feet or ankles ✗ Do NOT alter or change the panty design, cut, or construction from Image 3 ✗ Do NOT keep Image 3 panty color if it differs from Image 2 bra color ✗ Do NOT use any panty color other than the exact bra color from Image 2 ✗ Do NOT raise both arms — only the right hand touches the hair ✗ Do NOT place both hands behind the head ✗ Do NOT place hands on hips or waist ✗ Do NOT add any clothing layer over the bra ✗ Do NOT use pure white or grey background — warm cream/off-white only ✗ Do NOT add tattoos, body art, or markings of any kind ✗ Do NOT use the bra color from Image 1 — color comes from Image 2 only ✗ Do NOT add props, furniture, or background elements ✗ Do NOT let hair cover both bra straps completely ✗ Do NOT let panty waistband be hidden or obscured ✗ Do NOT cover the midriff — it must remain bare and visible
+NEGATIVE GUIDANCE — STRICTLY AVOID: ✗ Do NOT render text or callouts of any kind ✗ Do NOT render the brand name or font names ✗ Do NOT crop out the panty ✗ Do NOT show only the panty waistband ✗ Do NOT generate a bra-only or head-to-waist crop ✗ Do NOT cut through the panty body, leg openings, side seams, or crotch panel ✗ Do NOT show feet or ankles ✗ Do NOT alter or change the panty design, cut, or construction from Image 3 ✗ Do NOT keep Image 3 panty color if it differs from Image 2 bra color ✗ Do NOT use any panty color other than the exact bra color from Image 2 ✗ Do NOT raise both arms — only the right hand touches the hair ✗ Do NOT place both hands behind the head ✗ Do NOT place hands on hips or waist ✗ Do NOT add any clothing layer over the bra ✗ Do NOT use pure white or grey background — warm cream/off-white only ✗ Do NOT add tattoos, body art, or markings of any kind ✗ Do NOT use the bra color from Image 1 — color comes from Image 2 only ✗ Do NOT add props, furniture, or background elements ✗ Do NOT let hair cover both bra straps completely ✗ Do NOT let panty waistband be hidden or obscured ✗ Do NOT cover the midriff — it must remain bare and visible\r
 REFERENCE INSTRUCTION: Image 1 = Model face and appearance reference only. Image 2 = Bra product design, structure, and color reference only. Image 3 = Panty product design, structure, and color reference only.""\r
 \r
 SIDE 1 PUSH UP PROMPT\r
@@ -2945,8 +2967,8 @@ REFERENCE IMAGES — EXACT REPLICATION REQUIRED\r
 \r
 REFERENCE IMAGE 1 (Model): Use this image as the EXACT reference for the model's face, skin tone, hair color, hair texture, body type, and overall appearance. Replicate identically — do not alter any facial feature, complexion, or hair characteristic.\r
 REFERENCE IMAGE 2 (Bra Product): Use this image as the EXACT reference for the bra's color, texture, fabric finish, silhouette, band width, strap width, and neckline shape. Replicate identically on the model's body. Do not alter the product in any way.\r
-REFERENCE IMAGE 3 (Lower Outfit): Use this image as the EXACT reference for the high-waisted panty's shape, texture, fabric finish, waistband style, coverage, and silhouette. Replicate the construction and fit identically on the model's body. COLOR OVERRIDE: the panty color must NOT stay beige/nude unless the bra is beige/nude; recolor the panty to match the exact bra color from REFERENCE IMAGE 2. The panty must sit at natural waist level, with seamless finish preserved.
-CRITICAL MATCHING SET RULE: Bra and panty MUST be the SAME color/shade. Extract the color from REFERENCE IMAGE 2 bra and apply that exact same shade, tone, hue, saturation, and fabric lighting response to the panty.
+REFERENCE IMAGE 3 (Lower Outfit): Use this image as the EXACT reference for the high-waisted panty's shape, texture, fabric finish, waistband style, coverage, and silhouette. Replicate the construction and fit identically on the model's body. COLOR OVERRIDE: the panty color must NOT stay beige/nude unless the bra is beige/nude; recolor the panty to match the exact bra color from REFERENCE IMAGE 2. The panty must sit at natural waist level, with seamless finish preserved.\r
+CRITICAL MATCHING SET RULE: Bra and panty MUST be the SAME color/shade. Extract the color from REFERENCE IMAGE 2 bra and apply that exact same shade, tone, hue, saturation, and fabric lighting response to the panty.\r
 \r
 Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):\r
 \r
@@ -2990,7 +3012,7 @@ Shoulders are relaxed, not raised or tensed\r
 Shot framed from MID-THIGH upward (3/4 body shot)\r
 Hair falls softly over both shoulders BUT must be directed AWAY from all bra straps, armhole edges, and bottom band — zero hair overlap on any part of the bra at any point\r
 Skin is completely tattoo-free and blemish-free\r
-Model wears the high-waisted panty silhouette from REFERENCE IMAGE 3 at natural waist level, recolored to match the exact bra color from REFERENCE IMAGE 2
+Model wears the high-waisted panty silhouette from REFERENCE IMAGE 3 at natural waist level, recolored to match the exact bra color from REFERENCE IMAGE 2\r
 The pronounced push-up lift, enhanced breast volume, and deep cleavage must be clearly visible and evident from this three-quarter angle.\r
 \r
 ═══════════════════════════════════════════════════════\r
@@ -2998,7 +3020,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 ═══════════════════════════════════════════════════════\r
 \r
 The bra from REFERENCE IMAGE 2 must be worn exactly as it appears — same color, same fabric, same fit, same silhouette\r
-The high-waisted panty from REFERENCE IMAGE 3 must be worn with the same seamless finish, same waistband height, same coverage, and same silhouette, but its color MUST match the exact bra color from REFERENCE IMAGE 2
+The high-waisted panty from REFERENCE IMAGE 3 must be worn with the same seamless finish, same waistband height, same coverage, and same silhouette, but its color MUST match the exact bra color from REFERENCE IMAGE 2\r
 ALL of the following BRA zones must be FULLY VISIBLE, unobstructed, and sharply in focus:\r
 → LEFT armhole edge, RIGHT armhole edge, Full bottom band of bra, Front center panel of bra, Both shoulder straps\r
 Primary lighting directed TOWARD the bra — it is the HERO product of this image\r
@@ -3205,12 +3227,11 @@ Fill: solid #6F4940 with white interior line illustration | Border ring: #6F4940
 Text: ""Breathable Cotton Fabric""\r
 Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)\r
 \r
-FEATURE 2:\r
-Icon: Small circular icon — thin line illustration of soft padding/gentle lift symbol (same style as Feature 1)\r
-Text: ""Soft 2nd Level Padding \r
-1 Cup fuller Appearance. ""\r
-Line 2: ""1 Cups fuller""\r
-Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)\r
+FEATURE 2:
+Icon: Small circular icon — thin line illustration of Level 3 push-up padding / strong lift symbol (same style as Feature 1)
+Text: ""Level 3 Push-Up Padding""
+Line 2: ""Lifted Fuller Shape""
+Line 1 bold (Fraunces, #6F4940), Line 2 regular (Inter, #6F4940)
 \r
 FEATURE 3:\r
 Icon: Small circular icon — thin line illustration of internal gripper/grip strip detail (same style as Feature 1)\r
@@ -3701,10 +3722,12 @@ ZOOM PUSH UP PROMPT\r
 ═══════════════════════════════════════════════════════\r
 ZOOM SHOT — CLOSE-UP TACTILE DETAIL\r
 ═══════════════════════════════════════════════════════\r
-REFERENCE IMAGE 1 (Model): Exact skin tone and body reference — chest to hip only. Face NOT shown.\r
-REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, seamless bonded construction. Replicate identically.\r
-═══════════════════════════════════════════════════════\r
-SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT\r
+REFERENCE IMAGE 1 (Model): Exact skin tone and body reference — chest to hip only. Face NOT shown.
+REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, seamless bonded construction. Replicate identically.
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+This zoom pose must clearly show the bra as a Level 3 push-up bra, not a flat bonded crop. The cups must have visible padded volume, upward under-cup lift, inward push toward center, rounded upper-cup fullness, and three-dimensional projection. Even in this close crop, the silhouette must read as strongly lifted and fuller than an unpadded bra. Do NOT render flat, soft Level 1/2, deflated, collapsed, or projection-less cups.
+═══════════════════════════════════════════════════════
+SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT
 ═══════════════════════════════════════════════════════\r
 Static clean close-up - chin/collarbone to below bottom band | NO hands | Aspect ratio: portrait 3:4\r
 \r
@@ -3717,8 +3740,9 @@ Skin: ZERO marks, indentation, irritation | Tattoo-free, blemish-free\r
 ═══════════════════════════════════════════════════════\r
 PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 ═══════════════════════════════════════════════════════\r
-All bra zones razor sharp: front panel smooth, bonded edges invisible, bottom band flat, side seamless, straps & neckline visible at top\r
-Fabric completely smooth, second-skin — NO stitching or seam lines\r
+All bra zones razor sharp: front panel smooth, bonded edges invisible, bottom band flat, side seamless, straps & neckline visible at top
+Fabric completely smooth, second-skin — NO stitching or seam lines
+LEVEL 3 PUSH-UP VISIBILITY: cup padding volume, rounded projection, lifted lower curve, and center shaping must be the hero product detail in this zoom shot.
 ═══════════════════════════════════════════════════════\r
 BACKGROUND & LIGHTING\r
 ═══════════════════════════════════════════════════════\r
@@ -3788,22 +3812,24 @@ MOCKUP SHOT — FLOATING PRODUCT ONLY\r
 MOCKUP SHOT — FLOATING PRODUCT ONLY\r
 ═══════════════════════════════════════════════════════\r
 IMPORTANT WORKFLOW NOTE: This is a PRODUCT MOCKUP SHOT — no model, no human. Upload ONLY the product flatlay image as your single reference. No model reference image needed.\r
-REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXACT reference for:\r
-- Bra color and fabric tone\r
-- Cup shape and padding volume\r
+REFERENCE IMAGE (Product Flatlay): Use the uploaded bra flatlay image as the EXACT reference for:
+- Bra color and fabric tone
+- Cup shape and Level 3 push-up padding volume
 - Strap width and length\r
 - Side wing width and shape\r
 - Hook-and-eye closure detail\r
 - Adjustable strap slider hardware\r
 - V-neckline shape\r
 - Overall silhouette and proportions\r
-Replicate all of the above identically. Do not alter any construction detail.\r
-═══════════════════════════════════════════════════════\r
-SHOT TYPE — FLOATING PRODUCT MOCKUP\r
+Replicate all of the above identically. Do not alter any construction detail.
+PUSH-UP PRODUCT LOCK — LEVEL 3 PADDING:
+The floating product must visibly read as a Level 3 push-up bra. Both cups must look sculpted, padded, lifted upward from beneath, pushed inward toward center, rounded through the upper cup, and projected forward with natural three-dimensional volume. Do NOT flatten the cups or reduce the effect to soft/light padding.
+═══════════════════════════════════════════════════════
+SHOT TYPE — FLOATING PRODUCT MOCKUP
 ═══════════════════════════════════════════════════════\r
 This is a PRODUCT-ONLY shot — absolutely NO model, NO human body, NO hands, NO skin visible anywhere\r
-The bra is presented as a FLOATING / LIFTED product — NOT a flat lay on a surface\r
-The bra must have NATURAL VOLUME and DIMENSION — cups have realistic projection and shape as if being worn\r
+The bra is presented as a FLOATING / LIFTED product — NOT a flat lay on a surface
+The bra must have NATURAL LEVEL 3 PUSH-UP VOLUME and DIMENSION — cups have realistic lifted projection, rounded padded shape, and inward push as if being worn
 The bra floats slightly above the background with a very soft, subtle shadow beneath it — shadow color warm cocoa-toned, never cold grey\r
 Straps are FULLY EXTENDED upward — both straps visible from cup to full strap length\r
 Adjustable slider hardware on both straps must be clearly visible\r
@@ -3816,7 +3842,7 @@ PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE\r
 ALL of the following must be FULLY VISIBLE and sharply in focus:\r
 → ARMHOLE EDGES — both left and right armhole openings clearly defined — clean bonded edges\r
 → BOTTOM BAND — full width visible, sitting naturally, elastic-free bonded finish\r
-→ CUP FRONT PANEL — both cups with natural volume, full coverage shape visible\r
+→ CUP FRONT PANEL — both cups with Level 3 push-up padded volume, rounded projection, lifted lower curve, and full coverage shape visible
 → SIDE WINGS — wide side panels extending outward on both sides — seamless construction visible\r
 → ADJUSTABLE STRAPS — both straps fully extended, slider hardware clearly visible on at least one strap\r
 → V-NECKLINE — front center neckline shape clearly defined\r
@@ -3869,10 +3895,10 @@ CALLOUT 1 — LEFT SIDE, upper zone\r
 → Thin straight line points to LEFT ARMHOLE EDGE of bra\r
 Text (regular/light weight, no icon): ""3/4th Coverage""\r
 Color: #6F4940\r
-CALLOUT 2 — LEFT SIDE, lower zone\r
-→ Thin straight line points to LEFT SIDE WING or BOTTOM BAND edge\r
-Text (regular/light weight, no icon):  Soft Level 2 Padding. \r
-Color: #6F4940\r
+CALLOUT 2 — LEFT SIDE, lower zone
+→ Thin straight line points to LEFT SIDE WING or BOTTOM BAND edge
+Text (regular/light weight, no icon):  Level 3 Push-Up Padding.
+Color: #6F4940
 CALLOUT 3 — RIGHT SIDE, upper zone\r
 → Thin straight line points to RIGHT STRAP SLIDER / ADJUSTABLE HARDWARE\r
 Text (regular/light weight, no icon): ""Adjustable Straps""\r
@@ -3914,19 +3940,21 @@ Font names must NEVER appear as visible text in image\r
 `))t.push({line:r,start:n}),n+=r.length+1;return t}function h(e,t,n=-1){return e.find(({line:e,start:r})=>r>n&&p(e,t))?.start??-1}function g(e,t){let n=m(e.raw),r=h(n,t);if(r<0)return e.raw.trim();let i=e.headings.filter(e=>f(e)!==f(t)).map(e=>h(n,e,r)).filter(e=>e>=0),a=i.length>0?Math.min(...i):e.raw.length;return e.raw.slice(r,a).trim()}function _(e,t){return e===`bra`?s:e===`pushup`?t?c:l:e===`panty`?d:u}function v(e,t){if(e===`panty`)switch(t){case`side1`:return`PANTY ONLY SIDE VIEW PROMPT`;case`side2`:return`PANTY ONLY FRONT VIEW PROMPT`;case`mood`:return`PANTY ONLY MOOD VIEW PROMPT`;case`back`:return`PANTY ONLY BACK VIEW PROMPT`;case`zoom`:return`ZOOM PROMPT`}if(e===`bra_panty`)switch(t){case`side1`:return`SIDE VIEW PROMPT`;case`side2`:return`SIDE VIEW 2 PROMPT`;case`mood`:return`MOOD SHOOT PROMPT`;case`zoom`:return`BRA PANTY ZOOM PROMPT`;case`back`:return`BACK VIEW PROMPT`}if(e===`bra`)switch(t){case`side1`:return`BRA ONLY SIDE 1 PROMPT`;case`side2`:return`BRA ONLY SIDE 2 PROMPT`;case`mood`:return`BRA ONLY MOOD PROMPT`;case`zoom`:return`BRA ONLY ZOOM PROMPT`;case`back`:return`BRA ONLY BACK PROMPT`}if(e===`pushup_bra_only`)switch(t){case`side1`:return`SIDE 1 PUSH UP PROMPT — BRA ONLY`;case`side2`:return`SIDE 2 PUSH UP PROMPT — BRA ONLY`;case`mood`:return`MOOD PUSH UP PROMPT — BRA ONLY`;case`zoom`:return`ZOOM PUSH UP PROMPT — (UNCHANGED — BRA ONLY BY DEFAULT)`;case`back`:return`BACK PUSH UP PROMPT — BRA ONLY`}switch(t){case`side1`:return`SIDE 1 PUSH UP PROMPT`;case`side2`:return`SIDE 2 PUSH UP PROMPT`;case`mood`:return`MOOD PUSH UP PROMPT`;case`zoom`:return`ZOOM PUSH UP PROMPT`;case`back`:return`BACK PUSH UP PROMPT`}}function y(e,t){return e.replace(/\{\{BACKGROUND_AND_LIGHTING\}\}/g,`Background: ${t.bg} (${t.name} brand background), clean seamless studio backdrop, no props or clutter. Lighting: soft, even, flattering studio lighting with no harsh shadows, consistent with ${t.name}'s "${t.overallLookFeel}" identity.`).replace(/\{\{BRAND_FONT_COLOR\}\}/g,t.fg)}function b(e){return e.replace(/[.*+?^${}()|[\]\\]/g,`\\$&`)}function x(e,t,n){return e.replace(new RegExp(b(t),`gi`),n)}function S(e,t){let r=e;for(let e of n)r=x(r,e.fg,t.fg),r=x(r,e.bg,t.bg),r=x(r,e.headingsDisplay,t.headingsDisplay),r=x(r,e.bodyUi,t.bodyUi),r=x(r,`${e.name} brand`,`${t.name} brand`),r=x(r,e.paletteNotes,t.paletteNotes),r=x(r,e.overallLookFeel,t.overallLookFeel);return C(r,t)}function C(e,t){return e.split(`
 `).map(e=>{let n=e;return n=n.replace(/(background(?:\s+color)?|backdrop|wall|bedroom|studio(?:\s+backdrop)?|negative[- ]space|breathing space|text panel|right panel|left panel)([^#\n]*?)#[0-9a-f]{6}/gi,(e,n,r)=>`${n}${r}${t.bg}`),n=n.replace(/(font|text color|color|callout|line|icon|dot|fill|stroke|border|ring|badge|heading|sub-heading|feature text|benefit text)([^#\n]*?)#[0-9a-f]{6}/gi,(e,n,r)=>`${n}${r}${t.fg}`),/#[0-9a-f]{6}/i.test(n)?/(background|backdrop|wall|bedroom|studio|negative[- ]space|breathing space|panel)/i.test(n)?n.replace(/#[0-9a-f]{6}/gi,t.bg):/(font|text|color|callout|line|icon|dot|fill|stroke|border|ring|badge|heading|sub-heading|feature|benefit)/i.test(n)?n.replace(/#[0-9a-f]{6}/gi,t.fg):n:n}).join(`
 `)}function w(t){return[`IMPORTANT SELECTED BRAND OVERRIDE:`,`Use the source prompt above exactly for pose, product, crop, callout structure, and reference-image rules.`,`The source prompt section has already been rewritten with the selected brand fonts and hex codes. Follow those rewritten values exactly.`,`If any old brand value still appears, ignore it and replace it with the selected brand values below.`,e(t),`HARD-CODED TEXT HEX: every visible heading, sub-heading, callout label, callout content, feature text, benefit text, callout body copy, icon fill, icon stroke, circular icon fill, border ring, callout line, pointer dot, badge text, and brand chip text must use exactly ${t.fg}. Heading, sub-heading, and every callout text line must share this same ${t.fg} hex. Do not use blue, black, grey, white, or any source-prompt color for text/graphics unless it equals ${t.fg}.`,`HARD-CODED BACKGROUND HEX: every studio backdrop, lifestyle wall, negative-space panel, right/left text panel, product panel, flat background, and visible empty background area must use exactly ${t.bg}. Do not use any source-prompt background hex, tint, approximate color, or generated substitute unless it equals ${t.bg}.`,`Use ${t.headingsDisplay} for headlines/display text and ${t.bodyUi} for sub-headings/body/callout text.`].join(`
-`)}function T(e,t,n){let r=e.callouts.map((e,t)=>e.trim()?`Callout ${t+1}: ${e.trim()}`:``).filter(Boolean),i=n===`mood`?`MOOD STYLE PRESET GRAPHICS OVERRIDE: render selected style text only. Do not render icons, circular icon containers, symbol drawings, icon borders, icon fills, icon backgrounds, or decorative pictograms for Mood.`:O(e,t);return[`SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:`,`Selected style: ${e.styleName}.`,`Use the exact source prompt section above for pose, crop, model position, negative space, callout count, callout direction, icon/line style, headline position, sub-heading position, and all layout/placement rules.`,`Only replace the written copy/content inside that existing layout with the selected style content below.`,`Do not invent extra labels, extra callouts, badges, captions, logos, or alternate wording.`,`Do not move callouts, icons, lines, dots, or text blocks away from the source prompt layout. Keep every visual element in the same placement zones described in the source prompt.`,`All selected-style text, callout content, icons, dots, lines, and callout graphics must use the selected brand font hex ${t.fg}; headings use ${t.headingsDisplay}, sub-heading/callouts use ${t.bodyUi}; backgrounds use ${t.bg}.`,`Heading: ${e.heading||`Use no heading text.`}`,e.subHeading?`Sub-heading: ${e.subHeading}`:`Sub-heading: Use no sub-heading text.`,r.length>0?r.join(`
+`)}function T(e,t,n){let r=e.callouts.map((e,t)=>e.trim()?`Callout ${t+1}: ${e.trim()}`:``).filter(Boolean),i=n===`mood`?`MOOD STYLE PRESET GRAPHICS OVERRIDE: render selected style text only. Do not render icons, circular icon containers, symbol drawings, icon borders, icon fills, icon backgrounds, or decorative pictograms for Mood.`:j(e,t);return[`SELECTED STYLE PRESET CONTENT OVERRIDE — CRITICAL:`,`Selected style: ${e.styleName}.`,`Use the exact source prompt section above for pose, crop, model position, negative space, callout count, callout direction, icon/line style, headline position, sub-heading position, and all layout/placement rules.`,`Only replace the written copy/content inside that existing layout with the selected style content below.`,`Do not invent extra labels, extra callouts, badges, captions, logos, or alternate wording.`,`Do not move callouts, icons, lines, dots, or text blocks away from the source prompt layout. Keep every visual element in the same placement zones described in the source prompt.`,`All selected-style text, callout content, icons, dots, lines, and callout graphics must use the selected brand font hex ${t.fg}; headings use ${t.headingsDisplay}, sub-heading/callouts use ${t.bodyUi}; backgrounds use ${t.bg}.`,`Heading: ${e.heading||`Use no heading text.`}`,e.subHeading?`Sub-heading: ${e.subHeading}`:`Sub-heading: Use no sub-heading text.`,r.length>0?r.join(`
 `):`Callouts: Use no callout text.`,i].join(`
-`)}function E(e){return(e??`auto`).trim().toLowerCase().replace(/[\s-]+/g,`_`)}function D(e,t){let n=`${E(t)} ${e}`.toLowerCase();return/armhole|underarm|rash|chafe|digging/.test(n)?`a smooth underarm curve / armhole comfort symbol`:/bottom|band|underbust|elastic/.test(n)?`a curved bra band / underbust support symbol`:/strap|shoulder/.test(n)?`an adjustable shoulder strap symbol`:/hook|closure|adjustable|3[\s_/-]*level/.test(n)?`three hook-and-eye closure rows`:/wing|side[\s_/-]*wing|back[\s_/-]*smooth|smoothen/.test(n)?`wide side wing panels smoothing the back`:/pad|padding|lift|push/.test(n)?`a lifted padded cup / gentle lift symbol`:/v[\s_/-]*neck|neckline/.test(n)?`a clean V-neckline outline`:/coverage|cover/.test(n)?`a full coverage cup outline`:/wire[\s_/-]*free|w[\s_/-]*hold|support/.test(n)?`a wire-free support arc`:/u[\s_/-]*back/.test(n)?`a back-view U-shape strap support symbol`:/fabric|seamless|stitch|no[\s_/-]*stitch|smooth|polyamide|breath|cotton|weave/.test(n)?`a seamless fabric weave / smooth wave symbol`:/grip|gripper|anti[\s_/-]*slip/.test(n)?`a grip-strip texture symbol`:/spill|spillage|bulge/.test(n)?`a contained side-cup anti-spillage symbol`:`a simple product-feature symbol inferred from the exact callout words`}function O(e,t){let n=e.callouts.map((t,n)=>{let r=t.trim();if(!r)return``;let i=e.calloutZones?.[n];return`Callout ${n+1} icon: auto-detect from "${r}" -> draw ${D(r,i)}.`}).filter(Boolean);return n.length===0?`AUTO-DETECTED ICON RULE: no selected callout text is present, so do not render any callout icons.`:[`AUTO-DETECTED ICON RULE — CRITICAL:`,`Do not copy fixed icon examples from the source prompt when selected style content is active.`,`For each callout, choose the icon symbol from that callout's actual words and garment zone. The icon meaning must match the callout content exactly.`,`Every icon must be a solid ${t.fg} circular icon with a clear white interior line illustration. The icon fill, border ring, connector line, and touch/connector dots must all use ${t.fg}; never black, grey, blue, magenta, or any other color unless it is exactly ${t.fg}.`,...n].join(`
-`)}function k(e,t,n){let r=n?[n.heading,n.subHeading,...n.callouts].map(e=>e.trim()).filter(Boolean):[];return[`FINAL RENDER CONTRACT — HIGHEST PRIORITY:`,`Selected brand is ${e.name}. Use ONLY this brand's visual specification in the final image.`,`FINAL TEXT/CALLOUT/ICON HEX: ${e.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${e.fg}.`,`FINAL LINE COLOR LOCK: every connector line on every pose, especially Back and Side 1, must use ${e.fg} exactly. Do not render black, grey, blue, pink, magenta, faded purple, gradient, transparent, or approximate lines.`,`FINAL BACKGROUND HEX: ${e.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${e.bg}, not an approximate blue/beige/grey substitute.`,`FINAL FONTS: headings/display text must use ${e.headingsDisplay}; sub-headings, body copy, and callouts must use ${e.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,`Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.`,t===`side1`?[`SIDE 1 ICON/CALLOUT LOCK:`,`Render exactly three product feature callout groups, matching the source prompt positions.`,`Do not omit icons. Side 1 must contain exactly three visible circular icons, one attached to each callout group.`,`Each Side 1 icon must be a clean circular icon with solid ${e.fg} fill and a simple white line-art lingerie/product-feature symbol inside.`,`The white line-art symbol inside each icon must be auto-detected from that callout's selected text, not copied from the source prompt examples.`,`Do NOT render numbered icon badges such as 1, 2, or 3. Do NOT render arrow glyphs, random symbols, broken brackets, or text inside the icons.`,`Every Side 1 connector line and product touch dot must use ${e.fg}. Lines must be thin, clean, and connected to the correct product zone.`].join(`
+`)}function E(e){return e===`pushup_bra_only`||e===`pushup_set`}function D(e){let t=/(light\s+padding|gentle\s+lift|soft\s+padding|level\s*2|2nd\s+level|cup\s+fuller|padding|push[\s-]*up|lift)/i;return{...e,callouts:e.callouts.map(e=>t.test(e)?`Level 3 Push-Up Padding / Visible lifted fuller shape`:e)}}function O(e,t,n){let r=n?.callouts.map((e,t)=>e.trim()?`Allowed push-up callout ${t+1}: "${e.trim()}"`:``).filter(Boolean);return[`PUSH-UP LEVEL 3 FINAL RENDER LOCK — HIGHEST PRIORITY:`,`This is Pushup mode. The bra must visibly render as a Level 3 push-up bra in the final pixels.`,`Both cups must be visibly lifted upward from beneath, pushed inward toward center, rounded through the upper cup, fuller than an unpadded bra, and three-dimensional with clear forward projection.`,`The under-cup curve must show strong padding lift. The center shaping must show the inward push clearly while staying modest, natural, symmetric, and catalogue-appropriate.`,t===`back`?`For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra.`:`For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.`,`Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.`,`Do NOT allow selected style preset copy to weaken the product effect. Any old copy such as "Light Padding", "Gentle Lift", "Soft Level 2 Padding", or "2nd Level Padding" is forbidden in Pushup mode.`,r&&r.length>0?[`VISIBLE PUSH-UP COPY OVERRIDE:`,...r].join(`
+`):``,`All push-up callout text and icons still use ${e.fg}; background remains ${e.bg}; brand styling remains unchanged.`].filter(Boolean).join(`
+`)}function k(e){return(e??`auto`).trim().toLowerCase().replace(/[\s-]+/g,`_`)}function A(e,t){let n=`${k(t)} ${e}`.toLowerCase();return/armhole|underarm|rash|chafe|digging/.test(n)?`a smooth underarm curve / armhole comfort symbol`:/bottom|band|underbust|elastic/.test(n)?`a curved bra band / underbust support symbol`:/strap|shoulder/.test(n)?`an adjustable shoulder strap symbol`:/hook|closure|adjustable|3[\s_/-]*level/.test(n)?`three hook-and-eye closure rows`:/wing|side[\s_/-]*wing|back[\s_/-]*smooth|smoothen/.test(n)?`wide side wing panels smoothing the back`:/pad|padding|lift|push/.test(n)?`a lifted padded cup / gentle lift symbol`:/v[\s_/-]*neck|neckline/.test(n)?`a clean V-neckline outline`:/coverage|cover/.test(n)?`a full coverage cup outline`:/wire[\s_/-]*free|w[\s_/-]*hold|support/.test(n)?`a wire-free support arc`:/u[\s_/-]*back/.test(n)?`a back-view U-shape strap support symbol`:/fabric|seamless|stitch|no[\s_/-]*stitch|smooth|polyamide|breath|cotton|weave/.test(n)?`a seamless fabric weave / smooth wave symbol`:/grip|gripper|anti[\s_/-]*slip/.test(n)?`a grip-strip texture symbol`:/spill|spillage|bulge/.test(n)?`a contained side-cup anti-spillage symbol`:`a simple product-feature symbol inferred from the exact callout words`}function j(e,t){let n=e.callouts.map((t,n)=>{let r=t.trim();if(!r)return``;let i=e.calloutZones?.[n];return`Callout ${n+1} icon: auto-detect from "${r}" -> draw ${A(r,i)}.`}).filter(Boolean);return n.length===0?`AUTO-DETECTED ICON RULE: no selected callout text is present, so do not render any callout icons.`:[`AUTO-DETECTED ICON RULE — CRITICAL:`,`Do not copy fixed icon examples from the source prompt when selected style content is active.`,`For each callout, choose the icon symbol from that callout's actual words and garment zone. The icon meaning must match the callout content exactly.`,`Every icon must be a solid ${t.fg} circular icon with a clear white interior line illustration. The icon fill, border ring, connector line, and touch/connector dots must all use ${t.fg}; never black, grey, blue, magenta, or any other color unless it is exactly ${t.fg}.`,...n].join(`
+`)}function M(e,t,n){let r=n?[n.heading,n.subHeading,...n.callouts].map(e=>e.trim()).filter(Boolean):[];return[`FINAL RENDER CONTRACT — HIGHEST PRIORITY:`,`Selected brand is ${e.name}. Use ONLY this brand's visual specification in the final image.`,`FINAL TEXT/CALLOUT/ICON HEX: ${e.fg} only. Headings, sub-headings, every callout content line, feature text, benefit text, circular icon fills, icon strokes, icon borders, callout lines, connector dots, badges, and brand chips must all use the same ${e.fg}.`,`FINAL LINE COLOR LOCK: every connector line on every pose, especially Back and Side 1, must use ${e.fg} exactly. Do not render black, grey, blue, pink, magenta, faded purple, gradient, transparent, or approximate lines.`,`FINAL BACKGROUND HEX: ${e.bg} only for studio backgrounds, text panels, negative-space areas, product panels, empty breathing space, and lifestyle wall/backdrop areas. The background must visibly read as ${e.bg}, not an approximate blue/beige/grey substitute.`,`FINAL FONTS: headings/display text must use ${e.headingsDisplay}; sub-headings, body copy, and callouts must use ${e.bodyUi}. Do not use default system fonts, black text, grey text, blue text, or any source-prompt font/color if it differs from this brand.`,`Do not render font names, hex codes, brand-spec table labels, UI labels, numbers inside callout icons, arrows as text characters, or placeholder text.`,t===`side1`?[`SIDE 1 ICON/CALLOUT LOCK:`,`Render exactly three product feature callout groups, matching the source prompt positions.`,`Do not omit icons. Side 1 must contain exactly three visible circular icons, one attached to each callout group.`,`Each Side 1 icon must be a clean circular icon with solid ${e.fg} fill and a simple white line-art lingerie/product-feature symbol inside.`,`The white line-art symbol inside each icon must be auto-detected from that callout's selected text, not copied from the source prompt examples.`,`Do NOT render numbered icon badges such as 1, 2, or 3. Do NOT render arrow glyphs, random symbols, broken brackets, or text inside the icons.`,`Every Side 1 connector line and product touch dot must use ${e.fg}. Lines must be thin, clean, and connected to the correct product zone.`].join(`
 `):``,t===`back`?[`BACK VIEW COLOR/GRAPHIC LOCK:`,`Back headline, sub-heading, all three feature labels, benefit lines, circular icon fills, icon rings, interior icon strokes, and connector lines must use ${e.fg} only, with white interior icon drawings only.`,`Do not use black text for Back callouts. Do not use pink/magenta/purple variants unless the exact selected brand hex is that value.`,`Back connector lines must be thin, clean, and visible in the selected brand hex; no faded alternate color and no mismatched line color.`].join(`
 `):``,n?[`SELECTED STYLE COPY IS THE ONLY COPY ALLOWED:`,`Replace all example/source-prompt marketing copy with the selected style content below.`,r.length>0?r.map((e,t)=>`Allowed text ${t+1}: "${e}"`).join(`
 `):`Allowed text: none. Do not render any headline, sub-heading, or callout copy.`,`Do NOT render old source-prompt text unless it appears verbatim in the allowed selected-style text list above.`,`Forbidden old source copy examples include: "Elastic-Free Construction", "No Digging. No Marks. No Itching", "Elastic-free Armhole", "Elastic-free Bottom Band", "Seamless Design", "Rashfree Comfort", "Seamless Support", and "Invisible under Outfits".`,`Do not duplicate callout content. Do not merge multiple callouts into one paragraph. Keep each selected callout as its own clean callout group.`].join(`
 `):``].filter(Boolean).join(`
-`)}function A(e){return[`UNIVERSAL MOOD BACKGROUND LOCK — BRAND-SPECIFIC:`,`For every Mood deck image in every mode, use the same clean airy bedroom language:`,`Background wall/backdrop must be a smooth, bright, softly blurred ${e.bg} brand-color wall, matching ${e.name}'s background hex exactly.`,`Use a clean white or very light ivory bed with soft bedding at the lower frame, like a premium morning lifestyle shoot.`,`The setting should feel fresh, open, minimal, and polished: no yellow beige cast, no dark warm room, no clutter, no decorative props, no plants, no visible curtains, no busy furniture, no colored panels.`,`Lighting must be soft bright daylight, clean and even, with gentle natural shadows only. The background should look like the reference clean bed mood image, recolored through the selected brand background hex.`,`All background panels, visible wall areas, and empty negative-space zones must stay in ${e.bg}; all text, dots, callout lines, and Mood graphics must stay in ${e.fg}.`].join(`
-`)}function j(e){return[`MOOD SHOT NO-ICON LOCK — HIGHEST PRIORITY:`,`This is a Mood deck image. Render content text only with clean typography and, only where the source Mood layout requires them, thin connector lines and tiny touch-point dots.`,`Strictly do NOT render any icons in Mood: no circular icons, no icon badges, no symbol drawings, no pictograms, no decorative graphic marks, no icon containers, no icon borders, no icon fills, and no white line-art symbols.`,`Ignore and override any source prompt, selected style preset, auto-icon rule, or inferred callout-zone instruction that asks for icons in Mood.`,`Mood headings, sub-headings, callout text, thin connector lines, and tiny dots must use ${e.fg}. Mood background must use ${e.bg}.`].join(`
-`)}function M({shootType:e,pushupBraOnly:n,deckShot:r,brand:i,aspect:a,userNote:o,regenerationNote:s,presetContent:c}){let l=_(e,n),u=v(l.id,r),d=S(y(g(l,u),i),i),f=l.id===`pushup_bra_only`&&r===`mood`?[`PUSHUP BRA-ONLY MOOD ROUTE LOCK:`,`This image must use the MOOD PUSH UP PROMPT — BRA ONLY section from Pushup-Bra-Only-Prompt.txt only.`,`Do not use Side 1, Side 2, Back, Zoom, Pushup Set, Bra+Panty, or Panty prompt layout for this Mood image.`].join(`
-`):``,p=l.id===`pushup_set`?[`PUSHUP SET ROUTE LOCK:`,`This Pushup mode includes the panty reference and must use Pushup-Set.txt only.`,`Use the exact selected Pushup-Set.txt section for content layout, icons, callout lines, dots, text placement, model crop, bra placement, and panty placement.`,`Do not switch to Pushup-Bra-Only-Prompt.txt, Bra-prompt.txt, Bra-panty-Prompt.txt, or any panty-only layout.`].join(`
-`):``,m=[`DECK SHOT LOCK:`,`Deck shot: ${t[r]}.`,`Prompt source file: ${l.fileName}.`,`Prompt source section: ${u}.`,`Aspect selected in Studio Flow: ${a}.`,`Fixed image quality: generate a native, sharp 2K ecommerce image with a 2048px short edge. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.`,c?`Content/layout lock: render the selected style preset text inside the exact headline, sub-heading, and callout placement described by the source prompt. The source prompt layout is mandatory.`:``,`Generate only this deck shot. Keep model identity, product identity, and brand identity consistent with the rest of the deck.`,o?.trim()?`User refinement note: ${o.trim()}`:``,s?.trim()?`Regeneration correction note: ${s.trim()}`:``].filter(Boolean),h=[d,w(i),m.join(`
-`)];return r===`mood`&&h.push(A(i)),f&&h.push(f),p&&h.push(p),c&&h.push(T(c,i,r)),h.push(k(i,r,c)),r===`mood`&&h.push(j(i)),{prompt:h.join(`
+`)}function N(e){return[`UNIVERSAL MOOD BACKGROUND LOCK — BRAND-SPECIFIC:`,`For every Mood deck image in every mode, use the same clean airy bedroom language:`,`Background wall/backdrop must be a smooth, bright, softly blurred ${e.bg} brand-color wall, matching ${e.name}'s background hex exactly.`,`Use a clean white or very light ivory bed with soft bedding at the lower frame, like a premium morning lifestyle shoot.`,`The setting should feel fresh, open, minimal, and polished: no yellow beige cast, no dark warm room, no clutter, no decorative props, no plants, no visible curtains, no busy furniture, no colored panels.`,`Lighting must be soft bright daylight, clean and even, with gentle natural shadows only. The background should look like the reference clean bed mood image, recolored through the selected brand background hex.`,`All background panels, visible wall areas, and empty negative-space zones must stay in ${e.bg}; all text, dots, callout lines, and Mood graphics must stay in ${e.fg}.`].join(`
+`)}function P(e){return[`MOOD SHOT NO-ICON LOCK — HIGHEST PRIORITY:`,`This is a Mood deck image. Render content text only with clean typography and, only where the source Mood layout requires them, thin connector lines and tiny touch-point dots.`,`Strictly do NOT render any icons in Mood: no circular icons, no icon badges, no symbol drawings, no pictograms, no decorative graphic marks, no icon containers, no icon borders, no icon fills, and no white line-art symbols.`,`Ignore and override any source prompt, selected style preset, auto-icon rule, or inferred callout-zone instruction that asks for icons in Mood.`,`Mood headings, sub-headings, callout text, thin connector lines, and tiny dots must use ${e.fg}. Mood background must use ${e.bg}.`].join(`
+`)}function F({shootType:e,pushupBraOnly:n,deckShot:r,brand:i,aspect:a,userNote:o,regenerationNote:s,presetContent:c}){let l=_(e,n),u=v(l.id,r),d=S(y(g(l,u),i),i),f=E(l.id),p=f&&c?D(c):c,m=l.id===`pushup_bra_only`&&r===`mood`?[`PUSHUP BRA-ONLY MOOD ROUTE LOCK:`,`This image must use the MOOD PUSH UP PROMPT — BRA ONLY section from Pushup-Bra-Only-Prompt.txt only.`,`Do not use Side 1, Side 2, Back, Zoom, Pushup Set, Bra+Panty, or Panty prompt layout for this Mood image.`].join(`
+`):``,h=l.id===`pushup_set`?[`PUSHUP SET ROUTE LOCK:`,`This Pushup mode includes the panty reference and must use Pushup-Set.txt only.`,`Use the exact selected Pushup-Set.txt section for content layout, icons, callout lines, dots, text placement, model crop, bra placement, and panty placement.`,`Do not switch to Pushup-Bra-Only-Prompt.txt, Bra-prompt.txt, Bra-panty-Prompt.txt, or any panty-only layout.`].join(`
+`):``,b=[`DECK SHOT LOCK:`,`Deck shot: ${t[r]}.`,`Prompt source file: ${l.fileName}.`,`Prompt source section: ${u}.`,`Aspect selected in Studio Flow: ${a}.`,`Fixed image quality: generate a native, sharp 2K ecommerce image with a 2048px short edge. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.`,p?`Content/layout lock: render the selected style preset text inside the exact headline, sub-heading, and callout placement described by the source prompt. The source prompt layout is mandatory.`:``,`Generate only this deck shot. Keep model identity, product identity, and brand identity consistent with the rest of the deck.`,o?.trim()?`User refinement note: ${o.trim()}`:``,s?.trim()?`Regeneration correction note: ${s.trim()}`:``].filter(Boolean),x=[d,w(i),b.join(`
+`)];return r===`mood`&&x.push(N(i)),m&&x.push(m),h&&x.push(h),p&&x.push(T(p,i,r)),x.push(M(i,r,p)),f&&x.push(O(i,r,p)),r===`mood`&&x.push(P(i)),{prompt:x.join(`
 
-`),sourceFile:l.fileName,section:u}}export{M as composeDeckPrompt};
+`),sourceFile:l.fileName,section:u}}export{F as composeDeckPrompt};
