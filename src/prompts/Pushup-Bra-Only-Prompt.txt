@@ -199,7 +199,7 @@ Do NOT allow hair over bra, callouts over face or bra, harsh shadows, warm-yello
 SIDE 2 PUSH UP PROMPT — BRA ONLY
 """""""REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
 Use Image 1 for the model's identity and body appearance only. Do NOT copy Image 1's original crop, framing, edge cuts, or missing side margins. If Image 1 has any arm/shoulder close to an edge or cropped, reconstruct the full visible viewer-right arm naturally inside this new layout.
-REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, silhouette. Replicate identically.
+REFERENCE IMAGE 2 (Product): Exact reference for bra color, fabric texture, seam placement, trim, strap style, and construction details. Do NOT copy a flat or shallow cup silhouette from the reference if it conflicts with Level 3 push-up shaping; convert the visible cup volume into a clearly lifted Level 3 push-up silhouette.
 Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
 
 The bra cups MUST visibly show a strong, natural Level 3 push-up padding effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
@@ -207,18 +207,19 @@ The bra cups MUST visibly show a strong, natural Level 3 push-up padding effect.
 Specific rendering instructions:
 — Both cups must appear visibly LIFTED upward and pushed inward toward center simultaneously
 — The upper cup area must show clear, natural fullness and visible rounded projection — NOT flat or deflated
-— There must be a visible, modest, natural-looking center shaping created by the inward push of both cups
+— There must be a visible, modest, natural-looking center cleavage/shaping created by the inward push of both cups
 — The cup silhouette must appear three-dimensional, projected, and lifted — NOT flat against the chest
 — The underside of each cup must show a visible upward curve indicating strong padding lift from beneath
 — The push must look symmetric — both cups lifted equally
 — The overall bust silhouette must read as clearly enhanced, lifted, and fuller in shape compared to an unpadded bra
 — This must be visible in the head-to-navel catalog crop without needing to zoom in
+— Because this is BRA-ONLY Side 2, the bra is larger in frame than the full-set mode; the Level 3 cup projection must be easier to see than in the full-set Side 2 image
 
 DO NOT render flat, light-padding, Level 1/2, deflated, or projection-less cups.
 DO NOT make the effect anatomically exaggerated or unrealistic.
-DO NOT change the external cup fabric, color, or structure.
+DO NOT change the external cup fabric, color, seams, trim, straps, or bottom-band construction.
 The push is INTERNAL Level 3 padding lift — external silhouette result must be clearly visible, natural, and catalogue-appropriate.
-SIDE 2 PUSH-UP HARD LOCK: In this front-facing Side 2 deck shot, the result is wrong if the bust silhouette looks light, soft, flat, or only gently lifted. Make the Level 3 padding visibly shape both cups with strong upward support, inward center push, rounded fullness, and lifted forward projection.
+SIDE 2 PUSH-UP HARD LOCK: In this front-facing BRA-ONLY Side 2 deck shot, the result is wrong if the bust silhouette looks light, soft, flat, shallow, spread apart, minimizer-like, or only gently lifted. Make the Level 3 padding visibly shape both cups with strong upward support, inward center push, rounded upper-cup fullness, a modest natural center cleavage/shaping line, and lifted forward projection.
 ═══════════════════════════════════════════════════════
 POSE & BODY DIRECTION
 ═══════════════════════════════════════════════════════
@@ -231,6 +232,7 @@ FULL ARM CONTAINMENT — STRICT: both arms must be visible as complete vertical 
 CAMERA DISTANCE — STRICT: use a medium upper-body catalog shot, not a close-up crop. The model must appear about 30–35% smaller than a tight portrait crop so both arms and both side body edges fit comfortably inside the canvas.
 REFERENCE CROP OVERRIDE — STRICT: never inherit a cropped arm, cropped shoulder, or tight right-edge boundary from the model reference photo. The new generated image must create a fresh canvas with the full viewer-right arm visible inside the frame.
 Body language: clean, modern, effortlessly premium
+The pronounced Level 3 push-up lift, enhanced upper-cup volume, inward center push, and natural center cleavage/shaping must be the visual focal point and clearly visible from the front view.
 ═══════════════════════════════════════════════════════
 PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
 ═══════════════════════════════════════════════════════

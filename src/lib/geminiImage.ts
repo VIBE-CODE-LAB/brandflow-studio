@@ -84,8 +84,16 @@ function pushupGenerationLock(options: GenerateImageOptions): string {
     "Both cups must show strong padded volume, upward lift from the under-cup, inward center push, rounded upper-cup fullness, visible fuller shape, and forward three-dimensional projection.",
     "The result is wrong if the cups look flat, shallow, lightly padded, minimizer-like, sports-bra-like, or only gently lifted.",
     "If any heading, sub-heading, or style-preset text says light padding, gentle lift, second skin, or easy support, ignore that weak meaning and render visible Level 3 push-up shaping instead.",
+    options.pushupBraOnly && options.deckShot === "side2"
+      ? [
+          "BRA-ONLY SIDE 2 SPECIFIC OVERRIDE:",
+          "This front-facing bra-only image must not copy a flat uploaded bra silhouette. Preserve the garment color, fabric, seams, straps, trim, and band, but visibly reshape the worn cups into Level 3 push-up volume.",
+          "Make the effect stronger and easier to see than full-set Side 2 because there is no panty and the bra is larger in frame: lifted under-cup curve, rounded upper-cup fullness, inward center push, modest natural center cleavage/shaping, and forward cup projection.",
+          "A normal molded bra, T-shirt bra, shallow cup, minimizer, or gentle support result is a failed render.",
+        ].join("\n")
+      : "",
     "Keep the effect natural, symmetric, modest, and ecommerce-catalog appropriate while making the Level 3 push-up lift clearly visible.",
-  ].join("\n");
+  ].filter(Boolean).join("\n");
 }
 
 function base64ToBlob(data: string, mimeType: string): Blob {

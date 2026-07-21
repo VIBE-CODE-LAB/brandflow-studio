@@ -390,6 +390,16 @@ function pushupEffectRenderLock(
     .join("\n");
 }
 
+function pushupBraOnlySide2RenderLock(): string {
+  return [
+    "PUSHUP BRA-ONLY SIDE 2 EXTRA RENDER LOCK — ABSOLUTE PRIORITY:",
+    "This deck image is specifically Pushup Bra-Only toggle mode, Side 2/front-facing pose.",
+    "Do not copy a flat or shallow cup silhouette from the uploaded bra reference. Preserve color, fabric, seams, trim, straps, and band construction, but visibly convert the worn bra into a Level 3 push-up shape.",
+    "The final pixels must show stronger lift than the full-set Side 2: rounded upper-cup fullness, upward under-cup lift, inward center push, modest natural center cleavage/shaping, and clear forward projection.",
+    "If the bra looks like ordinary molded cups, light padding, no-padding comfort support, minimizer support, or a flat T-shirt bra, the generation failed.",
+  ].join("\n");
+}
+
 function normalizeCalloutZone(zone?: string): string {
   return (zone ?? "auto").trim().toLowerCase().replace(/[\s-]+/g, "_");
 }
@@ -599,6 +609,9 @@ export function composeDeckPrompt({
   if (effectivePresetContent) sections.push(stylePresetOverride(effectivePresetContent, brand, deckShot));
   sections.push(finalBrandRenderContract(brand, deckShot, effectivePresetContent));
   if (pushupMode) sections.push(pushupEffectRenderLock(brand, deckShot, effectivePresetContent));
+  if (source.id === "pushup_bra_only" && deckShot === "side2") {
+    sections.push(pushupBraOnlySide2RenderLock());
+  }
   if (deckShot === "mood") sections.push(moodNoIconLock(brand));
 
   return {
