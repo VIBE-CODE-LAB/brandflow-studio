@@ -350,6 +350,41 @@ function stylePresetOverride(content: ShotPresetContent, brand: Brand, deckShot:
   ].filter(Boolean).join("\n");
 }
 
+function braPresetContentLock(content: ShotPresetContent, brand: Brand, deckShot: DeckShotKey): string {
+  const selectedCallouts = content.callouts
+    .map((callout, index) => (callout.trim() ? `Bra mode callout ${index + 1} exact text: "${callout.trim()}"` : ""))
+    .filter(Boolean);
+  const allowedCopy = [
+    content.heading,
+    content.subHeading,
+    ...content.callouts,
+  ]
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  return [
+    "BRA MODE SELECTED STYLE CONTENT LOCK — HIGHEST PRIORITY:",
+    `This image is plain Bra mode, ${DECK_SHOT_LABELS[deckShot]} deck shot.`,
+    "Use Bra-prompt.txt only for pose, crop, model direction, product visibility, callout placement, connector-line placement, icon/no-icon behavior, and background layout.",
+    "Replace the written marketing copy from the Bra-prompt.txt source section with the selected style preset content below.",
+    "Do not use Pushup, Pushup Bra-Only, Bra+Panty, or Panty preset wording, product-effect wording, or prompt layout.",
+    `Bra mode heading exact text: "${content.heading.trim()}".`,
+    content.subHeading.trim()
+      ? `Bra mode sub-heading exact text: "${content.subHeading.trim()}".`
+      : "Bra mode sub-heading exact text: render no sub-heading.",
+    selectedCallouts.length > 0
+      ? selectedCallouts.join("\n")
+      : "Bra mode callouts exact text: render no callout copy.",
+    allowedCopy.length > 0
+      ? ["BRA MODE ALLOWED VISIBLE COPY:", ...allowedCopy.map((item, index) => `Allowed bra text ${index + 1}: "${item}"`)].join("\n")
+      : "BRA MODE ALLOWED VISIBLE COPY: none. Do not render any heading, sub-heading, or callout text.",
+    "The source prompt's default example copy is forbidden unless it appears verbatim in the selected style content above.",
+    'Forbidden Bra source examples include: "Elastic-Free Construction", "No Digging. No Marks. No Itching.", "Comfort that feels light", "Soft touch. Gentle support.", "Breathable Cotton Fabric", "Elastic-free Armhole", "Elastic-free Bottom Band", "No-Stitch Design", "No Digging.", and "No Rashes."',
+    "Keep each selected preset callout as its own callout group. Do not merge, summarize, translate, rewrite, duplicate, or invent alternate text.",
+    `All Bra mode selected-style text, icons, connector lines, dots, and callout graphics must use ${brand.fg}; headings use ${brand.headingsDisplay}; sub-heading and callouts use ${brand.bodyUi}; background uses ${brand.bg}.`,
+  ].join("\n");
+}
+
 function isPushupSource(sourceId: PromptSourceId): boolean {
   return sourceId === "pushup_bra_only" || sourceId === "pushup_set";
 }
@@ -604,6 +639,9 @@ export function composeDeckPrompt({
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
   if (effectivePresetContent) sections.push(stylePresetOverride(effectivePresetContent, brand, deckShot));
+  if (source.id === "bra" && effectivePresetContent) {
+    sections.push(braPresetContentLock(effectivePresetContent, brand, deckShot));
+  }
   sections.push(finalBrandRenderContract(brand, deckShot, effectivePresetContent));
   if (pushupMode) sections.push(pushupEffectRenderLock(brand, deckShot, effectivePresetContent));
   if (source.id === "pushup_bra_only" && deckShot === "side2") {
