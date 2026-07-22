@@ -21,11 +21,13 @@ import {
   type AspectId,
   type GeneratedShot,
   type RegenerateIssue,
+  type ShotPresetContent,
   type ShootType,
   buildRegenerationNote,
   getBrand,
   shootTypeLabel,
 } from "@/lib/studio";
+import { findPreset, isPresetPose, type StylePreset } from "@/lib/stylePresets";
 
 function aspectRatio(id: AspectId): string {
   return ASPECTS.find((a) => a.id === id)?.ratio ?? "3 / 4";
@@ -202,6 +204,8 @@ interface StageProps {
   generating: boolean;
   onRegenerate: (id: string, note: string) => void;
   onDownloadAll: () => void;
+  presets: StylePreset[];
+  selectedStyleName: string | null;
 }
 
 export function Stage({
@@ -211,6 +215,8 @@ export function Stage({
   generating,
   onRegenerate,
   onDownloadAll,
+  presets,
+  selectedStyleName,
 }: StageProps) {
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -317,7 +323,12 @@ export function Stage({
                 Save
               </Button>
               <RedoButton disabled={shot.status !== "done" || generating} onRedo={(n) => onRegenerate(shot.id, n)} />
-              <PromptButton disabled={shot.status !== "done"} shot={shot} />
+              <PromptButton
+                disabled={shot.status !== "done"}
+                shot={shot}
+                presets={presets}
+                selectedStyleName={selectedStyleName}
+              />
             </div>
           </div>
         ))}
@@ -371,17 +382,66 @@ export function Stage({
   );
 }
 
-function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedShot }) {
+function presetToShotContent(preset: StylePreset): ShotPresetContent {
+  return {
+    styleName: preset.styleName,
+    heading: preset.heading,
+    subHeading: preset.subHeading,
+    callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+    calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+  };
+}
+
+function buildPresetPreviewPrompt(prompt: string, content?: ShotPresetContent): string {
+  if (!content) return prompt;
+
+  const callouts = content.callouts
+    .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
+    .filter(Boolean);
+
+  return [
+    "SELECTED STYLE CONTENT CHECK — USER PREVIEW:",
+    `Style: ${content.styleName}`,
+    `Heading: ${content.heading || "No heading"}`,
+    content.subHeading ? `Sub-heading: ${content.subHeading}` : "Sub-heading: No sub-heading",
+    callouts.length > 0 ? callouts.join("\n") : "Callouts: No callout copy",
+    "The image should use this exact visible content.",
+    "",
+    prompt,
+  ].join("\n");
+}
+
+function PromptButton({
+  disabled,
+  shot,
+  presets,
+  selectedStyleName,
+}: {
+  disabled: boolean;
+  shot: GeneratedShot;
+  presets: StylePreset[];
+  selectedStyleName: string | null;
+}) {
   const [open, setOpen] = useState(false);
   const [promptData, setPromptData] = useState<{
     prompt: string;
     sourceFile: string;
     section: string;
   } | null>(null);
+  const previewPresetContent = useMemo(() => {
+    if (shot.presetContent) return shot.presetContent;
+    if (!selectedStyleName || !isPresetPose(shot.deckShot)) return undefined;
+    const preset = findPreset(presets, selectedStyleName, shot.deckShot);
+    return preset ? presetToShotContent(preset) : undefined;
+  }, [presets, selectedStyleName, shot.deckShot, shot.presetContent]);
+  const displayedPrompt = useMemo(
+    () => (promptData ? buildPresetPreviewPrompt(promptData.prompt, previewPresetContent) : "Preparing prompt..."),
+    [promptData, previewPresetContent],
+  );
 
   useEffect(() => {
     setPromptData(null);
-  }, [shot.id, shot.note, shot.userNote, shot.brandId, shot.aspect, shot.presetContent]);
+  }, [shot.id, shot.note, shot.userNote, shot.brandId, shot.aspect, previewPresetContent]);
 
   useEffect(() => {
     if (!open || promptData) return;
@@ -398,7 +458,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           aspect: shot.aspect,
           userNote: shot.userNote,
           regenerationNote: shot.note,
-          presetContent: shot.presetContent,
+          presetContent: previewPresetContent,
         }),
       );
     });
@@ -406,7 +466,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
     return () => {
       active = false;
     };
-  }, [open, promptData, shot]);
+  }, [open, promptData, shot, previewPresetContent]);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -428,21 +488,21 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           </p>
           <p className="text-[0.68rem] text-muted-foreground">
             {DECK_SHOT_LABELS[shot.deckShot]} · brand spec applied
-            {shot.presetContent ? ` · style ${shot.presetContent.styleName}` : ""}
+            {previewPresetContent ? ` · style ${previewPresetContent.styleName}` : ""}
           </p>
         </div>
-        {shot.presetContent ? (
+        {previewPresetContent ? (
           <div className="rounded-xl border border-primary/30 bg-primary/5 p-2.5 text-[0.68rem] leading-snug">
             <p className="mb-1 font-semibold text-primary">
-              Style {shot.presetContent.styleName} content injected into the exact pose prompt
+              Style {previewPresetContent.styleName} content injected into the exact pose prompt
             </p>
-            <p className="font-medium text-foreground">{shot.presetContent.heading}</p>
-            {shot.presetContent.subHeading ? (
-              <p className="text-muted-foreground">{shot.presetContent.subHeading}</p>
+            <p className="font-medium text-foreground">{previewPresetContent.heading}</p>
+            {previewPresetContent.subHeading ? (
+              <p className="text-muted-foreground">{previewPresetContent.subHeading}</p>
             ) : null}
-            {shot.presetContent.callouts.filter(Boolean).length > 0 ? (
+            {previewPresetContent.callouts.filter(Boolean).length > 0 ? (
               <ul className="mt-1.5 list-disc space-y-0.5 pl-4 text-muted-foreground">
-                {shot.presetContent.callouts.filter(Boolean).map((callout, index) => (
+                {previewPresetContent.callouts.filter(Boolean).map((callout, index) => (
                   <li key={index}>{callout}</li>
                 ))}
               </ul>
@@ -451,7 +511,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
         ) : null}
         <Textarea
           readOnly
-          value={promptData?.prompt ?? "Preparing prompt..."}
+          value={displayedPrompt}
           className="max-h-72 min-h-52 resize-none font-mono text-[0.68rem]"
         />
         <Button
@@ -459,7 +519,7 @@ function PromptButton({ disabled, shot }: { disabled: boolean; shot: GeneratedSh
           variant="hero"
           className="w-full rounded-full"
           disabled={!promptData}
-          onClick={() => void navigator.clipboard?.writeText(promptData?.prompt ?? "")}
+          onClick={() => void navigator.clipboard?.writeText(displayedPrompt)}
         >
           Copy prompt
         </Button>

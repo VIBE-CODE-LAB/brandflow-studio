@@ -920,6 +920,8 @@ export function StudioFlow() {
                   downloadShotsZip(done),
                 );
               }}
+              presets={presets}
+              selectedStyleName={selectedStyleName}
             />
           </Suspense>
         </div>
