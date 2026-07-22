@@ -22,7 +22,7 @@ interface InlineImage {
   data: string;
 }
 
-const OUTPUT_SHORT_EDGE = 2048;
+const MAX_OUTPUT_SHORT_EDGE = 2048;
 const OUTPUT_QUALITY = 0.99;
 
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
@@ -121,11 +121,17 @@ function loadBlobImage(blob: Blob): Promise<HTMLImageElement> {
   });
 }
 
-async function normalizeTo2K(blob: Blob): Promise<Blob> {
+async function normalizeGeneratedImage(blob: Blob): Promise<Blob> {
   const image = await loadBlobImage(blob);
   const sourceWidth = image.naturalWidth || image.width;
   const sourceHeight = image.naturalHeight || image.height;
-  const scale = OUTPUT_SHORT_EDGE / Math.min(sourceWidth, sourceHeight);
+  const sourceShortEdge = Math.min(sourceWidth, sourceHeight);
+
+  // Do not upscale Gemini's native output. A 1792x2400 native render is sharper
+  // than a canvas-stretched 2048x2743 export because the extra pixels are invented.
+  if (sourceShortEdge <= MAX_OUTPUT_SHORT_EDGE) return blob;
+
+  const scale = MAX_OUTPUT_SHORT_EDGE / sourceShortEdge;
   const width = Math.max(1, Math.round(sourceWidth * scale));
   const height = Math.max(1, Math.round(sourceHeight * scale));
   const canvas = document.createElement("canvas");
@@ -188,7 +194,7 @@ async function extractImageUrl(response: unknown): Promise<string | null> {
 
       if (inline?.data) {
         const blob = base64ToBlob(inline.data, inline.mimeType ?? "image/png");
-        return URL.createObjectURL(await normalizeTo2K(blob));
+        return URL.createObjectURL(await normalizeGeneratedImage(blob));
       }
     }
   }
@@ -205,7 +211,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
         pushupGenerationLock(options),
         "",
         "FIXED OUTPUT QUALITY:",
-        "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use at a 2048px short edge. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
+        "Return a polished native high-resolution ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
         "Use clean skin texture, crisp garment edges, readable text/callouts, and premium catalog clarity.",
         "",
         "REFERENCE IMAGE RULES:",
