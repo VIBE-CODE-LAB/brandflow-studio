@@ -22,8 +22,29 @@ interface InlineImage {
   data: string;
 }
 
-const MAX_OUTPUT_SHORT_EDGE = 2048;
 const OUTPUT_QUALITY = 0.99;
+
+function targetOutputSize(aspect: AspectId): { width: number; height: number } {
+  switch (aspect) {
+    case "1:1":
+      return { width: 2048, height: 2048 };
+    case "9:16":
+      return { width: 1350, height: 2400 };
+    case "4:3":
+      return { width: 2400, height: 1792 };
+    case "16:9":
+      return { width: 2400, height: 1350 };
+    case "a4":
+    case "3:4":
+    default:
+      return { width: 1792, height: 2400 };
+  }
+}
+
+function outputSizeInstruction(aspect: AspectId): string {
+  const { width, height } = targetOutputSize(aspect);
+  return `Final export target: strict 2K ${width}x${height}px.`;
+}
 
 function dataUrlToInline(label: string, value: string | undefined): InlineImage | null {
   if (!value) return null;
@@ -121,19 +142,9 @@ function loadBlobImage(blob: Blob): Promise<HTMLImageElement> {
   });
 }
 
-async function normalizeGeneratedImage(blob: Blob): Promise<Blob> {
+async function normalizeGeneratedImage(blob: Blob, aspect: AspectId): Promise<Blob> {
   const image = await loadBlobImage(blob);
-  const sourceWidth = image.naturalWidth || image.width;
-  const sourceHeight = image.naturalHeight || image.height;
-  const sourceShortEdge = Math.min(sourceWidth, sourceHeight);
-
-  // Do not upscale Gemini's native output. A 1792x2400 native render is sharper
-  // than a canvas-stretched 2048x2743 export because the extra pixels are invented.
-  if (sourceShortEdge <= MAX_OUTPUT_SHORT_EDGE) return blob;
-
-  const scale = MAX_OUTPUT_SHORT_EDGE / sourceShortEdge;
-  const width = Math.max(1, Math.round(sourceWidth * scale));
-  const height = Math.max(1, Math.round(sourceHeight * scale));
+  const { width, height } = targetOutputSize(aspect);
   const canvas = document.createElement("canvas");
   canvas.width = width;
   canvas.height = height;
@@ -169,11 +180,11 @@ async function normalizeGeneratedImage(blob: Blob): Promise<Blob> {
   ctx.putImageData(imageData, 0, 0);
 
   return await new Promise((resolve) => {
-    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/jpeg", OUTPUT_QUALITY);
+    canvas.toBlob((exportBlob) => resolve(exportBlob ?? blob), "image/png", OUTPUT_QUALITY);
   });
 }
 
-async function extractImageUrl(response: unknown): Promise<string | null> {
+async function extractImageUrl(response: unknown, aspect: AspectId): Promise<string | null> {
   const data = response as {
     candidates?: Array<{
       content?: {
@@ -194,7 +205,7 @@ async function extractImageUrl(response: unknown): Promise<string | null> {
 
       if (inline?.data) {
         const blob = base64ToBlob(inline.data, inline.mimeType ?? "image/png");
-        return URL.createObjectURL(await normalizeGeneratedImage(blob));
+        return URL.createObjectURL(await normalizeGeneratedImage(blob, aspect));
       }
     }
   }
@@ -211,7 +222,8 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
         pushupGenerationLock(options),
         "",
         "FIXED OUTPUT QUALITY:",
-        "Return a polished native high-resolution ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
+        "Return a polished native 2K ecommerce image. The final image must be sharp, high-detail, cleanly lit, and suitable for catalog use. Avoid low-resolution, soft, blurry, compressed, or pixelated output.",
+        outputSizeInstruction(options.aspect),
         "Use clean skin texture, crisp garment edges, readable text/callouts, and premium catalog clarity.",
         "",
         "REFERENCE IMAGE RULES:",
@@ -242,6 +254,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
           responseModalities: ["TEXT", "IMAGE"],
           imageConfig: {
             aspectRatio: geminiAspectRatio(options.aspect),
+            imageSize: "2K",
           },
         },
       }),
@@ -257,7 +270,7 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
     throw new Error(message);
   }
 
-  const imageUrl = await extractImageUrl(json);
+  const imageUrl = await extractImageUrl(json, options.aspect);
   if (!imageUrl) {
     throw new Error("Gemini returned no image. Try another engine or simplify the prompt.");
   }
