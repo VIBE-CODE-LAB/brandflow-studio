@@ -625,7 +625,7 @@ export function composeDeckPrompt({
     `Prompt source file: ${source.fileName}.`,
     `Prompt source section: ${section}.`,
     `Aspect selected in Studio Flow: ${aspect}.`,
-    "Fixed image quality: generate a native, sharp 2K ecommerce image with a 2048px short edge. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.",
+    "Fixed image quality: generate a native, sharp, high-resolution ecommerce image. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.",
     effectivePresetContent
       ? "Content/layout lock: render the selected style preset text inside the exact headline, sub-heading, and callout placement described by the source prompt. The source prompt layout is mandatory."
       : "",

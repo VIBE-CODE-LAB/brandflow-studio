@@ -115,7 +115,7 @@ function loadBlobImage(blob: Blob): Promise<HTMLImageElement> {
     };
     image.onerror = () => {
       URL.revokeObjectURL(objectUrl);
-      reject(new Error("Generated image could not be loaded for 2K export."));
+      reject(new Error("Generated image could not be loaded for export."));
     };
     image.src = objectUrl;
   });
