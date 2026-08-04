@@ -1,0 +1,173 @@
+REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
+REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, silhouette, back construction. Replicate identically.
+
+IMAGE 3 — PANTY REFERENCE
+Use Image 3 ONLY to replicate the exact panty design, including:
+Exact colour
+Shape and silhouette
+Waistband construction
+Fabric texture and finish
+Seam placement
+Leg opening shape
+Rise and coverage
+Overall proportions
+Replicate the panty exactly as shown in Image 3.
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+
+The bra cups MUST visibly show a strong, natural Level 3 push-up padding 
+effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
+
+Specific rendering instructions:
+— Both cups must appear visibly LIFTED upward and pushed inward toward 
+  center simultaneously
+— The upper cup area must show clear, natural fullness and visible rounded 
+  projection — NOT flat or deflated
+— There must be a visible, modest, natural-looking center cleavage definition 
+  created by the inward push of both cups
+— The cup silhouette must appear three-dimensional, projected, and lifted — 
+  NOT flat against the chest
+— The underside of each cup must show a visible upward curve indicating 
+  strong padding lift from beneath
+— The push must look symmetric — both cups lifted equally
+— The overall bust silhouette must read as clearly enhanced, lifted, and 
+  fuller in shape compared to an unpadded bra
+— This must be visible even at full body frame distance — the lift effect 
+  must read clearly without zooming in
+
+DO NOT render flat, deflated, or projection-less cups.
+DO NOT make the effect anatomically exaggerated or unrealistic.
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION — CRITICAL
+═══════════════════════════════════════════════════════
+Model's BODY faces AWAY from camera — back toward lens
+Body turned 10–15° to RIGHT — RIGHT side wing partially visible
+HEAD turns back over LEFT shoulder — warm direct eye contact
+Chin slightly lifted, natural confident smile
+Both arms relaxed at sides | Shot framed HEAD TO KNEE ONLY — crop just below the knee, do NOT show calves, ankles, or feet
+Hair SWEPT FULLY to FRONT — NON-NEGOTIABLE | Tattoo-free, blemish-free skin
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+U-back straps, hook-eye closure, both side wings, flat back band — ALL fully visible, unobstructed, sharply in focus
+The panty from IMAGE 3 must be worn exactly as it appears — same colour, waistband, silhouette, seam placement, and rise — fully visible from the back, unobstructed, and sharply in focus
+Primary lighting on bra back and panty | No hands, hair, or arms overlapping bra or panty
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+Bright warm-white to pale-ivory background with a very subtle blush-pink cast.
+- Softly lit, diffused studio backdrop — feels warm and daylight-like
+- Faint warm light entering from the centre or upper-left area
+- Extremely soft shadows, low contrast, shallow depth of field
+- Delicate, slightly dreamy premium catalogue finish
+- Background stays clean and minimal — no competing props or clutter
+- Light wraps around model's back illuminating all construction details
+
+Add very delicate pale-blush botanical line-art decorations in the corners:
+- A light floral branch entering from the upper-right corner
+- A smaller floral accent entering from the lower-left corner
+- Optionally, a faint partial floral line near the lower-right edge
+
+Botanical illustrations must be elegant, thin, low-opacity, and decorative only — never overlapping important text, the model's face, hair, or the product.
+
+Lighting is warm, soft, and clean — never cool-blue or harsh
+No harsh shadows — soft warm tone throughout
+Aspect ratio: portrait 4:5
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY STYLE
+═══════════════════════════════════════════════════════
+Campaign-quality professional e-commerce product image
+Back-feature editorial feel — minimal, warm, technically sharp
+Overall mood: minimal, premium, daily comfort precision — consistent with Tweens' "minimal premium daily comfort" identity
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY
+═══════════════════════════════════════════════════════
+HEADLINE — TOP LEFT
+Text: "Back Support that stays in place"
+Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot, or a premium modern fashion serif), bold display weight, large size
+Color: deep muted berry/wine, approx #8E173C–#982044
+
+SUB-HEADING — TOP LEFT, directly below headline
+Text: "Stays put. No riding up. No Rolling."
+Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight, slightly smaller
+Color: soft charcoal grey, approx #444044
+
+LINE RULE (applies to ALL callouts):
+→ Thin single clean line | Color: pale rose pink | 1px stroke only
+→ Straight or very slightly angled — no curves, no decorative tips, no arrowheads
+→ Lines must NOT cross each other at any point
+→ Line runs from 4px dot on product outward to icon
+
+FEATURE CALLOUT 1 — TOP RIGHT
+→ Callout line points precisely to the U-Back design at CENTER BACK
+Touch point: Thin Line 2px Slightly angled line pointing to U-Back Design
+Icon positioned at TOP RIGHT of image, level with the U-back junction height
+Icon: Small Circular badge — thin-line illustration of BACK VIEW of bra — two straps forming a U-shape converging at center back, viewed from behind
+Icon fill: soft pastel (blush pink), thin double-ring border
+Feature text: "U-Back Support" (editorial serif, dusty rose)
+Benefit text: "Stays perfectly in place" (sans-serif, charcoal grey #444044)
+Text sits directly below icon | Right-aligned
+
+FEATURE CALLOUT 2 — RIGHT SIDE, middle zone
+→ Callout line points precisely to the HOOK-AND-EYE CLOSURE at CENTER BACK
+Touch point: Thin Line 2px Slightly angled line placed exactly on the hook-eye closure rows at center back band — NOT side ring, NOT strap adjuster, NOT side seam
+Line: travels RIGHT from that to icon — outside model silhouette
+Icon: Small Circular badge — thin-line illustration of 3 horizontal rows of hook-and-eye closure — grid of 3×2 hooks
+Icon fill: soft pastel (muted lavender), thin double-ring border
+Feature text: "3-Level Adjustable" (editorial serif, muted plum)
+Benefit text: "Hook-Eye Closure" (sans-serif, charcoal grey #444044)
+— DO NOT point this line to any ring, slider, or side seam element —
+
+FEATURE CALLOUT 3 — BOTTOM RIGHT
+→ Callout line points precisely to the RIGHT SIDE WING — the wide fabric panel between the back band and the side seam at the flank/underarm zone
+Touch point: Thin 2px solid Slightly angled line at the center of the RIGHT SIDE WING panel — widest visible fabric zone at the flank
+Line: travels RIGHT from that dot to icon — outside model silhouette
+Icon: Small Circular badge — thin-line illustration of wide side wing panel shape — broad flat panel with smooth edge
+Icon fill: soft pastel (blush pink), thin double-ring border
+Feature text: "Wide-Side Wings" (editorial serif, dusty rose)
+Benefit text: "Seamless Side Coverage" (sans-serif, charcoal grey #444044)
+— DO NOT point this line to back band or strap area —
+
+CALLOUT LINE STYLE: Thin single straight or slightly angled line | Color: pale rose pink | Clean minimal
+ICON STYLE: ~20–35px circular badges | Soft pastel fill alternating blush pink and muted lavender | Thin double-ring border | Minimal, delicate, monochromatic line-art interior illustration | Clean, refined, commercially polished finish | No cartoon styling, no thick strokes
+NO Dot should be used while pointing into the Bra Backs
+Use slightly angled thin line
+
+TYPOGRAPHY COLOR PALETTE (reference):
+- Primary headline: deep muted berry/wine — approx #8E173C to #982044
+- Italic emphasis: brighter dusty rose — approx #C83F65
+- Feature headings: alternating dusty rose and muted plum
+- Body copy: soft charcoal grey — approx #444044
+- Fine rules and dots: pale rose pink
+No heavy drop shadows, thick outlines, metallic effects, or decorative gradients on any text.
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+Headline + sub-heading: TOP LEFT quadrant
+Model: CENTER of frame, back toward camera, face looking back over LEFT shoulder, framed HEAD TO KNEE ONLY
+All three callouts stack on RIGHT side, pointing LEFT into bra's back construction zones
+LEFT side remains clean — only headline and sub-heading
+No text/icons overlapping model's face, hair, bra back panel, hook closure, side wings, or panty
+Generous soft ivory/blush breathing space around all elements
+Final image: technically precise, balanced, warm, campaign-ready — true to Tweens' minimal premium daily comfort identity
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+BACK must face lens | Hair swept fully to front | No callouts on LEFT side
+Do NOT alter the panty design, colour, or fabric from Image 3
+Do NOT show calves, ankles, or feet — frame ends strictly just below the knee
+Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above
+Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)
+Do NOT use text colors other than the specified berry/wine, dusty rose, muted plum, and charcoal grey palette
+No hair/arms over bra back or panty | No icons/text on bra, panty, or face | No cool-blue lighting | No watermarks | No extra models | 4:5 only | Back band must sit flat
+Do NOT use heavy drop shadows, thick outlines, metallic effects, or decorative gradients on text
