@@ -82,7 +82,28 @@ function referenceImages({
 }
 
 function modelCandidates(engine: EngineId): string[] {
-  return engine === "pro" ? ["gemini-3-pro-image-preview"] : ["gemini-3.1-flash-image-preview"];
+  return engine === "pro"
+    ? ["gemini-3-pro-image-preview", "gemini-3.1-flash-image-preview"]
+    : ["gemini-3.1-flash-image-preview", "gemini-3-pro-image-preview"];
+}
+
+function isAccessDeniedError(message: string): boolean {
+  const normalized = message.toLowerCase();
+  return (
+    normalized.includes("denied for project") ||
+    normalized.includes("permission denied") ||
+    normalized.includes("permission_denied") ||
+    normalized.includes("not allowed") ||
+    normalized.includes("model is not available")
+  );
+}
+
+function summarizeGeminiFailure(messages: string[]): string {
+  if (messages.some(isAccessDeniedError)) {
+    return "Gemini image generation is denied for this project. Check model access, billing, or switch to the other engine.";
+  }
+
+  return "Gemini image generation failed. Try the other engine or simplify the prompt.";
 }
 
 function pushupGenerationLock(options: GenerateImageOptions): string {
@@ -285,9 +306,11 @@ export async function generateGeminiImage(options: GenerateImageOptions): Promis
     try {
       return await callGeminiModel(model, options);
     } catch (error) {
-      errors.push(`${model}: ${error instanceof Error ? error.message : String(error)}`);
+      const message = error instanceof Error ? error.message : String(error);
+      errors.push(`${model}: ${message}`);
+      console.warn(`[Gemini image] ${model} failed`, message);
     }
   }
 
-  throw new Error(errors.join("\n"));
+  throw new Error(summarizeGeminiFailure(errors));
 }
