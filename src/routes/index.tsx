@@ -15,6 +15,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { nextFrame, runLimited } from "@/lib/concurrency";
 import { useGear2OpenShortcut, usePanelFlipShortcut } from "@/lib/gear2Shortcuts";
+import { useBookOpenShortcut } from "@/lib/bookShortcuts";
 import { ThemeSettings, type ThemeMode } from "@/components/studio/ThemeSettings";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import {
@@ -68,6 +69,9 @@ const AuthDialog = lazy(() =>
 );
 const Gear2View = lazy(() =>
   import("@/components/gear2/Gear2View").then((module) => ({ default: module.Gear2View })),
+);
+const BookView = lazy(() =>
+  import("@/components/book/BookView").then((module) => ({ default: module.BookView })),
 );
 const UploadTray = lazy(() =>
   import("@/components/studio/UploadTray").then((module) => ({ default: module.UploadTray })),
@@ -378,17 +382,20 @@ export function StudioFlow() {
     return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
   });
   const [gear2Open, setGear2Open] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
   const [panelFlipped, setPanelFlipped] = useState(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
   const availableBrands = useMemo(() => getAvailableBrands(customBrands), [customBrands]);
 
   const closeGear2 = useCallback(() => setGear2Open(false), []);
+  const closeBook = useCallback(() => setBookOpen(false), []);
 
-  useGear2OpenShortcut(() => setGear2Open(true), !gear2Open);
+  useGear2OpenShortcut(() => setGear2Open(true), !gear2Open && !bookOpen);
+  useBookOpenShortcut(() => setBookOpen(true), !gear2Open && !bookOpen);
   usePanelFlipShortcut(
     () => setPanelFlipped((value) => !value),
-    !gear2Open && !authOpen && !addBrandOpen && !manageBrandsOpen,
+    !gear2Open && !bookOpen && !authOpen && !addBrandOpen && !manageBrandsOpen,
   );
 
   const addCustomBrand = useCallback((brand: Brand) => {
@@ -1021,8 +1028,8 @@ export function StudioFlow() {
     <>
       <div
         className="min-h-screen"
-        aria-hidden={gear2Open || undefined}
-        inert={gear2Open || undefined}
+        aria-hidden={(gear2Open || bookOpen) || undefined}
+        inert={(gear2Open || bookOpen) || undefined}
       >
         <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
           <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5">
@@ -1146,6 +1153,12 @@ export function StudioFlow() {
           onDelete={deleteCustomBrand}
         />
       </div>
+
+      {bookOpen ? (
+        <Suspense fallback={null}>
+          <BookView onClose={closeBook} />
+        </Suspense>
+      ) : null}
 
       {gear2Open ? (
         <Suspense fallback={null}>
