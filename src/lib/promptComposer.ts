@@ -678,6 +678,15 @@ function printBackgroundOnlyLock(brand: Brand): string {
   ].join("\n");
 }
 
+function printSkinToneLock(): string {
+  return [
+    "MODEL SKIN TONE LOCK — NON-NEGOTIABLE:",
+    "Render the model's skin tone as an exact, neutral match to Reference Image 1 — natural fair skin with true-to-life, balanced undertones.",
+    'The source prompt\'s "warm" lighting and background language above describes the studio backdrop, ambient mood, and color palette only. It must NOT warm-tint, yellow-tint, orange-tint, tan, or otherwise discolor the model\'s skin.',
+    "Do NOT render jaundiced, sallow, golden, muddy, or over-warmed skin. Keep skin color rendering clean, neutral, and color-accurate exactly as the model reference shows — only the lighting brightness/softness follows the warm studio direction, never the skin's actual hue.",
+  ].join("\n");
+}
+
 function printPresetContentLock(content: ShotPresetContent, deckShot: DeckShotKey): string {
   const callouts = content.callouts
     .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
@@ -767,7 +776,12 @@ export function composeDeckPrompt({
       regenerationNote?.trim() ? `Regeneration correction note: ${regenerationNote.trim()}` : "",
     ].filter(Boolean);
 
-    const printSections = [sourcePrompt, printBackgroundOnlyLock(brand), printControls.join("\n")];
+    const printSections = [
+      sourcePrompt,
+      printBackgroundOnlyLock(brand),
+      printSkinToneLock(),
+      printControls.join("\n"),
+    ];
     if (effectivePresetContent) {
       printSections.push(printPresetContentLock(effectivePresetContent, deckShot));
     }
