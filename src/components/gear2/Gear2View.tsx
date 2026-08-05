@@ -650,7 +650,7 @@ export function Gear2View({
                 <div
                   className={cn("gear2-flip-card", controlsFlipped && "gear2-flip-card--flipped")}
                 >
-                  <div className="gear2-flip-face gear2-flip-face--front">
+                  <div className="gear2-flip-face gear2-flip-face--front" inert={controlsFlipped || undefined}>
                     <StepShell onBack={() => setPhase("twin")}>
                       <FreeControlsStep
                         deckType={deckType}
@@ -681,7 +681,7 @@ export function Gear2View({
                       />
                     </StepShell>
                   </div>
-                  <div className="gear2-flip-face gear2-flip-face--back">
+                  <div className="gear2-flip-face gear2-flip-face--back" inert={!controlsFlipped || undefined}>
                     <StepShell onBack={() => setPhase("twin")}>
                       <div className="mb-5 text-center">
                         <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/35">

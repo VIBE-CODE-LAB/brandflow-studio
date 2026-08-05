@@ -1075,10 +1075,16 @@ export function StudioFlow() {
           {/* Setup column — flips (Ctrl+X) between the photo deck and the Print Pattern Flow deck */}
           <div className="gear2-flip-stage">
             <div className={cn("gear2-flip-card", panelFlipped && "gear2-flip-card--flipped")}>
-              <div className="gear2-flip-face gear2-flip-face--front panel space-y-6 p-5">
+              <div
+                className="gear2-flip-face gear2-flip-face--front panel space-y-6 p-5"
+                inert={panelFlipped || undefined}
+              >
                 {renderSetup("photo")}
               </div>
-              <div className="gear2-flip-face gear2-flip-face--back panel space-y-6 p-5">
+              <div
+                className="gear2-flip-face gear2-flip-face--back panel space-y-6 p-5"
+                inert={!panelFlipped || undefined}
+              >
                 <p className="mb-1 text-center text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground/70">
                   Print pattern flow
                 </p>
