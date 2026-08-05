@@ -11,6 +11,7 @@ import {
   type Brand,
   type DeckType,
   type EngineId,
+  type FlowMode,
   type GeneratedShot,
   type ShootType,
   type SlotKey,
@@ -277,8 +278,9 @@ export function Gear2View({
     [updateShot],
   );
 
-  const generateAll = useCallback(async () => {
+  const generateAll = useCallback(async (variant: FlowMode = "photo") => {
     if (!setupReady || !brandId || generating) return;
+    if (variant === "print" && shootType === "panty") return;
     if (!auth.unlocked || !auth.hasGeminiKey) {
       onNeedAuth();
       return;
@@ -303,6 +305,7 @@ export function Gear2View({
       shootType,
       pushupBraOnly,
       note,
+      flowMode: variant,
     });
     setBraDecks(decks);
     setSelectedForRegen([]);
@@ -351,6 +354,7 @@ export function Gear2View({
           aspect: shot.aspect,
           userNote: shot.userNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -465,6 +469,7 @@ export function Gear2View({
           userNote: shot.userNote,
           regenerationNote: redoNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -541,10 +546,12 @@ export function Gear2View({
   );
   const closeDeck = useCallback(() => setOpenDeckId(null), []);
 
+  const printReady = ready && shootType !== "panty";
+
   useGear2InAppShortcuts({
     onClose: handleClose,
-    onGenerate: () => void generateAll(),
-    canGenerate: ready,
+    onGenerate: () => void generateAll(controlsFlipped ? "print" : "photo"),
+    canGenerate: controlsFlipped ? printReady : ready,
     isControlsPhase: phase === "controls",
     onToggleControlsPanel: () => setControlsFlipped((value) => !value),
     isEngineGrid: phase === "engine" && openDeckId === null,
@@ -554,9 +561,15 @@ export function Gear2View({
     anyDialogOpen: regenDialogOpen,
   });
 
-  const generateLabel = generating
-    ? "Generating decks..."
-    : `Generate ${braImages.length || 0} bra deck${braImages.length === 1 ? "" : "s"}`;
+  const generateLabelFor = (variant: FlowMode) => {
+    if (generating) return variant === "print" ? "Generating print decks..." : "Generating decks...";
+    if (variant === "print" && shootType === "panty") {
+      return "Print Pattern Flow isn't available for Panty — pick Bra, Bra+Panty, or Pushup";
+    }
+    const count = braImages.length || 0;
+    const noun = variant === "print" ? "print deck" : "bra deck";
+    return `Generate ${count} ${noun}${count === 1 ? "" : "s"}`;
+  };
 
   const doneDecks = braDecks.filter((d) => braDeckStatus(d) === "done").length;
   const openDeck = braDecks.find((d) => d.id === openDeckId) ?? null;
@@ -663,8 +676,8 @@ export function Gear2View({
                         onSelectStyle={setSelectedStyleName}
                         ready={ready}
                         generating={generating}
-                        label={generateLabel}
-                        onGenerate={() => void generateAll()}
+                        label={generateLabelFor("photo")}
+                        onGenerate={() => void generateAll("photo")}
                       />
                     </StepShell>
                   </div>
@@ -697,10 +710,10 @@ export function Gear2View({
                         presets={presets}
                         selectedStyleName={selectedStyleName}
                         onSelectStyle={setSelectedStyleName}
-                        ready={ready}
+                        ready={printReady}
                         generating={generating}
-                        label={generateLabel}
-                        onGenerate={() => void generateAll()}
+                        label={generateLabelFor("print")}
+                        onGenerate={() => void generateAll("print")}
                       />
                     </StepShell>
                   </div>
