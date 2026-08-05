@@ -72,7 +72,12 @@ export function useGear2InAppShortcuts({
         return;
       }
 
-      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "x") {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        !event.shiftKey &&
+        !event.altKey &&
+        event.code === "KeyX"
+      ) {
         if (isControlsPhase && !anyDialogOpen) {
           event.preventDefault();
           onToggleControlsPanel();
@@ -95,8 +100,8 @@ export function useGear2InAppShortcuts({
       }
     };
 
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener("keydown", handler, true);
+    return () => window.removeEventListener("keydown", handler, true);
   }, [
     onClose,
     onGenerate,
