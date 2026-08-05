@@ -1156,7 +1156,18 @@ export function StudioFlow() {
 
       {bookOpen ? (
         <Suspense fallback={null}>
-          <BookView onClose={closeBook} />
+          <BookView
+            onClose={closeBook}
+            availableBrands={availableBrands}
+            sheetUrl={sheetUrl}
+            onSheetUrlChange={setSheetUrl}
+            onSync={() => void syncStylePresets()}
+            onDisconnect={disconnectStylePresets}
+            syncing={syncing}
+            syncMessage={syncMessage}
+            syncError={syncError}
+            presets={presets}
+          />
         </Suspense>
       ) : null}
 
