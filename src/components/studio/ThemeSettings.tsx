@@ -1,4 +1,4 @@
-import { Monitor, Moon, Plus, Settings, Sun, type LucideIcon } from "lucide-react";
+import { Monitor, Moon, Plus, Settings, Sun, Trash2, type LucideIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -10,10 +10,12 @@ export function ThemeSettings({
   mode,
   onChange,
   onAddBrand,
+  onManageBrands,
 }: {
   mode: ThemeMode;
   onChange: (mode: ThemeMode) => void;
   onAddBrand: () => void;
+  onManageBrands: () => void;
 }) {
   const options: Array<{ value: ThemeMode; label: string; icon: LucideIcon }> = [
     { value: "system", label: "System", icon: Monitor },
@@ -24,7 +26,12 @@ export function ThemeSettings({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full" aria-label="Theme settings">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 rounded-full"
+          aria-label="Theme settings"
+        >
           <Settings className="h-4 w-4" />
         </Button>
       </PopoverTrigger>
@@ -55,6 +62,14 @@ export function ThemeSettings({
         >
           <Plus className="h-4 w-4" />
           <span className="font-medium">Add Brands</span>
+        </button>
+        <button
+          type="button"
+          onClick={onManageBrands}
+          className="flex w-full items-center gap-2 rounded-xl px-2.5 py-2 text-left text-sm text-foreground transition-colors hover:bg-muted"
+        >
+          <Trash2 className="h-4 w-4" />
+          <span className="font-medium">Delete Brands</span>
         </button>
       </PopoverContent>
     </Popover>

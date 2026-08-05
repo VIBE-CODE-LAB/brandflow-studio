@@ -1,9 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Camera, LogOut, Sparkles, Zap } from "lucide-react";
+import { Camera, LogOut, Sparkles, Trash2, Zap } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { nextFrame, runLimited } from "@/lib/concurrency";
 import { useGear2OpenShortcut } from "@/lib/gear2Shortcuts";
@@ -73,7 +81,9 @@ const Stage = lazy(() =>
   import("@/components/studio/Stage").then((module) => ({ default: module.Stage })),
 );
 const StylePresetPanel = lazy(() =>
-  import("@/components/studio/StylePresetPanel").then((module) => ({ default: module.StylePresetPanel })),
+  import("@/components/studio/StylePresetPanel").then((module) => ({
+    default: module.StylePresetPanel,
+  })),
 );
 
 let shotCounter = 0;
@@ -93,7 +103,11 @@ const EMPTY_BRAND_FORM: Omit<Brand, "id"> = {
 
 function HamsterLoader() {
   return (
-    <div aria-label="Orange and tan hamster running in a metal wheel" role="img" className="wheel-and-hamster">
+    <div
+      aria-label="Orange and tan hamster running in a metal wheel"
+      role="img"
+      className="wheel-and-hamster"
+    >
       <div className="wheel" />
       <div className="hamster">
         <div className="hamster__body">
@@ -173,7 +187,9 @@ function AddBrandDialog({
         {submitting ? (
           <div className="flex min-h-[420px] flex-col items-center justify-center gap-5">
             <HamsterLoader />
-            <p className="text-sm font-medium text-muted-foreground">Integrating brand specifications...</p>
+            <p className="text-sm font-medium text-muted-foreground">
+              Integrating brand specifications...
+            </p>
           </div>
         ) : (
           <>
@@ -181,7 +197,11 @@ function AddBrandDialog({
               <DialogTitle>Add Brands</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 sm:grid-cols-2">
-              <BrandField label="Brand name" value={form.name} onChange={(value) => updateField("name", value)} />
+              <BrandField
+                label="Brand name"
+                value={form.name}
+                onChange={(value) => updateField("name", value)}
+              />
               <BrandField
                 label="Heading / Display"
                 value={form.headingsDisplay}
@@ -213,7 +233,9 @@ function AddBrandDialog({
                 placeholder="Minimal premium daily comfort"
               />
               <label className="space-y-1.5 sm:col-span-2">
-                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Palette notes</span>
+                <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                  Palette notes
+                </span>
                 <textarea
                   value={form.paletteNotes}
                   onChange={(event) => updateField("paletteNotes", event.target.value)}
@@ -222,7 +244,11 @@ function AddBrandDialog({
                 />
               </label>
             </div>
-            {error ? <p className="rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">{error}</p> : null}
+            {error ? (
+              <p className="rounded-xl bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {error}
+              </p>
+            ) : null}
             <div className="flex justify-end gap-2">
               <Button variant="outline" onClick={() => onOpenChange(false)}>
                 Cancel
@@ -231,6 +257,67 @@ function AddBrandDialog({
             </div>
           </>
         )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+function ManageBrandsDialog({
+  open,
+  onOpenChange,
+  brands,
+  onDelete,
+}: {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  brands: Brand[];
+  onDelete: (brandId: string) => void;
+}) {
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[92vh] overflow-hidden sm:max-w-2xl">
+        <DialogHeader>
+          <DialogTitle>Delete Brands</DialogTitle>
+          <DialogDescription>
+            Built-in brands stay available. Remove custom brands from this list.
+          </DialogDescription>
+        </DialogHeader>
+
+        <ScrollArea className="h-[52vh] pr-4">
+          <div className="space-y-3">
+            {brands.map((brand) => {
+              const builtIn = !brand.id.startsWith("custom-");
+              return (
+                <div
+                  key={brand.id}
+                  className="flex items-center justify-between gap-3 rounded-2xl border border-border bg-paper px-4 py-3"
+                >
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <p className="truncate text-sm font-semibold text-foreground">{brand.name}</p>
+                      <Badge variant={builtIn ? "secondary" : "outline"} className="shrink-0">
+                        {builtIn ? "Built-in" : "Custom"}
+                      </Badge>
+                    </div>
+                    <p className="mt-1 truncate text-xs text-muted-foreground">
+                      {brand.headingsDisplay} · {brand.bodyUi}
+                    </p>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    disabled={builtIn}
+                    onClick={() => onDelete(brand.id)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5" />
+                    Delete
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
@@ -249,7 +336,9 @@ function BrandField({
 }) {
   return (
     <label className="space-y-1.5">
-      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</span>
+      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+        {label}
+      </span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
@@ -269,6 +358,7 @@ export function StudioFlow() {
   const [brandId, setBrandId] = useState<string | null>("tweens");
   const [customBrands, setCustomBrands] = useState<Brand[]>(() => loadCustomBrands());
   const [addBrandOpen, setAddBrandOpen] = useState(false);
+  const [manageBrandsOpen, setManageBrandsOpen] = useState(false);
   const [deck, setDeck] = useState<DeckType>("deck_5");
   const [aspect, setAspect] = useState<AspectId>("3:4");
   const [engine, setEngine] = useState<EngineId>("fast");
@@ -304,6 +394,20 @@ export function StudioFlow() {
     setBrandId(brand.id);
   }, []);
 
+  const deleteCustomBrand = useCallback((brandId: string) => {
+    setCustomBrands((prev) => {
+      const next = prev.filter((item) => item.id !== brandId);
+      saveCustomBrands(next);
+      return next;
+    });
+    setManageBrandsOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (brandId && availableBrands.some((brand) => brand.id === brandId)) return;
+    setBrandId(availableBrands[0]?.id ?? null);
+  }, [availableBrands, brandId]);
+
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");
     const applyTheme = () => {
@@ -334,7 +438,10 @@ export function StudioFlow() {
       setPresets(result.presets);
       savePresetsToStorage(result.presets);
       saveGoogleSheetUrlToStorage(sheetUrl);
-      const errorNote = result.errors.length > 0 ? ` (${result.errors.length} row${result.errors.length === 1 ? "" : "s"} skipped)` : "";
+      const errorNote =
+        result.errors.length > 0
+          ? ` (${result.errors.length} row${result.errors.length === 1 ? "" : "s"} skipped)`
+          : "";
       setSyncMessage(`${result.presets.length} preset rows synced from Google Sheet.${errorNote}`);
     } catch (error) {
       setSyncError(error instanceof Error ? error.message : "Google Sheet sync failed.");
@@ -502,45 +609,48 @@ export function StudioFlow() {
     ]);
     await nextFrame();
 
-    await runLimited(
-      queued,
-      GENERATION_CONCURRENCY,
-      async (shot) => {
-        setShots((prev) =>
-          prev.map((s) =>
-            s.id === shot.id
-              ? { ...s, status: "rendering", progress: Math.max(s.progress ?? 0, 5), error: undefined }
-              : s,
-          ),
-        );
-        const progressTimer = startProgress(shot.id, 5);
-
-        try {
-          const preset =
-            selectedStyleName && isPresetPose(shot.deckShot)
-              ? findPreset(presets, selectedStyleName, shot.deckShot)
-              : undefined;
-          const presetContent = preset
+    await runLimited(queued, GENERATION_CONCURRENCY, async (shot) => {
+      setShots((prev) =>
+        prev.map((s) =>
+          s.id === shot.id
             ? {
-                styleName: preset.styleName,
-                heading: preset.heading,
-                subHeading: preset.subHeading,
-                callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
-                calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+                ...s,
+                status: "rendering",
+                progress: Math.max(s.progress ?? 0, 5),
+                error: undefined,
               }
+            : s,
+        ),
+      );
+      const progressTimer = startProgress(shot.id, 5);
+
+      try {
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
             : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
 
-          const promptData = composeDeckPrompt({
-            shootType: shot.shootType,
-            pushupBraOnly: shot.pushupBraOnly,
-            deckShot: shot.deckShot,
-            brand,
-            aspect: shot.aspect,
-            userNote: shot.userNote,
-            presetContent,
-          });
+        const promptData = composeDeckPrompt({
+          shootType: shot.shootType,
+          pushupBraOnly: shot.pushupBraOnly,
+          deckShot: shot.deckShot,
+          brand,
+          aspect: shot.aspect,
+          userNote: shot.userNote,
+          presetContent,
+        });
 
-          const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
+        const imageUrl = rememberGeneratedUrl(
+          await generateGeminiImage({
             apiKey,
             prompt: promptData.prompt,
             images,
@@ -549,31 +659,31 @@ export function StudioFlow() {
             deckShot: shot.deckShot,
             engine,
             aspect: shot.aspect,
-          }));
+          }),
+        );
 
-          setShots((prev) =>
-            prev.map((s) =>
-              s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl, presetContent } : s,
-            ),
-          );
-        } catch (error) {
-          setShots((prev) =>
-            prev.map((s) =>
-              s.id === shot.id
-                ? {
-                    ...s,
-                    status: "error",
-                    progress: s.progress ?? 0,
-                    error: error instanceof Error ? error.message : "Image generation failed.",
-                  }
-                : s,
-            ),
-          );
-        } finally {
-          clearInterval(progressTimer);
-        }
-      },
-    );
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl, presetContent } : s,
+          ),
+        );
+      } catch (error) {
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === shot.id
+              ? {
+                  ...s,
+                  status: "error",
+                  progress: s.progress ?? 0,
+                  error: error instanceof Error ? error.message : "Image generation failed.",
+                }
+              : s,
+          ),
+        );
+      } finally {
+        clearInterval(progressTimer);
+      }
+    });
 
     setGenerating(false);
   }, [
@@ -594,97 +704,113 @@ export function StudioFlow() {
     customBrands,
   ]);
 
-  const regenerate = useCallback(async (id: string, redoNote: string) => {
-    if (!auth.unlocked || !auth.hasGeminiKey) {
-      setAuthOpen(true);
-      return;
-    }
+  const regenerate = useCallback(
+    async (id: string, redoNote: string) => {
+      if (!auth.unlocked || !auth.hasGeminiKey) {
+        setAuthOpen(true);
+        return;
+      }
 
-    const apiKey = getGeminiApiKey();
-    if (!apiKey) {
-      setAuthOpen(true);
-      return;
-    }
+      const apiKey = getGeminiApiKey();
+      if (!apiKey) {
+        setAuthOpen(true);
+        return;
+      }
 
-    const shot = shots.find((item) => item.id === id);
-    if (!shot) return;
-    revokeGeneratedUrl(shot.imageUrl);
+      const shot = shots.find((item) => item.id === id);
+      if (!shot) return;
+      revokeGeneratedUrl(shot.imageUrl);
 
-    setShots((prev) =>
-      prev.map((s) =>
-        s.id === id
-          ? { ...s, status: "rendering", progress: 5, userNote: redoNote, error: undefined }
-          : s,
-      ),
-    );
-    const progressTimer = startProgress(id, 5);
-
-    const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
-      import("@/lib/promptComposer"),
-      import("@/lib/geminiImage"),
-    ]);
-
-    try {
-      const brand = getBrand(shot.brandId, customBrands);
-      const preset =
-        selectedStyleName && isPresetPose(shot.deckShot)
-          ? findPreset(presets, selectedStyleName, shot.deckShot)
-          : undefined;
-      const presetContent = preset
-        ? {
-            styleName: preset.styleName,
-            heading: preset.heading,
-            subHeading: preset.subHeading,
-            callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
-            calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
-          }
-        : undefined;
-
-      const promptData = composeDeckPrompt({
-        shootType: shot.shootType,
-        pushupBraOnly: shot.pushupBraOnly,
-        deckShot: shot.deckShot,
-        brand,
-        aspect: shot.aspect,
-        userNote: shot.userNote,
-        regenerationNote: redoNote,
-        presetContent,
-      });
-
-      const imageUrl = rememberGeneratedUrl(await generateGeminiImage({
-        apiKey,
-        prompt: promptData.prompt,
-        images,
-        shootType: shot.shootType,
-        pushupBraOnly: shot.pushupBraOnly,
-        deckShot: shot.deckShot,
-        engine,
-        aspect: shot.aspect,
-      }));
-
-      setShots((prev) =>
-        prev.map((s) =>
-          s.id === id ? { ...s, status: "done", progress: 100, userNote: redoNote, imageUrl, presetContent } : s,
-        ),
-      );
-    } catch (error) {
       setShots((prev) =>
         prev.map((s) =>
           s.id === id
-            ? {
-                ...s,
-                status: "error",
-                progress: s.progress ?? 0,
-                userNote: redoNote,
-                error: error instanceof Error ? error.message : "Image generation failed.",
-              }
+            ? { ...s, status: "rendering", progress: 5, userNote: redoNote, error: undefined }
             : s,
         ),
       );
-    } finally {
-      clearInterval(progressTimer);
-    }
-  }, [auth.unlocked, auth.hasGeminiKey, shots, images, engine, selectedStyleName, presets, customBrands]);
+      const progressTimer = startProgress(id, 5);
+
+      const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
+        import("@/lib/promptComposer"),
+        import("@/lib/geminiImage"),
+      ]);
+
+      try {
+        const brand = getBrand(shot.brandId, customBrands);
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
+            : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
+
+        const promptData = composeDeckPrompt({
+          shootType: shot.shootType,
+          pushupBraOnly: shot.pushupBraOnly,
+          deckShot: shot.deckShot,
+          brand,
+          aspect: shot.aspect,
+          userNote: shot.userNote,
+          regenerationNote: redoNote,
+          presetContent,
+        });
+
+        const imageUrl = rememberGeneratedUrl(
+          await generateGeminiImage({
+            apiKey,
+            prompt: promptData.prompt,
+            images,
+            shootType: shot.shootType,
+            pushupBraOnly: shot.pushupBraOnly,
+            deckShot: shot.deckShot,
+            engine,
+            aspect: shot.aspect,
+          }),
+        );
+
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === id
+              ? { ...s, status: "done", progress: 100, userNote: redoNote, imageUrl, presetContent }
+              : s,
+          ),
+        );
+      } catch (error) {
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === id
+              ? {
+                  ...s,
+                  status: "error",
+                  progress: s.progress ?? 0,
+                  userNote: redoNote,
+                  error: error instanceof Error ? error.message : "Image generation failed.",
+                }
+              : s,
+          ),
+        );
+      } finally {
+        clearInterval(progressTimer);
+      }
+    },
+    [
+      auth.unlocked,
+      auth.hasGeminiKey,
+      shots,
+      images,
+      engine,
+      selectedStyleName,
+      presets,
+      customBrands,
+    ],
+  );
 
   const logout = useCallback(async () => {
     try {
@@ -710,244 +836,284 @@ export function StudioFlow() {
         ? "Choose a brand"
         : !auth.unlocked
           ? "Login to generate deck"
-        : `Generate ${activeDeck.shots.length} Image Deck`;
+          : `Generate ${activeDeck.shots.length} Image Deck`;
 
   return (
     <>
-    <div className="min-h-screen" aria-hidden={gear2Open || undefined} inert={gear2Open || undefined}>
-      <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5">
-          <div className="flex items-center gap-2.5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-              <Camera className="h-4.5 w-4.5" />
-            </span>
-            <div className="leading-tight">
-              <p className="font-display text-lg font-semibold">Studio Flow</p>
-              <p className="text-[0.7rem] text-muted-foreground">one canvas · one tap · full set</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-3">
-            <ThemeSettings mode={themeMode} onChange={setThemeMode} onAddBrand={() => setAddBrandOpen(true)} />
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-              <span className={cn("h-1.5 w-1.5 rounded-full", auth.unlocked ? "bg-success" : "bg-muted-foreground")} />
-              Free plan · {auth.used}/3 used
-            </span>
-            {auth.unlocked ? (
-              <Button variant="ghost" size="sm" className="h-8 rounded-full" onClick={logout}>
-                <LogOut className="h-3.5 w-3.5" />
-                Logout
-              </Button>
-            ) : (
-              <button
-                type="button"
-                onClick={() => setAuthOpen(true)}
-                className="text-sm font-medium text-primary underline-offset-4 hover:underline"
-              >
-                Login
-              </button>
-            )}
-          </div>
-        </div>
-      </header>
-
-      <main className="mx-auto grid max-w-[1400px] gap-6 px-5 py-6 lg:grid-cols-[minmax(380px,440px)_1fr]">
-        {/* Setup column */}
-        <div className="panel space-y-6 p-5">
-          {/* Step 1 — shoot type */}
-          <section>
-            <StepHead index={1} title="What are we shooting?" hint="Sets required photos" />
-            <div className="mt-3 grid grid-cols-4 gap-2">
-              {SHOOT_TYPES.map((t) => {
-                const active = shootType === t.id;
-                return (
-                  <button
-                    key={t.id}
-                    type="button"
-                    onClick={() => changeShootType(t.id)}
-                    className={cn(
-                      "flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition-all",
-                      active
-                        ? "border-transparent text-primary-foreground shadow-md"
-                        : "border-border bg-paper hover:border-primary/50",
-                    )}
-                    style={active ? { background: t.tint } : undefined}
-                  >
-                    <span className="text-xs font-semibold">{t.label}</span>
-                    <span className={cn("text-[0.62rem]", active ? "text-primary-foreground/80" : "text-muted-foreground")}>
-                      {requiredSlots(t.id, false).length} photos
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-            {shootType === "pushup" && (
-              <label className="mt-2.5 flex cursor-pointer items-center gap-2 rounded-xl bg-muted/50 px-3 py-2 text-sm">
-                <input
-                  type="checkbox"
-                  checked={pushupBraOnly}
-                  onChange={togglePushupBraOnly}
-                  className="h-4 w-4 accent-primary"
-                />
-                <span className="text-foreground">Pushup bra-only</span>
-                <span className="text-xs text-muted-foreground">drops the panty slot</span>
-              </label>
-            )}
-          </section>
-
-          <div className="hairline" />
-
-          {/* Step 2 — photos */}
-          <section>
-            <StepHead index={2} title="Choose deck" hint={activeDeck.hint} />
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              {DECKS.map((item) => {
-                const active = deck === item.id;
-                const disabled = !validDecks.includes(item.id);
-                return (
-                  <button
-                    key={item.id}
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => changeDeck(item.id)}
-                    className={cn(
-                      "rounded-2xl border px-3 py-3 text-left transition-all",
-                      active
-                        ? "border-primary bg-primary/10 text-foreground shadow-sm"
-                        : "border-border bg-paper hover:border-primary/50",
-                      disabled && "cursor-not-allowed opacity-40",
-                    )}
-                  >
-                    <span className="block text-sm font-semibold">{item.label}</span>
-                    <span className="mt-1 block text-[0.68rem] leading-snug text-muted-foreground">
-                      {item.hint}
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-
-          <div className="hairline" />
-
-          {/* Step 3 — photos */}
-          <section>
-            <StepHead
-              index={3}
-              title="Drop your photos"
-              hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
-            />
-            <div className="mt-3">
-              <Suspense fallback={<PanelSkeleton rows={3} />}>
-                <UploadTray
-                  shootType={shootType}
-                  pushupBraOnly={pushupBraOnly}
-                  images={images}
-                  onChange={setImage}
-                  needsBack={needsBack}
-                />
-              </Suspense>
-            </div>
-          </section>
-
-          <div className="hairline" />
-
-          {/* Step 4 — brand + look */}
-          <section>
-            <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
-            <div className="mt-3 space-y-3">
-              <Suspense fallback={<PanelSkeleton rows={1} />}>
-                <BrandPicker value={brandId} onChange={setBrandId} disabled={locked} brands={availableBrands} />
-              </Suspense>
-
-              <div className="flex items-center justify-between">
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                  {activeDeck.hint}
+      <div
+        className="min-h-screen"
+        aria-hidden={gear2Open || undefined}
+        inert={gear2Open || undefined}
+      >
+        <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
+          <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+                <Camera className="h-4.5 w-4.5" />
+              </span>
+              <div className="leading-tight">
+                <p className="font-display text-lg font-semibold">Studio Flow</p>
+                <p className="text-[0.7rem] text-muted-foreground">
+                  one canvas · one tap · full set
                 </p>
-                <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
-                  <RefinePanel
-                    aspect={aspect}
-                    engine={engine}
-                    note={note}
-                    onAspect={setAspect}
-                    onEngine={setEngine}
-                    onNote={setNote}
+              </div>
+            </div>
+            <div className="flex items-center gap-3">
+              <ThemeSettings
+                mode={themeMode}
+                onChange={setThemeMode}
+                onAddBrand={() => setAddBrandOpen(true)}
+                onManageBrands={() => setManageBrandsOpen(true)}
+              />
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                <span
+                  className={cn(
+                    "h-1.5 w-1.5 rounded-full",
+                    auth.unlocked ? "bg-success" : "bg-muted-foreground",
+                  )}
+                />
+                Free plan · {auth.used}/3 used
+              </span>
+              {auth.unlocked ? (
+                <Button variant="ghost" size="sm" className="h-8 rounded-full" onClick={logout}>
+                  <LogOut className="h-3.5 w-3.5" />
+                  Logout
+                </Button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setAuthOpen(true)}
+                  className="text-sm font-medium text-primary underline-offset-4 hover:underline"
+                >
+                  Login
+                </button>
+              )}
+            </div>
+          </div>
+        </header>
+
+        <main className="mx-auto grid max-w-[1400px] gap-6 px-5 py-6 lg:grid-cols-[minmax(380px,440px)_1fr]">
+          {/* Setup column */}
+          <div className="panel space-y-6 p-5">
+            {/* Step 1 — shoot type */}
+            <section>
+              <StepHead index={1} title="What are we shooting?" hint="Sets required photos" />
+              <div className="mt-3 grid grid-cols-4 gap-2">
+                {SHOOT_TYPES.map((t) => {
+                  const active = shootType === t.id;
+                  return (
+                    <button
+                      key={t.id}
+                      type="button"
+                      onClick={() => changeShootType(t.id)}
+                      className={cn(
+                        "flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition-all",
+                        active
+                          ? "border-transparent text-primary-foreground shadow-md"
+                          : "border-border bg-paper hover:border-primary/50",
+                      )}
+                      style={active ? { background: t.tint } : undefined}
+                    >
+                      <span className="text-xs font-semibold">{t.label}</span>
+                      <span
+                        className={cn(
+                          "text-[0.62rem]",
+                          active ? "text-primary-foreground/80" : "text-muted-foreground",
+                        )}
+                      >
+                        {requiredSlots(t.id, false).length} photos
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+              {shootType === "pushup" && (
+                <label className="mt-2.5 flex cursor-pointer items-center gap-2 rounded-xl bg-muted/50 px-3 py-2 text-sm">
+                  <input
+                    type="checkbox"
+                    checked={pushupBraOnly}
+                    onChange={togglePushupBraOnly}
+                    className="h-4 w-4 accent-primary"
+                  />
+                  <span className="text-foreground">Pushup bra-only</span>
+                  <span className="text-xs text-muted-foreground">drops the panty slot</span>
+                </label>
+              )}
+            </section>
+
+            <div className="hairline" />
+
+            {/* Step 2 — photos */}
+            <section>
+              <StepHead index={2} title="Choose deck" hint={activeDeck.hint} />
+              <div className="mt-3 grid grid-cols-2 gap-2">
+                {DECKS.map((item) => {
+                  const active = deck === item.id;
+                  const disabled = !validDecks.includes(item.id);
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => changeDeck(item.id)}
+                      className={cn(
+                        "rounded-2xl border px-3 py-3 text-left transition-all",
+                        active
+                          ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                          : "border-border bg-paper hover:border-primary/50",
+                        disabled && "cursor-not-allowed opacity-40",
+                      )}
+                    >
+                      <span className="block text-sm font-semibold">{item.label}</span>
+                      <span className="mt-1 block text-[0.68rem] leading-snug text-muted-foreground">
+                        {item.hint}
+                      </span>
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+
+            <div className="hairline" />
+
+            {/* Step 3 — photos */}
+            <section>
+              <StepHead
+                index={3}
+                title="Drop your photos"
+                hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
+              />
+              <div className="mt-3">
+                <Suspense fallback={<PanelSkeleton rows={3} />}>
+                  <UploadTray
+                    shootType={shootType}
+                    pushupBraOnly={pushupBraOnly}
+                    images={images}
+                    onChange={setImage}
+                    needsBack={needsBack}
                   />
                 </Suspense>
               </div>
-              <Suspense fallback={<PanelSkeleton rows={2} />}>
-                <StylePresetPanel
-                  sheetUrl={sheetUrl}
-                  onSheetUrlChange={setSheetUrl}
-                  onSync={() => void syncStylePresets()}
-                  onDisconnect={disconnectStylePresets}
-                  syncing={syncing}
-                  syncMessage={syncMessage}
-                  syncError={syncError}
-                  presets={presets}
-                  selectedStyleName={selectedStyleName}
-                  onSelectStyle={setSelectedStyleName}
-                  activeDeckShots={activeDeck.shots}
-                />
-              </Suspense>
-            </div>
-          </section>
+            </section>
 
-          {/* Generate */}
-          <Button
-            variant="hero"
-            size="xl"
-            className="w-full rounded-2xl"
-            disabled={!ready}
-            onClick={generate}
-          >
-            {generating ? <Sparkles className="h-4 w-4 animate-pulse" /> : <Zap className="h-4 w-4" />}
-            {generateLabel}
-          </Button>
-        </div>
+            <div className="hairline" />
 
-        {/* Stage */}
-        <div className="panel min-h-[520px] p-5">
-          <Suspense fallback={<StageSkeleton />}>
-            <Stage
-              shots={shots}
-              shootType={shootType}
-              pushupBraOnly={pushupBraOnly}
-              generating={generating}
-              onRegenerate={regenerate}
-              onDownloadAll={() => {
-                const done = shots.filter((s) => s.status === "done");
-                void import("@/components/studio/Stage").then(({ downloadShotsZip }) =>
-                  downloadShotsZip(done),
-                );
-              }}
-              presets={presets}
-              selectedStyleName={selectedStyleName}
+            {/* Step 4 — brand + look */}
+            <section>
+              <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
+              <div className="mt-3 space-y-3">
+                <Suspense fallback={<PanelSkeleton rows={1} />}>
+                  <BrandPicker
+                    value={brandId}
+                    onChange={setBrandId}
+                    disabled={locked}
+                    brands={availableBrands}
+                  />
+                </Suspense>
+
+                <div className="flex items-center justify-between">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                    {activeDeck.hint}
+                  </p>
+                  <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
+                    <RefinePanel
+                      aspect={aspect}
+                      engine={engine}
+                      note={note}
+                      onAspect={setAspect}
+                      onEngine={setEngine}
+                      onNote={setNote}
+                    />
+                  </Suspense>
+                </div>
+                <Suspense fallback={<PanelSkeleton rows={2} />}>
+                  <StylePresetPanel
+                    sheetUrl={sheetUrl}
+                    onSheetUrlChange={setSheetUrl}
+                    onSync={() => void syncStylePresets()}
+                    onDisconnect={disconnectStylePresets}
+                    syncing={syncing}
+                    syncMessage={syncMessage}
+                    syncError={syncError}
+                    presets={presets}
+                    selectedStyleName={selectedStyleName}
+                    onSelectStyle={setSelectedStyleName}
+                    activeDeckShots={activeDeck.shots}
+                  />
+                </Suspense>
+              </div>
+            </section>
+
+            {/* Generate */}
+            <Button
+              variant="hero"
+              size="xl"
+              className="w-full rounded-2xl"
+              disabled={!ready}
+              onClick={generate}
+            >
+              {generating ? (
+                <Sparkles className="h-4 w-4 animate-pulse" />
+              ) : (
+                <Zap className="h-4 w-4" />
+              )}
+              {generateLabel}
+            </Button>
+          </div>
+
+          {/* Stage */}
+          <div className="panel min-h-[520px] p-5">
+            <Suspense fallback={<StageSkeleton />}>
+              <Stage
+                shots={shots}
+                shootType={shootType}
+                pushupBraOnly={pushupBraOnly}
+                generating={generating}
+                onRegenerate={regenerate}
+                onDownloadAll={() => {
+                  const done = shots.filter((s) => s.status === "done");
+                  void import("@/components/studio/Stage").then(({ downloadShotsZip }) =>
+                    downloadShotsZip(done),
+                  );
+                }}
+                presets={presets}
+                selectedStyleName={selectedStyleName}
+              />
+            </Suspense>
+          </div>
+        </main>
+
+        <footer className="mx-auto max-w-[1400px] px-5 pb-8 pt-2 text-center text-xs text-muted-foreground">
+          Prototype preview — frames are stylized stand-ins for the Gemini composite. Ensure you
+          hold rights to every uploaded photo.
+        </footer>
+
+        {authOpen ? (
+          <Suspense fallback={null}>
+            <AuthDialog
+              open={authOpen}
+              onOpenChange={setAuthOpen}
+              onUnlock={(nextAuth) =>
+                setAuth({
+                  ...nextAuth,
+                  used: loadStudioUsage(),
+                })
+              }
             />
           </Suspense>
-        </div>
-      </main>
-
-      <footer className="mx-auto max-w-[1400px] px-5 pb-8 pt-2 text-center text-xs text-muted-foreground">
-        Prototype preview — frames are stylized stand-ins for the Gemini composite. Ensure you hold
-        rights to every uploaded photo.
-      </footer>
-
-      {authOpen ? (
-        <Suspense fallback={null}>
-          <AuthDialog
-            open={authOpen}
-            onOpenChange={setAuthOpen}
-            onUnlock={(nextAuth) =>
-              setAuth({
-                ...nextAuth,
-                used: loadStudioUsage(),
-              })
-            }
-          />
-        </Suspense>
-      ) : null}
-      <AddBrandDialog open={addBrandOpen} onOpenChange={setAddBrandOpen} onSubmit={addCustomBrand} />
-    </div>
+        ) : null}
+        <AddBrandDialog
+          open={addBrandOpen}
+          onOpenChange={setAddBrandOpen}
+          onSubmit={addCustomBrand}
+        />
+        <ManageBrandsDialog
+          open={manageBrandsOpen}
+          onOpenChange={setManageBrandsOpen}
+          brands={availableBrands}
+          onDelete={deleteCustomBrand}
+        />
+      </div>
 
       {gear2Open ? (
         <Suspense fallback={null}>
@@ -960,6 +1126,7 @@ export function StudioFlow() {
             themeMode={themeMode}
             onThemeChange={setThemeMode}
             onOpenAddBrand={() => setAddBrandOpen(true)}
+            onOpenManageBrands={() => setManageBrandsOpen(true)}
             sheetUrl={sheetUrl}
             onSheetUrlChange={setSheetUrl}
             onSync={() => void syncStylePresets()}

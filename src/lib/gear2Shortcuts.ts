@@ -28,6 +28,7 @@ interface Gear2InAppShortcutsOptions {
   onGenerate: () => void;
   canGenerate: boolean;
   isControlsPhase: boolean;
+  onToggleControlsPanel: () => void;
   isEngineGrid: boolean;
   isEngineDeck: boolean;
   onOpenDeckByNumber: (index: number) => void;
@@ -35,12 +36,13 @@ interface Gear2InAppShortcutsOptions {
   anyDialogOpen: boolean;
 }
 
-/** Backspace/+ to exit, Ctrl+Enter to generate, 1-9/0 to open a deck, - to close a deck. */
+/** Backspace/+ to exit, Ctrl+Enter to generate, Ctrl+X to flip controls, 1-9/0 to open a deck, - to close a deck. */
 export function useGear2InAppShortcuts({
   onClose,
   onGenerate,
   canGenerate,
   isControlsPhase,
+  onToggleControlsPanel,
   isEngineGrid,
   isEngineDeck,
   onOpenDeckByNumber,
@@ -51,7 +53,11 @@ export function useGear2InAppShortcuts({
     const handler = (event: KeyboardEvent) => {
       if (isTypingTarget(event.target)) return;
 
-      if (!event.ctrlKey && !event.metaKey && (event.key === "Backspace" || event.key === "+" || event.key === "=")) {
+      if (
+        !event.ctrlKey &&
+        !event.metaKey &&
+        (event.key === "Backspace" || event.key === "+" || event.key === "=")
+      ) {
         if (anyDialogOpen) return;
         event.preventDefault();
         onClose();
@@ -62,6 +68,14 @@ export function useGear2InAppShortcuts({
         if (isControlsPhase && canGenerate) {
           event.preventDefault();
           onGenerate();
+        }
+        return;
+      }
+
+      if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "x") {
+        if (isControlsPhase && !anyDialogOpen) {
+          event.preventDefault();
+          onToggleControlsPanel();
         }
         return;
       }
@@ -88,6 +102,7 @@ export function useGear2InAppShortcuts({
     onGenerate,
     canGenerate,
     isControlsPhase,
+    onToggleControlsPanel,
     isEngineGrid,
     isEngineDeck,
     onOpenDeckByNumber,

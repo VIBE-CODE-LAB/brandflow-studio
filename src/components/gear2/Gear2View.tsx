@@ -19,7 +19,13 @@ import {
   getDeck,
   requiredSlots,
 } from "@/lib/studio";
-import { type BraDeck, MAX_BRA_IMAGES, braDeckProgress, braDeckStatus, buildBraDecks } from "@/lib/gear2";
+import {
+  type BraDeck,
+  MAX_BRA_IMAGES,
+  braDeckProgress,
+  braDeckStatus,
+  buildBraDecks,
+} from "@/lib/gear2";
 import { downloadAllDecksZip } from "@/lib/gear2Export";
 import { useGear2InAppShortcuts } from "@/lib/gear2Shortcuts";
 import { findPreset, isPresetPose, type StylePreset } from "@/lib/stylePresets";
@@ -51,6 +57,7 @@ interface Gear2ViewProps {
   themeMode: ThemeMode;
   onThemeChange: (mode: ThemeMode) => void;
   onOpenAddBrand: () => void;
+  onOpenManageBrands: () => void;
   sheetUrl: string;
   onSheetUrlChange: (url: string) => void;
   onSync: () => void;
@@ -106,6 +113,7 @@ export function Gear2View({
   themeMode,
   onThemeChange,
   onOpenAddBrand,
+  onOpenManageBrands,
   sheetUrl,
   onSheetUrlChange,
   onSync,
@@ -133,6 +141,7 @@ export function Gear2View({
   const [selectedForRegen, setSelectedForRegen] = useState<string[]>([]);
   const [regenDialogOpen, setRegenDialogOpen] = useState(false);
   const [downloadingAll, setDownloadingAll] = useState(false);
+  const [controlsFlipped, setControlsFlipped] = useState(false);
 
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
@@ -167,6 +176,17 @@ export function Gear2View({
     twinAdvanceTimer.current = setTimeout(() => setPhase("controls"), TWIN_ADVANCE_DELAY);
     return () => clearTimeout(twinAdvanceTimer.current);
   }, [missingPhotos.length, phase]);
+
+  useEffect(() => {
+    if (phase !== "controls") {
+      setControlsFlipped(false);
+    }
+  }, [phase]);
+
+  useEffect(() => {
+    if (brandId && availableBrands.some((brand) => brand.id === brandId)) return;
+    setBrandId(availableBrands[0]?.id ?? null);
+  }, [availableBrands, brandId]);
 
   const changeShootType = useCallback((next: ShootType) => {
     setShootType(next);
@@ -275,7 +295,15 @@ export function Gear2View({
     onAuthUsed(used);
 
     const brand = findBrand(brandId, availableBrands);
-    const decks = buildBraDecks({ braImages, deckType, aspect, brand, shootType, pushupBraOnly, note });
+    const decks = buildBraDecks({
+      braImages,
+      deckType,
+      aspect,
+      brand,
+      shootType,
+      pushupBraOnly,
+      note,
+    });
     setBraDecks(decks);
     setSelectedForRegen([]);
     setOpenDeckId(null);
@@ -292,7 +320,12 @@ export function Gear2View({
     const jobs = decks.flatMap((deck) => deck.shots.map((shot) => ({ deck, shot })));
 
     await runLimited(jobs, GENERATION_CONCURRENCY, async ({ deck, shot }) => {
-      updateShot(shot.id, (s) => ({ ...s, status: "rendering", progress: Math.max(s.progress ?? 0, 5), error: undefined }));
+      updateShot(shot.id, (s) => ({
+        ...s,
+        status: "rendering",
+        progress: Math.max(s.progress ?? 0, 5),
+        error: undefined,
+      }));
       const progressTimer = startProgress(shot.id, 5);
 
       try {
@@ -333,7 +366,13 @@ export function Gear2View({
           }),
         );
 
-        updateShot(shot.id, (s) => ({ ...s, status: "done", progress: 100, imageUrl, presetContent }));
+        updateShot(shot.id, (s) => ({
+          ...s,
+          status: "done",
+          progress: 100,
+          imageUrl,
+          presetContent,
+        }));
       } catch (error) {
         updateShot(shot.id, (s) => ({
           ...s,
@@ -387,7 +426,13 @@ export function Gear2View({
       if (!deck || !shot) return;
       revokeGeneratedUrl(shot.imageUrl);
 
-      updateShot(shotId, (s) => ({ ...s, status: "rendering", progress: 5, userNote: redoNote, error: undefined }));
+      updateShot(shotId, (s) => ({
+        ...s,
+        status: "rendering",
+        progress: 5,
+        userNote: redoNote,
+        error: undefined,
+      }));
       const progressTimer = startProgress(shotId, 5);
 
       const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
@@ -435,7 +480,14 @@ export function Gear2View({
           }),
         );
 
-        updateShot(shotId, (s) => ({ ...s, status: "done", progress: 100, userNote: redoNote, imageUrl, presetContent }));
+        updateShot(shotId, (s) => ({
+          ...s,
+          status: "done",
+          progress: 100,
+          userNote: redoNote,
+          imageUrl,
+          presetContent,
+        }));
       } catch (error) {
         updateShot(shotId, (s) => ({
           ...s,
@@ -464,7 +516,9 @@ export function Gear2View({
   );
 
   const toggleSelectForRegen = useCallback((shotId: string) => {
-    setSelectedForRegen((prev) => (prev.includes(shotId) ? prev.filter((id) => id !== shotId) : [...prev, shotId]));
+    setSelectedForRegen((prev) =>
+      prev.includes(shotId) ? prev.filter((id) => id !== shotId) : [...prev, shotId],
+    );
   }, []);
   const removeFromSelection = useCallback((shotId: string) => {
     setSelectedForRegen((prev) => prev.filter((id) => id !== shotId));
@@ -473,7 +527,9 @@ export function Gear2View({
 
   const selectedShots = useMemo(() => {
     const all = braDecks.flatMap((d) => d.shots);
-    return selectedForRegen.map((id) => all.find((s) => s.id === id)).filter((s): s is GeneratedShot => Boolean(s));
+    return selectedForRegen
+      .map((id) => all.find((s) => s.id === id))
+      .filter((s): s is GeneratedShot => Boolean(s));
   }, [braDecks, selectedForRegen]);
 
   const openDeckByIndex = useCallback(
@@ -490,6 +546,7 @@ export function Gear2View({
     onGenerate: () => void generateAll(),
     canGenerate: ready,
     isControlsPhase: phase === "controls",
+    onToggleControlsPanel: () => setControlsFlipped((value) => !value),
     isEngineGrid: phase === "engine" && openDeckId === null,
     isEngineDeck: phase === "engine" && openDeckId !== null,
     onOpenDeckByNumber: openDeckByIndex,
@@ -529,8 +586,18 @@ export function Gear2View({
           <header className="sticky top-0 z-10 flex items-center justify-between px-5 py-3.5">
             <div className="ghost-loader" aria-hidden />
             <div className="flex items-center gap-3">
-              <ThemeSettings mode={themeMode} onChange={onThemeChange} onAddBrand={onOpenAddBrand} />
-              <Button variant="ghost" size="sm" className="h-8 rounded-full text-white/60 hover:text-white" onClick={handleClose}>
+              <ThemeSettings
+                mode={themeMode}
+                onChange={onThemeChange}
+                onAddBrand={onOpenAddBrand}
+                onManageBrands={onOpenManageBrands}
+              />
+              <Button
+                variant="ghost"
+                size="sm"
+                className="h-8 rounded-full text-white/60 hover:text-white"
+                onClick={handleClose}
+              >
                 Exit (Backspace)
               </Button>
             </div>
@@ -538,13 +605,23 @@ export function Gear2View({
 
           <main className="flex-1 overflow-y-auto pb-24">
             {phase === "bras" && (
-              <StepShell onBack={handleClose} onForward={braImages.length > 0 ? () => setPhase("twin") : undefined}>
-                <CircularBraDeck images={braImages} onAdd={addBraImages} onRemove={removeBraImage} />
+              <StepShell
+                onBack={handleClose}
+                onForward={braImages.length > 0 ? () => setPhase("twin") : undefined}
+              >
+                <CircularBraDeck
+                  images={braImages}
+                  onAdd={addBraImages}
+                  onRemove={removeBraImage}
+                />
               </StepShell>
             )}
 
             {phase === "twin" && (
-              <StepShell onBack={() => setPhase("bras")} onForward={missingPhotos.length === 0 ? () => setPhase("controls") : undefined}>
+              <StepShell
+                onBack={() => setPhase("bras")}
+                onForward={missingPhotos.length === 0 ? () => setPhase("controls") : undefined}
+              >
                 <TwinCardStep
                   shootType={shootType}
                   pushupBraOnly={pushupBraOnly}
@@ -555,37 +632,81 @@ export function Gear2View({
               </StepShell>
             )}
 
-            {phase === "controls" && (
-              <StepShell onBack={() => setPhase("twin")}>
-                <FreeControlsStep
-                  deckType={deckType}
-                  validDecks={validDecks}
-                  onDeckType={changeDeck}
-                  brandId={brandId}
-                  brands={availableBrands}
-                  onBrand={setBrandId}
-                  aspect={aspect}
-                  onAspect={setAspect}
-                  engine={engine}
-                  onEngine={setEngine}
-                  activeDeckShots={activeDeckShots}
-                  sheetUrl={sheetUrl}
-                  onSheetUrlChange={onSheetUrlChange}
-                  onSync={onSync}
-                  onDisconnect={onDisconnect}
-                  syncing={syncing}
-                  syncMessage={syncMessage}
-                  syncError={syncError}
-                  presets={presets}
-                  selectedStyleName={selectedStyleName}
-                  onSelectStyle={setSelectedStyleName}
-                  ready={ready}
-                  generating={generating}
-                  label={generateLabel}
-                  onGenerate={() => void generateAll()}
-                />
-              </StepShell>
-            )}
+            {phase === "controls" ? (
+              <div className="gear2-flip-stage px-6 py-8">
+                <div
+                  className={cn("gear2-flip-card", controlsFlipped && "gear2-flip-card--flipped")}
+                >
+                  <div className="gear2-flip-face gear2-flip-face--front">
+                    <StepShell onBack={() => setPhase("twin")}>
+                      <FreeControlsStep
+                        deckType={deckType}
+                        validDecks={validDecks}
+                        onDeckType={changeDeck}
+                        brandId={brandId}
+                        brands={availableBrands}
+                        onBrand={setBrandId}
+                        aspect={aspect}
+                        onAspect={setAspect}
+                        engine={engine}
+                        onEngine={setEngine}
+                        activeDeckShots={activeDeckShots}
+                        sheetUrl={sheetUrl}
+                        onSheetUrlChange={onSheetUrlChange}
+                        onSync={onSync}
+                        onDisconnect={onDisconnect}
+                        syncing={syncing}
+                        syncMessage={syncMessage}
+                        syncError={syncError}
+                        presets={presets}
+                        selectedStyleName={selectedStyleName}
+                        onSelectStyle={setSelectedStyleName}
+                        ready={ready}
+                        generating={generating}
+                        label={generateLabel}
+                        onGenerate={() => void generateAll()}
+                      />
+                    </StepShell>
+                  </div>
+                  <div className="gear2-flip-face gear2-flip-face--back">
+                    <StepShell onBack={() => setPhase("twin")}>
+                      <div className="mb-5 text-center">
+                        <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/35">
+                          Print pattern flow
+                        </p>
+                      </div>
+                      <FreeControlsStep
+                        deckType={deckType}
+                        validDecks={validDecks}
+                        onDeckType={changeDeck}
+                        brandId={brandId}
+                        brands={availableBrands}
+                        onBrand={setBrandId}
+                        aspect={aspect}
+                        onAspect={setAspect}
+                        engine={engine}
+                        onEngine={setEngine}
+                        activeDeckShots={activeDeckShots}
+                        sheetUrl={sheetUrl}
+                        onSheetUrlChange={onSheetUrlChange}
+                        onSync={onSync}
+                        onDisconnect={onDisconnect}
+                        syncing={syncing}
+                        syncMessage={syncMessage}
+                        syncError={syncError}
+                        presets={presets}
+                        selectedStyleName={selectedStyleName}
+                        onSelectStyle={setSelectedStyleName}
+                        ready={ready}
+                        generating={generating}
+                        label={generateLabel}
+                        onGenerate={() => void generateAll()}
+                      />
+                    </StepShell>
+                  </div>
+                </div>
+              </div>
+            ) : null}
 
             {phase === "engine" && openDeck ? (
               <div className="px-5 py-6">
@@ -622,7 +743,12 @@ export function Gear2View({
 
                 <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 xl:grid-cols-4">
                   {braDecks.map((deck, index) => (
-                    <DeckTile key={deck.id} deck={deck} index={index} onOpen={() => setOpenDeckId(deck.id)} />
+                    <DeckTile
+                      key={deck.id}
+                      deck={deck}
+                      index={index}
+                      onOpen={() => setOpenDeckId(deck.id)}
+                    />
                   ))}
                 </div>
               </div>
@@ -633,7 +759,9 @@ export function Gear2View({
             <RegenerateTray
               shots={selectedShots}
               onRemove={removeFromSelection}
-              onRegenerate={(braId, shotId, redoNote) => void regenerateBraShot(braId, shotId, redoNote)}
+              onRegenerate={(braId, shotId, redoNote) =>
+                void regenerateBraShot(braId, shotId, redoNote)
+              }
               onClear={clearSelection}
               dialogOpen={regenDialogOpen}
               onDialogOpenChange={setRegenDialogOpen}
@@ -663,7 +791,11 @@ function DeckTile({ deck, index, onOpen }: { deck: BraDeck; index: number; onOpe
         status === "done" ? "cursor-pointer hover:border-white/40" : "cursor-default",
       )}
     >
-      <img src={deck.braImage} alt={`Bra ${index + 1}`} className="absolute inset-0 h-full w-full object-cover" />
+      <img
+        src={deck.braImage}
+        alt={`Bra ${index + 1}`}
+        className="absolute inset-0 h-full w-full object-cover"
+      />
       <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
       <div className="absolute left-2.5 top-2.5 rounded-full bg-black/60 px-2.5 py-1 text-[0.68rem] font-semibold text-white shadow-sm">
         {index < 9 ? index + 1 : index === 9 ? 0 : ""} · Bra {index + 1}
@@ -678,7 +810,10 @@ function DeckTile({ deck, index, onOpen }: { deck: BraDeck; index: number; onOpe
         </p>
         {status !== "done" ? (
           <div className="h-1.5 w-full overflow-hidden rounded-full bg-white/15">
-            <div className="gear2-tile-progress h-full rounded-full transition-all" style={{ width: `${progress}%` }} />
+            <div
+              className="gear2-tile-progress h-full rounded-full transition-all"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         ) : null}
       </div>
