@@ -61,24 +61,29 @@ Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot
 SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."
 Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044
 
+ICON REQUIREMENT — NON-NEGOTIABLE: All three callouts below render their circular icon badge directly above the two text lines. A callout rendered as plain text with no icon badge is a failed render.
+
 CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a smooth underarm/armhole curve
 Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"
 Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"
 Border: thin pale rose pink
 
 CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND
+Icon (above text): circular badge, soft pastel muted-lavender fill, thin double-ring border, minimal monochrome line-art of a curved bra band / underbust support shape
 Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"
 Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"
 Border: thin pale rose pink
 
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a seamless fabric edge / smooth wave symbol
 Line 1 (editorial serif, dusty rose): "No-Stitch Design"
 Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"
 Border: thin pale rose pink
 
 CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal
 
-ICON STYLE:
+ICON STYLE (applies to all three icon badges above — every callout MUST show its icon, never render callout text without it):
 - Large circular badge icons
 - Soft pastel fill, alternating between blush pink and muted lavender
 - Thin double-ring border around each circle
@@ -110,6 +115,7 @@ Final image feels balanced, editorial, warm, and campaign-ready — true to Twee
 STRICT NEGATIVE INSTRUCTIONS
 ═══════════════════════════════════════════════════════
 Do NOT alter model or product from reference images
+Do NOT render any callout as plain text without its circular icon badge — all three callouts must show an icon.
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above
 Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)
 Do NOT use text colors other than the specified berry/wine, dusty rose, muted plum, and charcoal grey palette

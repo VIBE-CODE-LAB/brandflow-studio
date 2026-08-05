@@ -71,6 +71,7 @@ Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Mo
 Color: soft charcoal grey, approx #444044
 
 FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)
+HARD BOUNDARY — NON-NEGOTIABLE: Confine the headline, sub-heading, and this entire three-feature icon stack to the LEFT ~40% of the canvas. Leave a clear vertical strip of empty background between this text column and the model — no text, icon, or line may touch or cross into the model's hair, face, shoulders, or body.
 
 FEATURE 1:
 Icon: Small circular badge — thin line illustration of a cotton/fabric/breathable weave symbol
@@ -110,7 +111,7 @@ OVERALL COMPOSITION BALANCE
 Headline + sub-heading: TOP LEFT quadrant
 Model: CENTER to CENTER-RIGHT, framed HEAD TO KNEE ONLY
 Three feature icons stacked vertically: LEFT side, middle zone
-No text/icons overlapping model's face, bra, or panty
+HARD BOUNDARY: no text or icon may overlap or touch model's face, hair, shoulders, bra, or panty — keep a visible gap of empty background between the LEFT text column and the model
 Generous soft ivory/blush breathing space around all elements
 Final image: balanced, warm, minimally premium, campaign-ready — true to Tweens' minimal premium daily comfort identity
 
@@ -118,6 +119,7 @@ Final image: balanced, warm, minimally premium, campaign-ready — true to Tween
 STRICT NEGATIVE INSTRUCTIONS
 ═══════════════════════════════════════════════════════
 Do NOT alter model or product | FULLY FRONT-FACING only | No callout lines
+Do NOT let the headline, sub-heading, or any feature text/icon touch or overlap the model's hair, face, shoulders, or body — keep the entire text column separated from the model by visible background.
 Do NOT alter the panty design, colour, or fabric from Image 3
 Do NOT show calves, ankles, or feet — frame ends strictly just below the knee
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above

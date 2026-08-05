@@ -1,4 +1,4 @@
-import{_ as e,f as t,u as n}from"./static-index-DMp2R29z.js";var r=`SIDE VIEW PROMPT\r
+import{_ as e,f as t,u as n}from"./static-index-CG7k67ii.js";var r=`SIDE VIEW PROMPT\r
 \r
 \r
 ═══════════════════════════════════════════════════════\r
@@ -4008,24 +4008,29 @@ Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot
 SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."\r
 Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044\r
 \r
+ICON REQUIREMENT — NON-NEGOTIABLE: All three callouts below render their circular icon badge directly above the two text lines. A callout rendered as plain text with no icon badge is a failed render.\r
+\r
 CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a smooth underarm/armhole curve\r
 Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND\r
+Icon (above text): circular badge, soft pastel muted-lavender fill, thin double-ring border, minimal monochrome line-art of a curved bra band / underbust support shape\r
 Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a seamless fabric edge / smooth wave symbol\r
 Line 1 (editorial serif, dusty rose): "No-Stitch Design"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal\r
 \r
-ICON STYLE:\r
+ICON STYLE (applies to all three icon badges above — every callout MUST show its icon, never render callout text without it):\r
 - Large circular badge icons\r
 - Soft pastel fill, alternating between blush pink and muted lavender\r
 - Thin double-ring border around each circle\r
@@ -4057,6 +4062,7 @@ Final image feels balanced, editorial, warm, and campaign-ready — true to Twee
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product from reference images\r
+Do NOT render any callout as plain text without its circular icon badge — all three callouts must show an icon.\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
 Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)\r
 Do NOT use text colors other than the specified berry/wine, dusty rose, muted plum, and charcoal grey palette\r
@@ -4121,6 +4127,7 @@ Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Mo
 Color: soft charcoal grey, approx #444044\r
 \r
 FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)\r
+HARD BOUNDARY — NON-NEGOTIABLE: Confine the headline, sub-heading, and this entire three-feature icon stack to the LEFT ~40% of the canvas. Leave a clear vertical strip of empty background between this text column and the model — no text, icon, or line may touch or cross into the model's hair, face, shoulders, or body.\r
 \r
 FEATURE 1:\r
 Icon: Small circular badge — thin line illustration of a cotton/fabric/breathable weave symbol\r
@@ -4160,7 +4167,7 @@ OVERALL COMPOSITION BALANCE\r
 Headline + sub-heading: TOP LEFT quadrant\r
 Model: CENTER to CENTER-RIGHT, framed HEAD TO WAIST ONLY\r
 Three feature icons stacked vertically: LEFT side, middle zone\r
-No text/icons overlapping model's face or bra\r
+HARD BOUNDARY: no text or icon may overlap or touch model's face, hair, shoulders, or bra — keep a visible gap of empty background between the LEFT text column and the model\r
 Generous soft ivory/blush breathing space around all elements\r
 Final image: balanced, warm, minimally premium, campaign-ready — true to Tweens' minimal premium daily comfort identity\r
 \r
@@ -4168,6 +4175,7 @@ Final image: balanced, warm, minimally premium, campaign-ready — true to Tween
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product | FULLY FRONT-FACING only | No callout lines\r
+Do NOT let the headline, sub-heading, or any feature text/icon touch or overlap the model's hair, face, shoulders, or body — keep the entire text column separated from the model by visible background.\r
 Do NOT show hips, waistline-and-below, bottom, or any lower body — frame ends strictly at the waist\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
 Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)\r
@@ -4971,24 +4979,29 @@ Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot
 SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."\r
 Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044\r
 \r
+ICON REQUIREMENT — NON-NEGOTIABLE: All three callouts below render their circular icon badge directly above the two text lines. A callout rendered as plain text with no icon badge is a failed render.\r
+\r
 CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a smooth underarm/armhole curve\r
 Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND\r
+Icon (above text): circular badge, soft pastel muted-lavender fill, thin double-ring border, minimal monochrome line-art of a curved bra band / underbust support shape\r
 Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a seamless fabric edge / smooth wave symbol\r
 Line 1 (editorial serif, dusty rose): "No-Stitch Design"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal\r
 \r
-ICON STYLE:\r
+ICON STYLE (applies to all three icon badges above — every callout MUST show its icon, never render callout text without it):\r
 - Large circular badge icons\r
 - Soft pastel fill, alternating between blush pink and muted lavender\r
 - Thin double-ring border around each circle\r
@@ -5020,6 +5033,7 @@ Final image feels balanced, editorial, warm, and campaign-ready — true to Twee
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product from reference images\r
+Do NOT render any callout as plain text without its circular icon badge — all three callouts must show an icon.\r
 Do NOT alter the panty design, colour, or fabric from Image 3\r
 Do NOT show calves, ankles, or feet — frame ends strictly just below the knee\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
@@ -5099,6 +5113,7 @@ Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Mo
 Color: soft charcoal grey, approx #444044\r
 \r
 FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)\r
+HARD BOUNDARY — NON-NEGOTIABLE: Confine the headline, sub-heading, and this entire three-feature icon stack to the LEFT ~40% of the canvas. Leave a clear vertical strip of empty background between this text column and the model — no text, icon, or line may touch or cross into the model's hair, face, shoulders, or body.\r
 \r
 FEATURE 1:\r
 Icon: Small circular badge — thin line illustration of a cotton/fabric/breathable weave symbol\r
@@ -5138,7 +5153,7 @@ OVERALL COMPOSITION BALANCE\r
 Headline + sub-heading: TOP LEFT quadrant\r
 Model: CENTER to CENTER-RIGHT, framed HEAD TO KNEE ONLY\r
 Three feature icons stacked vertically: LEFT side, middle zone\r
-No text/icons overlapping model's face, bra, or panty\r
+HARD BOUNDARY: no text or icon may overlap or touch model's face, hair, shoulders, bra, or panty — keep a visible gap of empty background between the LEFT text column and the model\r
 Generous soft ivory/blush breathing space around all elements\r
 Final image: balanced, warm, minimally premium, campaign-ready — true to Tweens' minimal premium daily comfort identity\r
 \r
@@ -5146,6 +5161,7 @@ Final image: balanced, warm, minimally premium, campaign-ready — true to Tween
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product | FULLY FRONT-FACING only | No callout lines\r
+Do NOT let the headline, sub-heading, or any feature text/icon touch or overlap the model's hair, face, shoulders, or body — keep the entire text column separated from the model by visible background.\r
 Do NOT alter the panty design, colour, or fabric from Image 3\r
 Do NOT show calves, ankles, or feet — frame ends strictly just below the knee\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
@@ -6009,24 +6025,29 @@ Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot
 SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."\r
 Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044\r
 \r
+ICON REQUIREMENT — NON-NEGOTIABLE: All three callouts below render their circular icon badge directly above the two text lines. A callout rendered as plain text with no icon badge is a failed render.\r
+\r
 CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a smooth underarm/armhole curve\r
 Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND\r
+Icon (above text): circular badge, soft pastel muted-lavender fill, thin double-ring border, minimal monochrome line-art of a curved bra band / underbust support shape\r
 Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a seamless fabric edge / smooth wave symbol\r
 Line 1 (editorial serif, dusty rose): "No-Stitch Design"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal\r
 \r
-ICON STYLE:\r
+ICON STYLE (applies to all three icon badges above — every callout MUST show its icon, never render callout text without it):\r
 - Large circular badge icons\r
 - Soft pastel fill, alternating between blush pink and muted lavender\r
 - Thin double-ring border around each circle\r
@@ -6058,6 +6079,7 @@ Final image feels balanced, editorial, warm, and campaign-ready — true to Twee
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product from reference images\r
+Do NOT render any callout as plain text without its circular icon badge — all three callouts must show an icon.\r
 Do NOT alter the panty design, colour, or fabric from Image 3\r
 Do NOT show calves, ankles, or feet — frame ends strictly just below the knee\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
@@ -6165,6 +6187,7 @@ Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Mo
 Color: soft charcoal grey, approx #444044\r
 \r
 FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)\r
+HARD BOUNDARY — NON-NEGOTIABLE: Confine the headline, sub-heading, and this entire three-feature icon stack to the LEFT ~40% of the canvas. Leave a clear vertical strip of empty background between this text column and the model — no text, icon, or line may touch or cross into the model's hair, face, shoulders, or body.\r
 \r
 FEATURE 1:\r
 Icon: Small circular badge — thin line illustration of a cotton/fabric/breathable weave symbol\r
@@ -6204,7 +6227,7 @@ OVERALL COMPOSITION BALANCE\r
 Headline + sub-heading: TOP LEFT quadrant\r
 Model: CENTER to CENTER-RIGHT, framed HEAD TO KNEE ONLY\r
 Three feature icons stacked vertically: LEFT side, middle zone\r
-No text/icons overlapping model's face, bra, or panty\r
+HARD BOUNDARY: no text or icon may overlap or touch model's face, hair, shoulders, bra, or panty — keep a visible gap of empty background between the LEFT text column and the model\r
 Generous soft ivory/blush breathing space around all elements\r
 Final image: balanced, warm, minimally premium, campaign-ready — true to Tweens' minimal premium daily comfort identity\r
 \r
@@ -6212,6 +6235,7 @@ Final image: balanced, warm, minimally premium, campaign-ready — true to Tween
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product | FULLY FRONT-FACING only | No callout lines\r
+Do NOT let the headline, sub-heading, or any feature text/icon touch or overlap the model's hair, face, shoulders, or body — keep the entire text column separated from the model by visible background.\r
 Do NOT alter the panty design, colour, or fabric from Image 3\r
 Do NOT show calves, ankles, or feet — frame ends strictly just below the knee\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
@@ -7144,24 +7168,29 @@ Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot
 SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."\r
 Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044\r
 \r
+ICON REQUIREMENT — NON-NEGOTIABLE: All three callouts below render their circular icon badge directly above the two text lines. A callout rendered as plain text with no icon badge is a failed render.\r
+\r
 CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a smooth underarm/armhole curve\r
 Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND\r
+Icon (above text): circular badge, soft pastel muted-lavender fill, thin double-ring border, minimal monochrome line-art of a curved bra band / underbust support shape\r
 Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE\r
+Icon (above text): circular badge, soft pastel blush-pink fill, thin double-ring border, minimal monochrome line-art of a seamless fabric edge / smooth wave symbol\r
 Line 1 (editorial serif, dusty rose): "No-Stitch Design"\r
 Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"\r
 Border: thin pale rose pink\r
 \r
 CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal\r
 \r
-ICON STYLE:\r
+ICON STYLE (applies to all three icon badges above — every callout MUST show its icon, never render callout text without it):\r
 - Large circular badge icons\r
 - Soft pastel fill, alternating between blush pink and muted lavender\r
 - Thin double-ring border around each circle\r
@@ -7193,6 +7222,7 @@ Final image feels balanced, editorial, warm, and campaign-ready — true to Twee
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product from reference images\r
+Do NOT render any callout as plain text without its circular icon badge — all three callouts must show an icon.\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
 Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)\r
 Do NOT use text colors other than the specified berry/wine, dusty rose, muted plum, and charcoal grey palette\r
@@ -7284,6 +7314,7 @@ Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Mo
 Color: soft charcoal grey, approx #444044\r
 \r
 FEATURE ICON + TEXT STACK — LEFT SIDE (stacked vertically, evenly spaced)\r
+HARD BOUNDARY — NON-NEGOTIABLE: Confine the headline, sub-heading, and this entire three-feature icon stack to the LEFT ~40% of the canvas. Leave a clear vertical strip of empty background between this text column and the model — no text, icon, or line may touch or cross into the model's hair, face, shoulders, or body.\r
 \r
 FEATURE 1:\r
 Icon: Small circular badge — thin line illustration of a cotton/fabric/breathable weave symbol\r
@@ -7323,7 +7354,7 @@ OVERALL COMPOSITION BALANCE\r
 Headline + sub-heading: TOP LEFT quadrant\r
 Model: CENTER to CENTER-RIGHT, framed HEAD TO WAIST ONLY\r
 Three feature icons stacked vertically: LEFT side, middle zone\r
-No text/icons overlapping model's face or bra\r
+HARD BOUNDARY: no text or icon may overlap or touch model's face, hair, shoulders, or bra — keep a visible gap of empty background between the LEFT text column and the model\r
 Generous soft ivory/blush breathing space around all elements\r
 Final image: balanced, warm, minimally premium, campaign-ready — true to Tweens' minimal premium daily comfort identity\r
 \r
@@ -7331,6 +7362,7 @@ Final image: balanced, warm, minimally premium, campaign-ready — true to Tween
 STRICT NEGATIVE INSTRUCTIONS\r
 ═══════════════════════════════════════════════════════\r
 Do NOT alter model or product | FULLY FRONT-FACING only | No callout lines\r
+Do NOT let the headline, sub-heading, or any feature text/icon touch or overlap the model's hair, face, shoulders, or body — keep the entire text column separated from the model by visible background.\r
 Do NOT show hips, waistline-and-below, bottom, or any lower body — frame ends strictly at the waist\r
 Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above\r
 Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)\r
