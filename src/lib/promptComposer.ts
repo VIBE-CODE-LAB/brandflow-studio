@@ -3,12 +3,37 @@ import braPrompt from "@/prompts/Bra-prompt.txt?raw";
 import pushupBraOnlyPrompt from "@/prompts/Pushup-Bra-Only-Prompt.txt?raw";
 import pushupSetPrompt from "@/prompts/Pushup-Set.txt?raw";
 
+import printBraSide1 from "@/prompts/print/bra/side1.txt?raw";
+import printBraSide2 from "@/prompts/print/bra/side2.txt?raw";
+import printBraMood from "@/prompts/print/bra/mood.txt?raw";
+import printBraBack from "@/prompts/print/bra/back.txt?raw";
+import printBraZoom from "@/prompts/print/bra/Zoom.txt?raw";
+
+import printBraPantySide1 from "@/prompts/print/bra-panty/side1.txt?raw";
+import printBraPantySide2 from "@/prompts/print/bra-panty/side2.txt?raw";
+import printBraPantyMood from "@/prompts/print/bra-panty/mood.txt?raw";
+import printBraPantyBack from "@/prompts/print/bra-panty/back.txt?raw";
+import printBraPantyZoom from "@/prompts/print/bra-panty/Zoom.txt?raw";
+
+import printPushupSide1 from "@/prompts/print/pushup/side1.txt?raw";
+import printPushupSide2 from "@/prompts/print/pushup/side2.txt?raw";
+import printPushupMood from "@/prompts/print/pushup/mood.txt?raw";
+import printPushupBack from "@/prompts/print/pushup/back.txt?raw";
+import printPushupZoom from "@/prompts/print/pushup/Zoom.txt?raw";
+
+import printPushupBraOnlySide1 from "@/prompts/print/pushup-bra-only/side1.txt?raw";
+import printPushupBraOnlySide2 from "@/prompts/print/pushup-bra-only/side2.txt?raw";
+import printPushupBraOnlyMood from "@/prompts/print/pushup-bra-only/mood.txt?raw";
+import printPushupBraOnlyBack from "@/prompts/print/pushup-bra-only/back.txt?raw";
+import printPushupBraOnlyZoom from "@/prompts/print/pushup-bra-only/Zoom.txt?raw";
+
 import {
   BRANDS,
   DECK_SHOT_LABELS,
   type AspectId,
   type Brand,
   type DeckShotKey,
+  type FlowMode,
   type ShotPresetContent,
   type ShootType,
   buildBrandLock,
@@ -32,6 +57,8 @@ interface ComposeDeckPromptOptions {
   userNote?: string;
   regenerationNote?: string;
   presetContent?: ShotPresetContent;
+  /** "print" routes through the Print Pattern Flow prompt set instead of the standard photo prompts. */
+  flowMode?: FlowMode;
 }
 
 const BRA_SOURCE: PromptSource = {
@@ -105,6 +132,61 @@ const PANTY_SOURCE: PromptSource = {
   ...BRA_PANTY_SOURCE,
   id: "panty",
 };
+
+interface PrintPromptSource {
+  label: string;
+  files: Partial<Record<DeckShotKey, string>>;
+}
+
+const PRINT_BRA_SOURCE: PrintPromptSource = {
+  label: "only bra and without pushup (print)",
+  files: {
+    side1: printBraSide1,
+    side2: printBraSide2,
+    mood: printBraMood,
+    back: printBraBack,
+    zoom: printBraZoom,
+  },
+};
+
+const PRINT_BRA_PANTY_SOURCE: PrintPromptSource = {
+  label: "bra+panty (print)",
+  files: {
+    side1: printBraPantySide1,
+    side2: printBraPantySide2,
+    mood: printBraPantyMood,
+    back: printBraPantyBack,
+    zoom: printBraPantyZoom,
+  },
+};
+
+const PRINT_PUSHUP_SET_SOURCE: PrintPromptSource = {
+  label: "bra+panty pushup (print)",
+  files: {
+    side1: printPushupSide1,
+    side2: printPushupSide2,
+    mood: printPushupMood,
+    back: printPushupBack,
+    zoom: printPushupZoom,
+  },
+};
+
+const PRINT_PUSHUP_BRA_ONLY_SOURCE: PrintPromptSource = {
+  label: "pushup only bra (print)",
+  files: {
+    side1: printPushupBraOnlySide1,
+    side2: printPushupBraOnlySide2,
+    mood: printPushupBraOnlyMood,
+    back: printPushupBraOnlyBack,
+    zoom: printPushupBraOnlyZoom,
+  },
+};
+
+function getPrintPromptSource(shootType: ShootType, pushupBraOnly: boolean): PrintPromptSource {
+  if (shootType === "bra") return PRINT_BRA_SOURCE;
+  if (shootType === "pushup") return pushupBraOnly ? PRINT_PUSHUP_BRA_ONLY_SOURCE : PRINT_PUSHUP_SET_SOURCE;
+  return PRINT_BRA_PANTY_SOURCE;
+}
 
 function cleanHeading(value: string): string {
   return value
@@ -586,6 +668,70 @@ function moodNoIconLock(brand: Brand): string {
   ].join("\n");
 }
 
+function printBackgroundOnlyLock(brand: Brand): string {
+  return [
+    "PRINT PATTERN FLOW BRAND LOCK — BACKGROUND ONLY:",
+    `Only the background changes per brand in this flow. Replace every background, backdrop, and solid text-zone/panel color described in the source prompt above with ${brand.name}'s background hex ${brand.bg}.`,
+    "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to a brand text/font hex.",
+    `If the source prompt describes botanical or floral line-art decorations, keep them thin, delicate, and low-opacity — tint them as a soft, light variant of ${brand.bg} rather than the fixed blush-pink example, so they still read as light and decorative against the new background.`,
+    `Ignore any other brand name mentioned in the source prompt above — this image is for ${brand.name} only. Do not change fonts, typography style, layout, callout placement, icon shapes, or wording; only the background hex (and the botanical tint derived from it) follow the brand.`,
+  ].join("\n");
+}
+
+function printPresetContentLock(content: ShotPresetContent, deckShot: DeckShotKey): string {
+  const callouts = content.callouts
+    .map((callout, index) => (callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : ""))
+    .filter(Boolean);
+
+  return [
+    "SELECTED STYLE PRESET CONTENT — PRINT PATTERN FLOW:",
+    `Selected style: ${content.styleName}.`,
+    "Use the exact source prompt above for pose, crop, layout, callout positions, connector-line style, icon style, and typography treatment — the print layout is mandatory.",
+    "Replace only the written headline, sub-heading, and feature-callout copy in that layout with the selected style content below. Keep the same number of feature rows as the source layout; if the source layout has more feature rows than the selected preset has callouts, keep the source prompt's own copy for the remaining rows.",
+    `Headline: ${content.heading.trim() || "Use the source prompt's own headline."}`,
+    content.subHeading.trim()
+      ? `Sub-heading: ${content.subHeading.trim()}`
+      : "Sub-heading: use the source prompt's own sub-heading.",
+    callouts.length > 0 ? callouts.join("\n") : "Callouts: use the source prompt's own callout copy.",
+    "Do not invent extra callouts, badges, or captions beyond the source layout's structure.",
+  ].join("\n");
+}
+
+function printPushupEffectRenderLock(deckShot: DeckShotKey): string {
+  return [
+    "PUSH-UP LEVEL 3 FINAL RENDER LOCK — HIGHEST PRIORITY:",
+    "This is Pushup mode. The bra must visibly render as a Level 3 push-up bra in the final pixels.",
+    "Both cups must be visibly lifted upward from beneath, pushed inward toward center, rounded through the upper cup, fuller than an unpadded bra, and three-dimensional with clear forward projection.",
+    "The under-cup curve must show strong padding lift. The center shaping must show the inward push clearly while staying modest, natural, symmetric, and catalogue-appropriate.",
+    deckShot === "back"
+      ? "For Back view, show the push-up support through lifted side projection, sculpted cup volume visible at the side edges, and a supportive back-band structure. Do not let the back pose look like a flat non-padded bra."
+      : "For this front/side/mood/zoom pose, the lifted cup projection and fuller shaped silhouette must be immediately visible without zooming in.",
+    "Do NOT render a flat balconette, minimizer, sports-bra, light-padding, Level 1, Level 2, soft-padding, or gentle-lift result.",
+    "Do NOT let selected style preset wording weaken the visual product effect. Even if selected copy mentions comfort, softness, lightness, or gentle support, keep the visible bra shape as Level 3 push-up.",
+    "This rule only affects the rendered garment shape. It does not change any text color, background color, or typography — those follow the background-only brand lock above.",
+  ].join("\n");
+}
+
+function printMoodBottomBenefitBarLock(content?: ShotPresetContent): string {
+  if (!content) return "";
+  const reference = [
+    content.heading.trim() ? `Heading: ${content.heading.trim()}` : "",
+    content.subHeading.trim() ? `Sub-heading: ${content.subHeading.trim()}` : "",
+    ...content.callouts.map((callout, index) =>
+      callout.trim() ? `Callout ${index + 1}: ${callout.trim()}` : "",
+    ),
+  ].filter(Boolean);
+
+  return [
+    "PRINT MOOD — BOTTOM BENEFIT BAR IS GEMINI-AUTHORED, NOT COPIED:",
+    "The bottom four-column benefit bar described in the source prompt above is the one element you should write yourself — it is not a copy of the source prompt's own example bar text, and not a repeat of the feature-callout column above it.",
+    'Read the selected style preset content below and write four short new benefit titles (2-4 words) with a matching short sub-line each, that plausibly relate to and extend that same product story. Do not paste the preset callouts verbatim into the bar, and do not reuse the source prompt\'s own example bar text ("Soft Touch", "Feather Light", "Elastic-Free", "Made to Support").',
+    "For each of the four columns, choose a simple circular line-art icon concept that matches your generated benefit text, following the bar's existing pastel badge style (soft blush pink / muted lavender fill, thin double-ring border, delicate monochrome line-art) described in the source prompt.",
+    "Selected style preset content for reference (do not render this text verbatim in the bar):",
+    reference.length > 0 ? reference.join("\n") : "(no preset content selected — keep the source prompt's own bottom bar example text)",
+  ].join("\n");
+}
+
 export function composeDeckPrompt({
   shootType,
   pushupBraOnly,
@@ -595,7 +741,49 @@ export function composeDeckPrompt({
   userNote,
   regenerationNote,
   presetContent,
+  flowMode = "photo",
 }: ComposeDeckPromptOptions): { prompt: string; sourceFile: string; section: string } {
+  if (flowMode === "print") {
+    const printSource = getPrintPromptSource(shootType, pushupBraOnly);
+    const rawSection = printSource.files[deckShot];
+    if (!rawSection) {
+      throw new Error(
+        `No print pattern prompt available yet for "${DECK_SHOT_LABELS[deckShot]}" in ${printSource.label}.`,
+      );
+    }
+    const sourcePrompt = resolvePlaceholders(rawSection, brand);
+    const pushupMode = shootType === "pushup";
+    const effectivePresetContent =
+      pushupMode && presetContent ? normalizePushupPresetContent(presetContent) : presetContent;
+
+    const printControls = [
+      "DECK SHOT LOCK:",
+      `Deck shot: ${DECK_SHOT_LABELS[deckShot]}.`,
+      `Prompt source: Print Pattern Flow — ${printSource.label}.`,
+      `Aspect selected in Studio Flow: ${aspect}.`,
+      "Fixed image quality: generate a native, sharp, strict 2K ecommerce image. Do not return a blurry, low-resolution, soft, compressed, or pixelated image.",
+      "Generate only this deck shot. Keep model identity and product identity consistent with the rest of the deck.",
+      userNote?.trim() ? `User refinement note: ${userNote.trim()}` : "",
+      regenerationNote?.trim() ? `Regeneration correction note: ${regenerationNote.trim()}` : "",
+    ].filter(Boolean);
+
+    const printSections = [sourcePrompt, printBackgroundOnlyLock(brand), printControls.join("\n")];
+    if (effectivePresetContent) {
+      printSections.push(printPresetContentLock(effectivePresetContent, deckShot));
+    }
+    if (deckShot === "mood") printSections.push(printMoodBottomBenefitBarLock(effectivePresetContent));
+    if (pushupMode) printSections.push(printPushupEffectRenderLock(deckShot));
+    if (shootType === "pushup" && pushupBraOnly && deckShot === "side2") {
+      printSections.push(pushupBraOnlySide2RenderLock());
+    }
+
+    return {
+      prompt: printSections.join("\n\n"),
+      sourceFile: printSource.label,
+      section: `${DECK_SHOT_LABELS[deckShot]} print prompt`,
+    };
+  }
+
   const source = getPromptSource(shootType, pushupBraOnly);
   const section = sectionHeading(source.id, deckShot);
   const sourcePrompt = applyBrandSpecification(resolvePlaceholders(extractSection(source, section), brand), brand);

@@ -1,0 +1,117 @@
+REFERENCE IMAGE 1 (Model): Use this image as the EXACT reference for the model's face, skin tone, hair color, hair texture, body type, and overall appearance. Replicate identically — do not alter any facial feature, complexion, or hair characteristic.
+
+REFERENCE IMAGE 2 (Product): Use this image as the EXACT reference for the bra's color, texture, fabric finish, silhouette, band width, strap width, and neckline shape. Replicate identically on the model's body. Do not alter the product in any way.
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+Model stands in a three-quarter angle, body turned approximately 30–40 degrees to the LEFT of camera
+Face turns back toward camera making DIRECT eye contact with the lens
+Chin is level, natural relaxed confident smile
+RIGHT arm hangs relaxed at her side
+LEFT arm is relaxed and slightly away from body so the LEFT armhole area of the bra is clearly visible and unobstructed
+Shoulders are relaxed, not raised or tensed
+Shot framed from MID-THIGH upward (3/4 body shot)
+Hair falls softly over both shoulders BUT must be directed AWAY from all bra straps, armhole edges, and bottom band — zero hair overlap on any part of the bra at any point
+Skin is completely tattoo-free and blemish-free
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+The bra from REFERENCE IMAGE 2 must be worn exactly as it appears — same color, same fabric, same fit, same silhouette
+ALL of the following zones must be FULLY VISIBLE, unobstructed, and sharply in focus:
+→ LEFT armhole edge, RIGHT armhole edge, Full bottom band, Front center panel, Both shoulder straps
+Primary lighting directed TOWARD the bra — it is the HERO product of this image
+No hands, hair, arms, or fabric overlapping any part of the bra
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+Bright warm-white to pale-ivory background with a very subtle blush-pink cast.
+- Softly lit, diffused studio backdrop — feels warm and daylight-like
+- Faint warm light entering from the centre or upper-left area
+- Extremely soft shadows, low contrast, shallow depth of field
+- Delicate, slightly dreamy premium catalogue finish
+- Background stays clean and minimal — no competing props or clutter
+
+Add very delicate pale-blush botanical line-art decorations in the corners:
+- A light floral branch entering from the upper-right corner
+- A smaller floral accent entering from the lower-left corner
+- Optionally, a faint partial floral line near the lower-right edge
+
+Botanical illustrations must be elegant, thin, low-opacity, and decorative only — never overlapping important text, the model's face, or the product.
+
+Lighting is warm, soft, and clean — never cool-blue or harsh
+Aspect ratio: portrait 4:5
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY STYLE
+═══════════════════════════════════════════════════════
+Campaign-quality professional e-commerce product image
+Editorial/catalogue feel — crisp focus on model and product, airy soft background
+Overall image tone is warm ivory, soft blush, and premium editorial-catalogue anchored
+Consistent with Tweens brand identity: minimal, premium, daily comfort
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY
+═══════════════════════════════════════════════════════
+HEADLINE — TOP LEFT: "Elastic-Free Construction"
+Font: Sophisticated high-contrast editorial serif (similar to Bodoni Moda, Didot, or a premium modern fashion serif) | Color: deep muted berry/wine, approx #8E173C–#982044
+
+SUB-HEADING — TOP LEFT below headline: "No Digging. No Marks. No Itching."
+Font: Clean modern sans-serif (similar to Manrope, Avenir, Helvetica Neue, or Montserrat), medium weight | Color: soft charcoal grey, approx #444044
+
+CALLOUT 1 — RIGHT: Points to LEFT ARMHOLE EDGE
+Line 1 (editorial serif, dusty rose): "Elastic-free Armhole"
+Line 2 (sans-serif, charcoal grey #444044): "for Rashfree Comfort"
+Border: thin pale rose pink
+
+CALLOUT 2 — BOTTOM LEFT: Points to BOTTOM BAND
+Line 1 (editorial serif, muted plum): "Elastic-free Bottom Band"
+Line 2 (sans-serif, charcoal grey #444044): "for Seamless Support"
+Border: thin pale rose pink
+
+CALLOUT 3 — LEFT: Points to SIDE SEAM / FABRIC EDGE
+Line 1 (editorial serif, dusty rose): "No-Stitch Design"
+Line 2 (sans-serif, charcoal grey #444044): "for Invisible Finish"
+Border: thin pale rose pink
+
+CALLOUT LINE STYLE: Thin single line or slightly angled line | Color: pale rose pink | Clean and minimal
+
+ICON STYLE:
+- Large circular badge icons
+- Soft pastel fill, alternating between blush pink and muted lavender
+- Thin double-ring border around each circle
+- Minimal, delicate, monochromatic line-art illustration inside
+- Clean, refined, commercially polished finish
+- No cartoon styling, no thick strokes
+
+TYPOGRAPHY COLOR PALETTE (reference):
+- Primary headline: deep muted berry/wine — approx #8E173C to #982044
+- Italic emphasis: brighter dusty rose — approx #C83F65
+- Feature headings: alternating dusty rose and muted plum
+- Body copy: soft charcoal grey — approx #444044
+- Fine rules and dots: pale rose pink
+No heavy drop shadows, thick outlines, metallic effects, or decorative gradients on any text.
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+Headline + sub-heading occupy TOP LEFT quadrant
+Model is CENTER-RIGHT of the frame
+Callout 1 sits on the RIGHT, vertically middle zone
+Callout 2 sits on the BOTTOM LEFT
+Callout 3 sits on the LEFT, vertically middle zone
+All text and icons must NOT overlap the model's face or bra product
+Generous soft ivory/blush breathing space around all text elements
+Final image feels balanced, editorial, warm, and campaign-ready — true to Tweens' minimal premium daily comfort identity
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+Do NOT alter model or product from reference images
+Do NOT use a background other than the warm-white/pale-ivory blush-cast style described above
+Do NOT use fonts other than the specified editorial serif (headings) and modern sans-serif (body)
+Do NOT use text colors other than the specified berry/wine, dusty rose, muted plum, and charcoal grey palette
+Do NOT allow hair over bra, callouts over face or bra, harsh shadows, cool-blue lighting, watermarks, extra models, thick callout lines
+Do NOT use heavy drop shadows, thick outlines, metallic effects, or decorative gradients on text

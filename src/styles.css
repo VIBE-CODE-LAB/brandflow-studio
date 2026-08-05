@@ -1064,6 +1064,7 @@
 
 .gear2-flip-card {
   position: relative;
+  display: grid;
   min-height: 100%;
   transform-style: preserve-3d;
   transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -1073,15 +1074,28 @@
   transform: rotateY(180deg);
 }
 
+/* Both faces share the same grid cell so the card's height auto-sizes to
+   whichever face is taller — front and back don't always render the same
+   content, so they don't always share the same natural height. */
 .gear2-flip-face {
+  grid-area: 1 / 1;
+  min-width: 0;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
 }
 
 .gear2-flip-face--back {
-  position: absolute;
-  inset: 0;
   transform: rotateY(180deg);
+}
+
+/* backface-visibility only hides paint, not hit-testing — without this the face
+   rotated away from the viewer still intercepts clicks meant for the visible one. */
+.gear2-flip-card:not(.gear2-flip-card--flipped) .gear2-flip-face--back {
+  pointer-events: none;
+}
+
+.gear2-flip-card--flipped .gear2-flip-face--front {
+  pointer-events: none;
 }
 
 /* --- Gear 2 v2: engine-phase deck tiles --- */
