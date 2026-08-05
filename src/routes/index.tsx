@@ -1167,6 +1167,9 @@ export function StudioFlow() {
             syncMessage={syncMessage}
             syncError={syncError}
             presets={presets}
+            auth={auth}
+            onNeedAuth={() => setAuthOpen(true)}
+            onAuthUsed={(used) => setAuth((prev) => ({ ...prev, used }))}
           />
         </Suspense>
       ) : null}

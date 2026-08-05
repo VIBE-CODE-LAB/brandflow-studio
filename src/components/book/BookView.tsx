@@ -3,7 +3,10 @@ import { Check, Loader2, Plus, RefreshCw, Unlink, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { readAndDownsizeImage } from "@/lib/imageFile";
+import { runLimited } from "@/lib/concurrency";
 import { useBookInAppShortcuts } from "@/lib/bookShortcuts";
+import { getGeminiApiKey, incrementStudioUsage, type StudioAuthState } from "@/lib/studioAuth";
+import { findPreset, isPresetPose, searchStylesByNumber, type StylePreset } from "@/lib/stylePresets";
 import {
   ASPECTS,
   DECKS,
@@ -11,25 +14,45 @@ import {
   SHOOT_TYPES,
   allowedDecks,
   defaultDeck,
+  getDeck,
   requiredSlots,
   slotLabel,
   type AspectId,
   type Brand,
   type DeckType,
   type EngineId,
+  type GeneratedShot,
   type ShootType,
   type SlotKey,
 } from "@/lib/studio";
-import { searchStylesByNumber, type StylePreset } from "@/lib/stylePresets";
 
 const BASE_URL = import.meta.env.BASE_URL;
+const GENERATION_CONCURRENCY = 5;
 
 /** open.mp4 settles on a flat, fully blank two-page spread starting around this timestamp. */
 const OPEN_SETTLE_TIME = 8.3;
 /** flip.mp4 already starts on a blank flat spread and settles back to one near the end. */
 const FLIP_END_TIME = 9.8;
+/** close.mp4 settles on a calm, closed, centered pose around this timestamp. */
+const CLOSE_SETTLE_TIME = 9.3;
+/** surge.mp4's crackle+tilt is a one-way settle arc — the tilt itself lives roughly here. */
+const TILT_LOOP_START = 5.0;
+const TILT_LOOP_END = 7.0;
 
-type Phase = "opening" | "mode-select" | "flipping" | "panty" | "controls" | "advancing";
+type Phase =
+  | "opening"
+  | "mode-select"
+  | "flipping"
+  | "panty"
+  | "controls"
+  | "closing"
+  | "generating"
+  | "ready-to-open"
+  | "surging"
+  | "tilt-loop";
+
+let bookShotCounter = 0;
+const nextBookShotId = () => `book-shot-${Date.now()}-${bookShotCounter++}`;
 
 interface BookViewProps {
   onClose: () => void;
@@ -42,6 +65,9 @@ interface BookViewProps {
   syncMessage: string | null;
   syncError: string | null;
   presets: StylePreset[];
+  auth: StudioAuthState;
+  onNeedAuth: () => void;
+  onAuthUsed: (used: number) => void;
 }
 
 function DropZone({
@@ -158,6 +184,9 @@ export function BookView({
   syncMessage,
   syncError,
   presets,
+  auth,
+  onNeedAuth,
+  onAuthUsed,
 }: BookViewProps) {
   const [phase, setPhase] = useState<Phase>("opening");
   const [shootType, setShootType] = useState<ShootType>("bra_panty");
@@ -168,7 +197,11 @@ export function BookView({
   const [engine, setEngine] = useState<EngineId>("fast");
   const [selectedStyleName, setSelectedStyleName] = useState<string | null>(null);
   const [styleSearch, setStyleSearch] = useState("");
+  const [shots, setShots] = useState<GeneratedShot[]>([]);
+  const [generating, setGenerating] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const timers = useRef<ReturnType<typeof setInterval>[]>([]);
+  const generatedUrls = useRef<string[]>([]);
 
   const slots = requiredSlots(shootType, false);
   const needsFlip = slots.length === 3;
@@ -180,6 +213,13 @@ export function BookView({
     if (brandId && availableBrands.some((b) => b.id === brandId)) return;
     setBrandId(availableBrands[0]?.id ?? null);
   }, [availableBrands, brandId]);
+
+  useEffect(() => {
+    return () => {
+      timers.current.forEach(clearInterval);
+      generatedUrls.current.forEach((url) => URL.revokeObjectURL(url));
+    };
+  }, []);
 
   const setImage = useCallback((slot: SlotKey, file: File) => {
     void readAndDownsizeImage(file).then((dataUrl) => {
@@ -258,6 +298,200 @@ export function BookView({
     video.addEventListener("loadedmetadata", onLoaded, { once: true });
   }, []);
 
+  const playClose = useCallback((onDone: () => void) => {
+    const video = videoRef.current;
+    if (!video) return;
+    setPhase("closing");
+    const onTimeUpdate = () => {
+      if (video.currentTime >= CLOSE_SETTLE_TIME) {
+        video.pause();
+        video.removeEventListener("timeupdate", onTimeUpdate);
+        onDone();
+      }
+    };
+    video.src = `${BASE_URL}book/close.mp4`;
+    video.addEventListener("timeupdate", onTimeUpdate);
+    const onLoaded = () => {
+      video.currentTime = 0;
+      void video.play();
+    };
+    video.addEventListener("loadedmetadata", onLoaded, { once: true });
+  }, []);
+
+  const playSurgeOnce = useCallback((onDone: () => void) => {
+    const video = videoRef.current;
+    if (!video) return;
+    setPhase("surging");
+    const onEnded = () => onDone();
+    video.src = `${BASE_URL}book/surge.mp4`;
+    video.addEventListener("ended", onEnded, { once: true });
+    const onLoaded = () => {
+      video.currentTime = 0;
+      void video.play();
+    };
+    video.addEventListener("loadedmetadata", onLoaded, { once: true });
+  }, []);
+
+  // Loop the tilt segment of surge.mp4 while we wait for Stage 4.
+  useEffect(() => {
+    if (phase !== "tilt-loop") return;
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = TILT_LOOP_START;
+    void video.play();
+    const onTimeUpdate = () => {
+      if (video.currentTime >= TILT_LOOP_END) {
+        video.currentTime = TILT_LOOP_START;
+      }
+    };
+    video.addEventListener("timeupdate", onTimeUpdate);
+    return () => video.removeEventListener("timeupdate", onTimeUpdate);
+  }, [phase]);
+
+  const startProgress = useCallback((id: string, start = 3) => {
+    setShots((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, progress: Math.max(s.progress ?? 0, start) } : s)),
+    );
+    const timer = setInterval(() => {
+      setShots((prev) =>
+        prev.map((s) => {
+          if (s.id !== id || s.status !== "rendering") return s;
+          const current = s.progress ?? start;
+          const step = current < 50 ? 4 : current < 80 ? 2 : 1;
+          return { ...s, progress: Math.min(92, current + step) };
+        }),
+      );
+    }, 900);
+    timers.current.push(timer);
+    return timer;
+  }, []);
+
+  const generate = useCallback(async () => {
+    const brand = availableBrands.find((b) => b.id === brandId) ?? availableBrands[0];
+    if (!brand) {
+      setGenerating(false);
+      return;
+    }
+    const apiKey = getGeminiApiKey();
+    if (!apiKey) {
+      onNeedAuth();
+      setGenerating(false);
+      return;
+    }
+
+    const used = incrementStudioUsage();
+    onAuthUsed(used);
+
+    const deckShots = getDeck(deck).shots;
+    const queued: GeneratedShot[] = deckShots.map((deckShot) => ({
+      id: nextBookShotId(),
+      deckShot,
+      aspect,
+      brandId: brand.id,
+      shootType,
+      pushupBraOnly: false,
+      status: "queued",
+      progress: 0,
+    }));
+    setShots(queued);
+
+    const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
+      import("@/lib/promptComposer"),
+      import("@/lib/geminiImage"),
+    ]);
+
+    await runLimited(queued, GENERATION_CONCURRENCY, async (shot) => {
+      setShots((prev) =>
+        prev.map((s) =>
+          s.id === shot.id
+            ? { ...s, status: "rendering", progress: Math.max(s.progress ?? 0, 5), error: undefined }
+            : s,
+        ),
+      );
+      const progressTimer = startProgress(shot.id, 5);
+
+      try {
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
+            : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
+
+        const promptData = composeDeckPrompt({
+          shootType,
+          pushupBraOnly: false,
+          deckShot: shot.deckShot,
+          brand,
+          aspect,
+          presetContent,
+        });
+
+        const imageUrl = await generateGeminiImage({
+          apiKey,
+          prompt: promptData.prompt,
+          images,
+          shootType,
+          pushupBraOnly: false,
+          deckShot: shot.deckShot,
+          engine,
+          aspect,
+        });
+        if (imageUrl.startsWith("blob:")) generatedUrls.current.push(imageUrl);
+
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === shot.id ? { ...s, status: "done", progress: 100, imageUrl, presetContent } : s,
+          ),
+        );
+      } catch (error) {
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === shot.id
+              ? {
+                  ...s,
+                  status: "error",
+                  progress: s.progress ?? 0,
+                  error: error instanceof Error ? error.message : "Image generation failed.",
+                }
+              : s,
+          ),
+        );
+      } finally {
+        clearInterval(progressTimer);
+      }
+    });
+
+    setGenerating(false);
+  }, [
+    availableBrands,
+    brandId,
+    deck,
+    aspect,
+    shootType,
+    images,
+    engine,
+    selectedStyleName,
+    presets,
+    onNeedAuth,
+    onAuthUsed,
+    startProgress,
+  ]);
+
+  // Once generation finishes, move from the progress bar to the "open" prompt.
+  useEffect(() => {
+    if (phase === "generating" && !generating && shots.length > 0) {
+      setPhase("ready-to-open");
+    }
+  }, [phase, generating, shots.length]);
+
   const primaryReady = primarySlots.every((slot) => images[slot]);
   const pantyReady = !deferredSlot || Boolean(images[deferredSlot]);
 
@@ -274,9 +508,21 @@ export function BookView({
     }
     if (phase === "controls") {
       if (!brandId) return;
-      setPhase("advancing");
+      if (!auth.unlocked || !auth.hasGeminiKey || !getGeminiApiKey()) {
+        onNeedAuth();
+        return;
+      }
+      playClose(() => {
+        setPhase("generating");
+        setGenerating(true);
+        void generate();
+      });
+      return;
     }
-  }, [phase, primaryReady, needsFlip, pantyReady, brandId, playFlip]);
+    if (phase === "ready-to-open") {
+      playSurgeOnce(() => setPhase("tilt-loop"));
+    }
+  }, [phase, primaryReady, needsFlip, pantyReady, brandId, auth, onNeedAuth, playFlip, playClose, playSurgeOnce, generate]);
 
   useBookInAppShortcuts({
     onEnter: handleEnter,
@@ -288,6 +534,12 @@ export function BookView({
     () => (styleSearch.trim() ? searchStylesByNumber(presets, styleSearch.trim()) : []),
     [presets, styleSearch],
   );
+
+  const overallProgress = useMemo(() => {
+    if (shots.length === 0) return 0;
+    const total = shots.reduce((sum, s) => sum + (s.status === "done" ? 100 : (s.progress ?? 0)), 0);
+    return Math.round(total / shots.length);
+  }, [shots]);
 
   const showsPageContent = phase === "mode-select" || phase === "panty" || phase === "controls";
 
@@ -556,10 +808,32 @@ export function BookView({
           </div>
         ) : null}
 
-        {phase === "advancing" ? (
+        {phase === "generating" ? (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <div className="h-1.5 w-64 overflow-hidden rounded-full bg-white/20">
+              <div
+                className="h-full rounded-full bg-[#c83f65] transition-all"
+                style={{ width: `${overallProgress}%` }}
+              />
+            </div>
+            <p className="text-xs font-medium tracking-wide text-white/80">
+              Generating your deck… {overallProgress}%
+            </p>
+          </div>
+        ) : null}
+
+        {phase === "ready-to-open" ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <p className="rounded-full bg-black/60 px-6 py-3 text-sm font-medium tracking-wide text-white">
-              Continuing to close &amp; generate — coming in Stage 3
+              Press Enter to open the book
+            </p>
+          </div>
+        ) : null}
+
+        {phase === "tilt-loop" ? (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <p className="rounded-full bg-black/60 px-6 py-3 text-sm font-medium tracking-wide text-white">
+              Reviewing your images — coming in Stage 4
             </p>
           </div>
         ) : null}
