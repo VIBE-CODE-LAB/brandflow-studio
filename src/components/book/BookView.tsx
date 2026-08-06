@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
-import { Check, Loader2, Plus, RefreshCw, Unlink, X } from "lucide-react";
+import { Check, Clipboard, Download, Loader2, Plus, RefreshCw, Unlink, X } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { readAndDownsizeImage } from "@/lib/imageFile";
@@ -7,8 +7,10 @@ import { runLimited } from "@/lib/concurrency";
 import { useBookInAppShortcuts } from "@/lib/bookShortcuts";
 import { getGeminiApiKey, incrementStudioUsage, type StudioAuthState } from "@/lib/studioAuth";
 import { findPreset, isPresetPose, searchStylesByNumber, type StylePreset } from "@/lib/stylePresets";
+import { downloadShot, downloadShotsZip } from "@/components/studio/Stage";
 import {
   ASPECTS,
+  DECK_SHOT_LABELS,
   DECKS,
   ENGINES,
   SHOOT_TYPES,
@@ -38,6 +40,8 @@ const CLOSE_SETTLE_TIME = 9.3;
 /** surge.mp4's crackle+tilt is a one-way settle arc — the tilt itself lives roughly here. */
 const TILT_LOOP_START = 5.0;
 const TILT_LOOP_END = 7.0;
+/** reopen.mp4 settles on a flat, fully blank two-page spread around this timestamp. */
+const REOPEN_SETTLE_TIME = 9.3;
 
 type Phase =
   | "opening"
@@ -49,7 +53,10 @@ type Phase =
   | "generating"
   | "ready-to-open"
   | "surging"
-  | "tilt-loop";
+  | "tilt-loop"
+  | "reopening"
+  | "review"
+  | "downloads";
 
 let bookShotCounter = 0;
 const nextBookShotId = () => `book-shot-${Date.now()}-${bookShotCounter++}`;
@@ -199,6 +206,10 @@ export function BookView({
   const [styleSearch, setStyleSearch] = useState("");
   const [shots, setShots] = useState<GeneratedShot[]>([]);
   const [generating, setGenerating] = useState(false);
+  const [reviewIndex, setReviewIndex] = useState(0);
+  const [showPrompt, setShowPrompt] = useState(false);
+  const [promptText, setPromptText] = useState<string | null>(null);
+  const [redoNote, setRedoNote] = useState("");
   const videoRef = useRef<HTMLVideoElement>(null);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
@@ -332,7 +343,27 @@ export function BookView({
     video.addEventListener("loadedmetadata", onLoaded, { once: true });
   }, []);
 
-  // Loop the tilt segment of surge.mp4 while we wait for Stage 4.
+  const playReopen = useCallback((onDone: () => void) => {
+    const video = videoRef.current;
+    if (!video) return;
+    setPhase("reopening");
+    const onTimeUpdate = () => {
+      if (video.currentTime >= REOPEN_SETTLE_TIME) {
+        video.pause();
+        video.removeEventListener("timeupdate", onTimeUpdate);
+        onDone();
+      }
+    };
+    video.src = `${BASE_URL}book/reopen.mp4`;
+    video.addEventListener("timeupdate", onTimeUpdate);
+    const onLoaded = () => {
+      video.currentTime = 0;
+      void video.play();
+    };
+    video.addEventListener("loadedmetadata", onLoaded, { once: true });
+  }, []);
+
+  // Loop the tilt segment of surge.mp4 until the user presses Enter to reopen.
   useEffect(() => {
     if (phase !== "tilt-loop") return;
     const video = videoRef.current;
@@ -492,6 +523,100 @@ export function BookView({
     }
   }, [phase, generating, shots.length]);
 
+  const regenerateShot = useCallback(
+    async (id: string, note: string) => {
+      const brand = availableBrands.find((b) => b.id === brandId) ?? availableBrands[0];
+      const apiKey = getGeminiApiKey();
+      if (!brand || !auth.unlocked || !auth.hasGeminiKey || !apiKey) {
+        onNeedAuth();
+        return;
+      }
+
+      const shot = shots.find((s) => s.id === id);
+      if (!shot) return;
+      if (shot.imageUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(shot.imageUrl);
+        generatedUrls.current = generatedUrls.current.filter((url) => url !== shot.imageUrl);
+      }
+
+      setShots((prev) =>
+        prev.map((s) =>
+          s.id === id ? { ...s, status: "rendering", progress: 5, userNote: note, error: undefined } : s,
+        ),
+      );
+      const progressTimer = startProgress(id, 5);
+
+      const [{ composeDeckPrompt }, { generateGeminiImage }] = await Promise.all([
+        import("@/lib/promptComposer"),
+        import("@/lib/geminiImage"),
+      ]);
+
+      try {
+        const preset =
+          selectedStyleName && isPresetPose(shot.deckShot)
+            ? findPreset(presets, selectedStyleName, shot.deckShot)
+            : undefined;
+        const presetContent = preset
+          ? {
+              styleName: preset.styleName,
+              heading: preset.heading,
+              subHeading: preset.subHeading,
+              callouts: [preset.c1Text, preset.c2Text, preset.c3Text, preset.c4Text],
+              calloutZones: [preset.c1Zone, preset.c2Zone, preset.c3Zone, preset.c4Zone],
+            }
+          : undefined;
+
+        const promptData = composeDeckPrompt({
+          shootType: shot.shootType,
+          pushupBraOnly: false,
+          deckShot: shot.deckShot,
+          brand,
+          aspect: shot.aspect,
+          userNote: note,
+          presetContent,
+        });
+
+        const imageUrl = await generateGeminiImage({
+          apiKey,
+          prompt: promptData.prompt,
+          images,
+          shootType: shot.shootType,
+          pushupBraOnly: false,
+          deckShot: shot.deckShot,
+          engine,
+          aspect: shot.aspect,
+        });
+        if (imageUrl.startsWith("blob:")) generatedUrls.current.push(imageUrl);
+
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === id
+              ? { ...s, status: "done", progress: 100, userNote: note, imageUrl, presetContent }
+              : s,
+          ),
+        );
+        setPromptText(null);
+      } catch (error) {
+        setShots((prev) =>
+          prev.map((s) =>
+            s.id === id
+              ? {
+                  ...s,
+                  status: "error",
+                  progress: s.progress ?? 0,
+                  userNote: note,
+                  error: error instanceof Error ? error.message : "Image generation failed.",
+                }
+              : s,
+          ),
+        );
+      } finally {
+        clearInterval(progressTimer);
+      }
+    },
+    [availableBrands, brandId, auth, onNeedAuth, shots, images, engine, selectedStyleName, presets, startProgress],
+  );
+
   const primaryReady = primarySlots.every((slot) => images[slot]);
   const pantyReady = !deferredSlot || Boolean(images[deferredSlot]);
 
@@ -521,12 +646,58 @@ export function BookView({
     }
     if (phase === "ready-to-open") {
       playSurgeOnce(() => setPhase("tilt-loop"));
+      return;
     }
-  }, [phase, primaryReady, needsFlip, pantyReady, brandId, auth, onNeedAuth, playFlip, playClose, playSurgeOnce, generate]);
+    if (phase === "tilt-loop") {
+      playReopen(() => {
+        setReviewIndex(0);
+        setShowPrompt(false);
+        setPromptText(null);
+        setPhase("review");
+      });
+      return;
+    }
+    if (phase === "review") {
+      const atLast = reviewIndex >= shots.length - 1;
+      playFlip(() => {
+        if (atLast) {
+          setPhase("downloads");
+        } else {
+          setReviewIndex((i) => i + 1);
+          setShowPrompt(false);
+          setPromptText(null);
+          setPhase("review");
+        }
+      });
+    }
+  }, [
+    phase,
+    primaryReady,
+    needsFlip,
+    pantyReady,
+    brandId,
+    auth,
+    onNeedAuth,
+    playFlip,
+    playClose,
+    playSurgeOnce,
+    playReopen,
+    generate,
+    reviewIndex,
+    shots.length,
+  ]);
+
+  const handleEscape = useCallback(() => {
+    if (phase === "review" || phase === "downloads") {
+      playClose(() => onClose());
+      return;
+    }
+    onClose();
+  }, [phase, playClose, onClose]);
 
   useBookInAppShortcuts({
     onEnter: handleEnter,
-    onClose,
+    onClose: handleEscape,
     enabled: true,
   });
 
@@ -540,6 +711,38 @@ export function BookView({
     const total = shots.reduce((sum, s) => sum + (s.status === "done" ? 100 : (s.progress ?? 0)), 0);
     return Math.round(total / shots.length);
   }, [shots]);
+
+  const currentShot: GeneratedShot | undefined = shots[reviewIndex];
+
+  useEffect(() => {
+    setRedoNote("");
+  }, [reviewIndex]);
+
+  useEffect(() => {
+    if (!showPrompt || !currentShot || currentShot.status !== "done") return;
+    let active = true;
+    setPromptText(null);
+    void import("@/lib/promptComposer").then(({ composeDeckPrompt }) => {
+      if (!active) return;
+      const brand = availableBrands.find((b) => b.id === currentShot.brandId) ?? availableBrands[0];
+      if (!brand) return;
+      const promptData = composeDeckPrompt({
+        shootType: currentShot.shootType,
+        pushupBraOnly: false,
+        deckShot: currentShot.deckShot,
+        brand,
+        aspect: currentShot.aspect,
+        userNote: currentShot.userNote,
+        presetContent: currentShot.presetContent,
+      });
+      setPromptText(promptData.prompt);
+    });
+    return () => {
+      active = false;
+    };
+  }, [showPrompt, currentShot, availableBrands]);
+
+  const doneCount = shots.filter((s) => s.status === "done").length;
 
   const showsPageContent = phase === "mode-select" || phase === "panty" || phase === "controls";
 
@@ -833,7 +1036,140 @@ export function BookView({
         {phase === "tilt-loop" ? (
           <div className="absolute inset-0 flex items-center justify-center">
             <p className="rounded-full bg-black/60 px-6 py-3 text-sm font-medium tracking-wide text-white">
-              Reviewing your images — coming in Stage 4
+              Press Enter to open the book
+            </p>
+          </div>
+        ) : null}
+
+        {phase === "review" && currentShot ? (
+          <div className="absolute inset-0">
+            {/* Left page — the generated image, or the prompt text in its place */}
+            <div className="absolute left-[29%] top-[20%] flex h-[57%] w-[18%] items-center justify-center overflow-hidden">
+              {showPrompt ? (
+                <div className="h-full w-full overflow-y-auto rounded-lg bg-white/70 p-2 text-[9px] leading-snug text-[#444044]">
+                  {promptText ?? "Loading prompt…"}
+                </div>
+              ) : currentShot.status === "done" && currentShot.imageUrl ? (
+                <img
+                  src={currentShot.imageUrl}
+                  alt={DECK_SHOT_LABELS[currentShot.deckShot]}
+                  className="h-full w-full rounded-lg object-cover shadow-md"
+                />
+              ) : currentShot.status === "error" ? (
+                <p className="px-3 text-center text-[10px] font-medium text-red-700">
+                  {currentShot.error ?? "Generation failed."}
+                </p>
+              ) : (
+                <Loader2 className="h-6 w-6 animate-spin text-[#8E173C]/60" />
+              )}
+            </div>
+
+            {/* Right page — shot info + Save / Redo / Prompt controls */}
+            <div className="absolute left-[53%] top-[20%] flex h-[57%] w-[18%] flex-col gap-3 overflow-y-auto px-1">
+              <div>
+                <PageHeading>
+                  Image {reviewIndex + 1} of {shots.length}
+                </PageHeading>
+                <p className="text-center text-xs font-semibold text-[#8E173C]">
+                  {DECK_SHOT_LABELS[currentShot.deckShot]}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center gap-1.5">
+                <button
+                  type="button"
+                  disabled={currentShot.status !== "done"}
+                  onClick={() => void downloadShot(currentShot)}
+                  className="flex flex-1 items-center justify-center gap-1 rounded-full border border-[#8E173C]/30 bg-[#FFF8F2]/70 px-2 py-1 text-[10px] font-medium text-[#8E173C] disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  <Download className="h-3 w-3" />
+                  Save
+                </button>
+                <button
+                  type="button"
+                  disabled={currentShot.status !== "done"}
+                  onClick={() => setShowPrompt((v) => !v)}
+                  className={cn(
+                    "flex flex-1 items-center justify-center gap-1 rounded-full border px-2 py-1 text-[10px] font-medium disabled:cursor-not-allowed disabled:opacity-40",
+                    showPrompt
+                      ? "border-transparent bg-[#8E173C] text-white"
+                      : "border-[#8E173C]/30 bg-[#FFF8F2]/70 text-[#8E173C]",
+                  )}
+                >
+                  <Clipboard className="h-3 w-3" />
+                  Prompt
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-1.5">
+                <textarea
+                  value={redoNote}
+                  onChange={(e) => setRedoNote(e.target.value)}
+                  disabled={currentShot.status === "rendering"}
+                  placeholder="What should change? (optional)"
+                  className="min-h-14 w-full resize-none rounded-lg border border-[#8E173C]/30 bg-[#FFF8F2]/70 px-2 py-1.5 text-[10px] text-[#444044] outline-none placeholder:text-[#444044]/50 disabled:cursor-not-allowed disabled:opacity-40"
+                />
+                <button
+                  type="button"
+                  disabled={currentShot.status === "rendering"}
+                  onClick={() => void regenerateShot(currentShot.id, redoNote)}
+                  className="flex items-center justify-center gap-1 rounded-full border border-[#8E173C]/30 bg-[#FFF8F2]/70 px-2 py-1 text-[10px] font-medium text-[#8E173C] disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  {currentShot.status === "rendering" ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : (
+                    <RefreshCw className="h-3 w-3" />
+                  )}
+                  Redo this shot
+                </button>
+              </div>
+            </div>
+
+            <p className="absolute bottom-[8%] left-1/2 -translate-x-1/2 text-xs font-medium tracking-wide text-white/70">
+              {reviewIndex >= shots.length - 1 ? "Press Enter to finish" : "Press Enter for next image"}
+            </p>
+          </div>
+        ) : null}
+
+        {phase === "downloads" ? (
+          <div className="absolute inset-0">
+            <div className="absolute left-[29%] top-[20%] flex h-[57%] w-[18%] flex-col items-center justify-center gap-2 text-center">
+              <Check className="h-8 w-8 text-[#8E173C]" />
+              <p className="text-sm font-semibold text-[#8E173C]">
+                {doneCount} of {shots.length} images ready
+              </p>
+              <p className="text-[10px] text-[#444044]">Your shoot is complete.</p>
+            </div>
+
+            <div className="absolute left-[53%] top-[20%] flex h-[57%] w-[18%] flex-col gap-1.5 overflow-y-auto px-1">
+              <PageHeading>Download</PageHeading>
+              <button
+                type="button"
+                disabled={doneCount === 0}
+                onClick={() => void downloadShotsZip(shots)}
+                className="flex items-center justify-center gap-1.5 rounded-full bg-[#8E173C] px-3 py-1.5 text-[11px] font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Download className="h-3.5 w-3.5" />
+                Download all (.zip)
+              </button>
+              <div className="mt-2 flex flex-col gap-1">
+                {shots.map((shot) => (
+                  <button
+                    key={shot.id}
+                    type="button"
+                    disabled={shot.status !== "done"}
+                    onClick={() => void downloadShot(shot)}
+                    className="flex items-center justify-between gap-1.5 rounded-full border border-[#8E173C]/25 bg-[#FFF8F2]/60 px-2.5 py-1 text-[10px] font-medium text-[#8E173C] disabled:cursor-not-allowed disabled:opacity-40"
+                  >
+                    {DECK_SHOT_LABELS[shot.deckShot]}
+                    <Download className="h-3 w-3" />
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <p className="absolute bottom-[8%] left-1/2 -translate-x-1/2 text-xs font-medium tracking-wide text-white/70">
+              Press Escape to exit
             </p>
           </div>
         ) : null}
