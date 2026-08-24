@@ -586,6 +586,22 @@ function moodNoIconLock(brand: Brand): string {
   ].join("\n");
 }
 
+function pushupBraOnlyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel = deckShot === "side2" ? "Side 2" : "Mood";
+
+  return [
+    `PUSHUP BRA-ONLY ${shotLabel.toUpperCase()} BACKGROUND LOCK — FINAL PRIORITY:`,
+    `This is the ${shotLabel} pose in Pushup Bra-Only toggle mode. The selected brand is ${brand.name}.`,
+    `Every visible background pixel, wall, backdrop, negative-space area, panel, and empty area must be exactly ${brand.bg}.`,
+    `Use ${brand.bg} as the unmistakable dominant background color; do not drift toward white, cream, beige, grey, aqua, blue, yellow, pink, or any approximate tint unless it is exactly ${brand.bg}.`,
+    "Do not inherit any source-prompt background color, source-brand palette, lifestyle-room color, bedroom, bed, bedding, curtain, window, furniture, colored panel, gradient, texture, prop, or decorative background element.",
+    deckShot === "side2"
+      ? "Keep the background clean, flat, seamless, and evenly lit so the exact selected brand color is visible around the complete model silhouette."
+      : "Keep the Mood image as a minimal seamless studio product scene, softly lit and free of bedroom elements; recolor every visible wall, backdrop, and empty background area to the exact selected brand color, with no warm room cast altering it.",
+    `This background rule overrides every earlier background instruction. The final generated image must visibly read as the selected brand background ${brand.bg}.`,
+  ].join("\n");
+}
+
 export function composeDeckPrompt({
   shootType,
   pushupBraOnly,
@@ -648,6 +664,12 @@ export function composeDeckPrompt({
     sections.push(pushupBraOnlySide2RenderLock());
   }
   if (deckShot === "mood") sections.push(moodNoIconLock(brand));
+  if (
+    source.id === "pushup_bra_only" &&
+    (deckShot === "side2" || deckShot === "mood")
+  ) {
+    sections.push(pushupBraOnlyBackgroundLock(brand, deckShot));
+  }
 
   return {
     prompt: sections.join("\n\n"),
