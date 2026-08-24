@@ -7,6 +7,8 @@ export type Pose = "front" | "side" | "back" | "mood" | "zoom" | "mockup";
 export type DeckType = "deck_4" | "deck_5";
 export type DeckShotKey = "side1" | "side2" | "mood" | "zoom" | "back";
 export type RegenerateIssue = "pose" | "content" | "background";
+/** photo = standard e-commerce photography deck. print = the flipped "print pattern flow" deck. */
+export type FlowMode = "photo" | "print";
 export type EngineId = "pro" | "fast";
 export type AspectId = "1:1" | "3:4" | "9:16" | "4:3" | "16:9" | "a4";
 
@@ -46,6 +48,8 @@ export interface GeneratedShot {
   brandId: string;
   shootType: ShootType;
   pushupBraOnly: boolean;
+  /** Which prompt set this shot was generated from. Defaults to "photo" when absent. */
+  flowMode?: FlowMode;
   status: "queued" | "rendering" | "done" | "error";
   progress?: number;
   imageUrl?: string;

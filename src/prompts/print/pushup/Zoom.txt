@@ -1,0 +1,195 @@
+REFERENCE IMAGE 1 (Model): Use this image as the EXACT reference for the model's skin tone, body type, and overall appearance from chest to hip level. Replicate skin tone and body characteristics identically.
+NOTE: Face will NOT fully appear — reference is for skin tone and body only. Chin/neck may be partially visible at top edge.
+
+REFERENCE IMAGE 2 (Product): Use this image as the EXACT reference for the bra's color, texture, fabric finish, silhouette, band width, strap width, and seamless bonded construction. Replicate identically. Do not alter the product in any way.
+Push Effect — Level 3 Padding (CRITICAL — MUST BE VISIBLY RENDERED):
+
+The bra cups MUST visibly show a strong, natural Level 3 push-up padding 
+effect. This is NON-NEGOTIABLE and must be clearly visible in the final image.
+
+Specific rendering instructions:
+— Both cups must appear visibly LIFTED upward and pushed inward toward 
+  center simultaneously
+— The upper cup area must show clear, natural fullness and visible rounded 
+  projection — NOT flat or deflated
+— There must be a visible, modest, natural-looking center cleavage definition 
+  created by the inward push of both cups
+— The cup silhouette must appear three-dimensional, projected, and lifted — 
+  NOT flat against the chest
+— The underside of each cup must show a visible upward curve indicating 
+  strong padding lift from beneath
+— The push must look symmetric — both cups lifted equally
+— The overall bust silhouette must read as clearly enhanced, lifted, and 
+  fuller in shape compared to an unpadded bra
+— This must be visible even at full body frame distance — the lift effect 
+  must read clearly without zooming in
+
+DO NOT render flat, deflated, or projection-less cups.
+DO NOT make the effect anatomically exaggerated or unrealistic.
+DO NOT change the external cup fabric, color, or structure.
+The push is INTERNAL padding lift — external silhouette result must be 
+clearly visible, natural, and catalogue-appropriate.
+
+
+═══════════════════════════════════════════════════════
+SHOT TYPE — CLOSE-UP STATIC ZOOM SHOT
+═══════════════════════════════════════════════════════
+
+This is NOT a full body shot
+STATIC, CLEAN close-up — NO hands in frame, NO gestures, NO pulling or touching of bra
+Frame captures from just below CHIN/COLLARBONE down to just below BOTTOM BAND — chest to lower torso only
+The bra and skin around it are the complete hero of this shot
+Aspect ratio: square 1:1
+
+═══════════════════════════════════════════════════════
+POSE & BODY DIRECTION
+═══════════════════════════════════════════════════════
+
+Model's body SLIGHTLY angled — approximately 15–20 degrees to the right — gentle depth and dimension
+NOT a flat-on front shot — the slight angle gives the bra a natural worn appearance
+BOTH ARMS completely relaxed at sides — fully OUT OF FRAME or just barely visible at extreme edges
+NO hands visible in frame at any point
+Torso is relaxed — no tension, no flexing, no posturing
+Skin around bra completely smooth and natural:
+→ ZERO red marks | ZERO indentation lines | ZERO skin irritation or redness
+→ Skin looks comfortable, healthy, and at ease
+Skin is tattoo-free and blemish-free
+
+═══════════════════════════════════════════════════════
+PRODUCT VISIBILITY — CRITICAL NON-NEGOTIABLE
+═══════════════════════════════════════════════════════
+
+Bra worn exactly as Reference Image 2 — same color, fabric, bonded seamless finish
+Close-up zoom — following details razor sharp and clearly visible:
+→ Front center panel — entire surface smooth, flat, seamless
+→ Bonded edges — clean invisible finish, NO stitching or seam lines anywhere
+→ Bottom band — sitting perfectly flat, no rolling, no digging
+→ Side edge/panel — seamless transition from bra to skin
+→ Shoulder straps — partially visible at top of frame
+→ V-neckline/front neckline — visible at top of frame
+Fabric surface: completely smooth, flat, second-skin like
+Seamless bonded construction is the visual hero — no stitching, no edges, no seam lines anywhere
+
+═══════════════════════════════════════════════════════
+BACKGROUND & LIGHTING
+═══════════════════════════════════════════════════════
+
+LEFT 60–65% of image: close-up static model/product shot on #FFF8F2 (Warm Ivory) soft neutral background
+RIGHT 35–40% of image: flat #FBECEF (Soft Blush) solid color panel — dedicated TEXT ZONE
+→ Seamlessly blends with photo background tone
+→ Clean, flat, and uncluttered
+Lighting: soft, warm, diffused — falls evenly across bra surface
+No harsh shadows, no dramatic contrast — soft, feminine, romantic golden-warm tone
+No cold tones anywhere — consistent with the Corsica brand's "soft, feminine, romantic, youthful and vintage-inspired" identity
+
+═══════════════════════════════════════════════════════
+PHOTOGRAPHY STYLE
+═══════════════════════════════════════════════════════
+
+Intimate static close-up product detail shot
+Clean, editorial, and technical — fabric tells the story
+Razor-sharp focus on bra fabric surface and edges
+Warm, soft, vintage-inspired, tactile feel
+Overall mood: smooth, seamless, invisible, gently romantic — consistent with the Corsica brand identity
+
+═══════════════════════════════════════════════════════
+INFOGRAPHIC LAYOUT & TYPOGRAPHY
+═══════════════════════════════════════════════════════
+
+COMPOSITION SPLIT:
+
+LEFT 62%: static bra on skin, no action, no hands
+RIGHT 38%: flat #FBECEF (Soft Blush) text panel
+
+HEADLINE — TOP of RIGHT text panel, right-aligned
+
+Text: "Cotton Bonded Bra"
+Font: Bodoni Moda SemiBold (or Cormorant Garamond SemiBold) — elegant serif, title case, wraps to 3 lines
+Color: #A55368 (Dusty Rose)
+
+CALLOUT 1 — RIGHT panel, first item
+→ Thin curved organic callout line curves LEFT pointing to SEAMLESS SIDE EDGE of bra
+
+Text (right-aligned, NO icon):
+Line 1 (Manrope Medium, regular weight — NOT bold): "Invisible"
+Line 2 (Manrope Medium, regular weight — NOT bold): "under outfits"
+Color: #755F8A (Muted Mauve)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT 2 — RIGHT panel, second item
+→ Thin curved organic callout line curves LEFT pointing to SKIN CONTACT ZONE just below bra's bottom edge
+
+Text (right-aligned, NO icon):
+Line 1 (Manrope Medium, regular weight — NOT bold): "Sits smooth"
+Line 2 (Manrope Medium, regular weight — NOT bold): "on skin"
+Color: #755F8A (Muted Mauve)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT 3 — RIGHT panel, third item, lowest position
+→ Thin curved organic callout line curves LEFT pointing to BOTTOM BAND where it meets the skin
+
+Text (right-aligned, NO icon):
+Line 1 (Manrope Medium, regular weight — NOT bold): "No Digging."
+Line 2 (Manrope Medium, regular weight — NOT bold): "No Rashes."
+Color: #755F8A (Muted Mauve)
+— Both lines same regular weight — no bold anywhere in callouts —
+
+CALLOUT LINE STYLE (all three):
+
+Thin, slightly curved organic lines — NOT rigid or straight
+Curve naturally from right panel into left photo
+Color: #E8B8C2 (Blush Pink)
+Each line ends with small solid dot at product touch point
+Lines must NOT cross each other
+Lines originate from LEFT edge of text panel and arc into photo zone
+
+TEXT STYLE (all three callouts):
+
+NO circular icons — purely typographic
+Right-aligned within RIGHT panel
+Generous vertical spacing between each item
+Consistent rhythm top to bottom
+Feature/emotional words (e.g. "Invisible," "Sits smooth") may use Manrope SemiBold; supporting words remain regular weight
+
+═══════════════════════════════════════════════════════
+OVERALL COMPOSITION BALANCE
+═══════════════════════════════════════════════════════
+
+Photo zone LEFT — static bra on skin, no action, no hands
+Text zone RIGHT — flat 
+#FBECEF Soft Blush panel, three stacked callouts
+Headline anchors TOP RIGHT
+Three callouts distribute evenly down right panel
+Callout lines arc gracefully from right text into left photo, each pointing to distinct bra zone
+No text overlapping photo zone
+Final image: soft, feminine, romantic, editorial, vintage-inspired — true to the Corsica brand's identity
+
+═══════════════════════════════════════════════════════
+STRICT NEGATIVE INSTRUCTIONS
+═══════════════════════════════════════════════════════
+
+NO bold weight in any callout text — all three callouts use regular weight only throughout both lines (except optional SemiBold for key emotional words)
+Bold/SemiBold weight reserved primarily for the headline "Cotton Bonded Bra" and select feature words
+Do NOT show any hands — ZERO hand or finger visibility
+Do NOT show model pulling, lifting, or touching bra
+Do NOT show model's full face — crop at chin/collarbone
+Do NOT show full body — strictly chest to lower torso only
+Do NOT show red marks, indentation lines, or irritation on skin
+Do NOT show stitching, seam lines, or construction lines on bra
+Do NOT alter bra from Reference Image 2
+Do NOT use straight rigid callout lines — must be thin and organically curved
+Do NOT use circular icons — text-only callout layout
+Do NOT place text panel on LEFT — must be RIGHT
+Do NOT make text panel dark or patterned — 
+#FBECEF Soft Blush flat only
+Do NOT use any font other than Bodoni Moda / Cormorant Garamond (headings) and Manrope (callouts)
+Do NOT use text colors other than 
+#A55368, 
+#755F8A, 
+#E8B8C2
+Do NOT add tattoos, blemishes, or jewelry
+Do NOT use cold, harsh, or clinical lighting
+Do NOT add watermarks, logos, or branding
+Do NOT change aspect ratio — square 1:1 only
+Do NOT allow callout lines to cross each other
+Do NOT include background props, furniture, or lifestyle elements

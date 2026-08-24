@@ -23,6 +23,27 @@ export function useGear2OpenShortcut(onOpen: () => void, enabled: boolean) {
   }, [onOpen, enabled]);
 }
 
+/** Global Ctrl+X to flip the main Studio Flow setup panel to its Print Pattern Flow back face. */
+export function usePanelFlipShortcut(onToggle: () => void, enabled: boolean) {
+  useEffect(() => {
+    if (!enabled) return;
+    const handler = (event: KeyboardEvent) => {
+      if (isTypingTarget(event.target)) return;
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        !event.shiftKey &&
+        !event.altKey &&
+        event.code === "KeyX"
+      ) {
+        event.preventDefault();
+        onToggle();
+      }
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onToggle, enabled]);
+}
+
 interface Gear2InAppShortcutsOptions {
   onClose: () => void;
   onGenerate: () => void;

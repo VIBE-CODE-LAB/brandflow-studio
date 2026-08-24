@@ -11,6 +11,7 @@ import {
   type Brand,
   type DeckType,
   type EngineId,
+  type FlowMode,
   type GeneratedShot,
   type ShootType,
   type SlotKey,
@@ -277,8 +278,9 @@ export function Gear2View({
     [updateShot],
   );
 
-  const generateAll = useCallback(async () => {
+  const generateAll = useCallback(async (variant: FlowMode = "photo") => {
     if (!setupReady || !brandId || generating) return;
+    if (variant === "print" && shootType === "panty") return;
     if (!auth.unlocked || !auth.hasGeminiKey) {
       onNeedAuth();
       return;
@@ -303,6 +305,7 @@ export function Gear2View({
       shootType,
       pushupBraOnly,
       note,
+      flowMode: variant,
     });
     setBraDecks(decks);
     setSelectedForRegen([]);
@@ -351,6 +354,7 @@ export function Gear2View({
           aspect: shot.aspect,
           userNote: shot.userNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -465,6 +469,7 @@ export function Gear2View({
           userNote: shot.userNote,
           regenerationNote: redoNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -541,10 +546,12 @@ export function Gear2View({
   );
   const closeDeck = useCallback(() => setOpenDeckId(null), []);
 
+  const printReady = ready && shootType !== "panty";
+
   useGear2InAppShortcuts({
     onClose: handleClose,
-    onGenerate: () => void generateAll(),
-    canGenerate: ready,
+    onGenerate: () => void generateAll(controlsFlipped ? "print" : "photo"),
+    canGenerate: controlsFlipped ? printReady : ready,
     isControlsPhase: phase === "controls",
     onToggleControlsPanel: () => setControlsFlipped((value) => !value),
     isEngineGrid: phase === "engine" && openDeckId === null,
@@ -554,9 +561,15 @@ export function Gear2View({
     anyDialogOpen: regenDialogOpen,
   });
 
-  const generateLabel = generating
-    ? "Generating decks..."
-    : `Generate ${braImages.length || 0} bra deck${braImages.length === 1 ? "" : "s"}`;
+  const generateLabelFor = (variant: FlowMode) => {
+    if (generating) return variant === "print" ? "Generating print decks..." : "Generating decks...";
+    if (variant === "print" && shootType === "panty") {
+      return "Print Pattern Flow isn't available for Panty — pick Bra, Bra+Panty, or Pushup";
+    }
+    const count = braImages.length || 0;
+    const noun = variant === "print" ? "print deck" : "bra deck";
+    return `Generate ${count} ${noun}${count === 1 ? "" : "s"}`;
+  };
 
   const doneDecks = braDecks.filter((d) => braDeckStatus(d) === "done").length;
   const openDeck = braDecks.find((d) => d.id === openDeckId) ?? null;
@@ -637,7 +650,7 @@ export function Gear2View({
                 <div
                   className={cn("gear2-flip-card", controlsFlipped && "gear2-flip-card--flipped")}
                 >
-                  <div className="gear2-flip-face gear2-flip-face--front">
+                  <div className="gear2-flip-face gear2-flip-face--front" inert={controlsFlipped || undefined}>
                     <StepShell onBack={() => setPhase("twin")}>
                       <FreeControlsStep
                         deckType={deckType}
@@ -663,12 +676,12 @@ export function Gear2View({
                         onSelectStyle={setSelectedStyleName}
                         ready={ready}
                         generating={generating}
-                        label={generateLabel}
-                        onGenerate={() => void generateAll()}
+                        label={generateLabelFor("photo")}
+                        onGenerate={() => void generateAll("photo")}
                       />
                     </StepShell>
                   </div>
-                  <div className="gear2-flip-face gear2-flip-face--back">
+                  <div className="gear2-flip-face gear2-flip-face--back" inert={!controlsFlipped || undefined}>
                     <StepShell onBack={() => setPhase("twin")}>
                       <div className="mb-5 text-center">
                         <p className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-white/35">
@@ -697,10 +710,10 @@ export function Gear2View({
                         presets={presets}
                         selectedStyleName={selectedStyleName}
                         onSelectStyle={setSelectedStyleName}
-                        ready={ready}
+                        ready={printReady}
                         generating={generating}
-                        label={generateLabel}
-                        onGenerate={() => void generateAll()}
+                        label={generateLabelFor("print")}
+                        onGenerate={() => void generateAll("print")}
                       />
                     </StepShell>
                   </div>

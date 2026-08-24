@@ -14,7 +14,8 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import { nextFrame, runLimited } from "@/lib/concurrency";
-import { useGear2OpenShortcut } from "@/lib/gear2Shortcuts";
+import { useGear2OpenShortcut, usePanelFlipShortcut } from "@/lib/gear2Shortcuts";
+import { useBookOpenShortcut } from "@/lib/bookShortcuts";
 import { ThemeSettings, type ThemeMode } from "@/components/studio/ThemeSettings";
 import type { ImageMap } from "@/components/studio/UploadTray";
 import {
@@ -24,6 +25,7 @@ import {
   type Brand,
   type DeckType,
   type EngineId,
+  type FlowMode,
   type GeneratedShot,
   type ShootType,
   allowedDecks,
@@ -67,6 +69,9 @@ const AuthDialog = lazy(() =>
 );
 const Gear2View = lazy(() =>
   import("@/components/gear2/Gear2View").then((module) => ({ default: module.Gear2View })),
+);
+const BookView = lazy(() =>
+  import("@/components/book/BookView").then((module) => ({ default: module.BookView })),
 );
 const UploadTray = lazy(() =>
   import("@/components/studio/UploadTray").then((module) => ({ default: module.UploadTray })),
@@ -377,13 +382,21 @@ export function StudioFlow() {
     return stored === "light" || stored === "dark" || stored === "system" ? stored : "system";
   });
   const [gear2Open, setGear2Open] = useState(false);
+  const [bookOpen, setBookOpen] = useState(false);
+  const [panelFlipped, setPanelFlipped] = useState(false);
   const timers = useRef<ReturnType<typeof setInterval>[]>([]);
   const generatedUrls = useRef<string[]>([]);
   const availableBrands = useMemo(() => getAvailableBrands(customBrands), [customBrands]);
 
   const closeGear2 = useCallback(() => setGear2Open(false), []);
+  const closeBook = useCallback(() => setBookOpen(false), []);
 
-  useGear2OpenShortcut(() => setGear2Open(true), !gear2Open);
+  useGear2OpenShortcut(() => setGear2Open(true), !gear2Open && !bookOpen);
+  useBookOpenShortcut(() => setBookOpen(true), !gear2Open && !bookOpen);
+  usePanelFlipShortcut(
+    () => setPanelFlipped((value) => !value),
+    !gear2Open && !bookOpen && !authOpen && !addBrandOpen && !manageBrandsOpen,
+  );
 
   const addCustomBrand = useCallback((brand: Brand) => {
     setCustomBrands((prev) => {
@@ -570,7 +583,7 @@ export function StudioFlow() {
     return timer;
   };
 
-  const generate = useCallback(async () => {
+  const generate = useCallback(async (variant: FlowMode = "photo") => {
     if (!setupReady || !brandId || generating) return;
     if (!auth.unlocked || !auth.hasGeminiKey) {
       setAuthOpen(true);
@@ -595,6 +608,7 @@ export function StudioFlow() {
       brandId: brand.id,
       shootType,
       pushupBraOnly,
+      flowMode: variant,
       status: "queued",
       progress: 0,
       userNote: note,
@@ -647,6 +661,7 @@ export function StudioFlow() {
           aspect: shot.aspect,
           userNote: shot.userNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -760,6 +775,7 @@ export function StudioFlow() {
           userNote: shot.userNote,
           regenerationNote: redoNote,
           presetContent,
+          flowMode: shot.flowMode,
         });
 
         const imageUrl = rememberGeneratedUrl(
@@ -828,22 +844,192 @@ export function StudioFlow() {
     setAuthOpen(false);
   }, []);
 
-  const generateLabel = generating
-    ? "Generating Deck..."
-    : missingPhotos.length > 0
-      ? `Add ${missingPhotos.join(" + ")} to start`
-      : !brandId
-        ? "Choose a brand"
-        : !auth.unlocked
-          ? "Login to generate deck"
-          : `Generate ${activeDeck.shots.length} Image Deck`;
+  const generateLabelFor = (variant: FlowMode) => {
+    if (generating) return variant === "print" ? "Generating Print Deck..." : "Generating Deck...";
+    if (missingPhotos.length > 0) return `Add ${missingPhotos.join(" + ")} to start`;
+    if (!brandId) return "Choose a brand";
+    if (!auth.unlocked) return "Login to generate deck";
+    return `Generate ${activeDeck.shots.length} ${variant === "print" ? "Print" : "Image"} Deck`;
+  };
+
+  const shootTypeOptionsFor = (variant: FlowMode) =>
+    variant === "print" ? SHOOT_TYPES.filter((t) => t.id !== "panty") : SHOOT_TYPES;
+
+  const renderSetup = (variant: FlowMode) => (
+    <>
+      {/* Step 1 — shoot type */}
+      <section>
+        <StepHead index={1} title="What are we shooting?" hint="Sets required photos" />
+        <div className={cn("mt-3 grid gap-2", variant === "print" ? "grid-cols-3" : "grid-cols-4")}>
+          {shootTypeOptionsFor(variant).map((t) => {
+            const active = shootType === t.id;
+            return (
+              <button
+                key={t.id}
+                type="button"
+                onClick={() => changeShootType(t.id)}
+                className={cn(
+                  "flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition-all",
+                  active
+                    ? "border-transparent text-primary-foreground shadow-md"
+                    : "border-border bg-paper hover:border-primary/50",
+                )}
+                style={active ? { background: t.tint } : undefined}
+              >
+                <span className="text-xs font-semibold">{t.label}</span>
+                <span
+                  className={cn(
+                    "text-[0.62rem]",
+                    active ? "text-primary-foreground/80" : "text-muted-foreground",
+                  )}
+                >
+                  {requiredSlots(t.id, false).length} photos
+                </span>
+              </button>
+            );
+          })}
+        </div>
+        {shootType === "pushup" && (
+          <label className="mt-2.5 flex cursor-pointer items-center gap-2 rounded-xl bg-muted/50 px-3 py-2 text-sm">
+            <input
+              type="checkbox"
+              checked={pushupBraOnly}
+              onChange={togglePushupBraOnly}
+              className="h-4 w-4 accent-primary"
+            />
+            <span className="text-foreground">Pushup bra-only</span>
+            <span className="text-xs text-muted-foreground">drops the panty slot</span>
+          </label>
+        )}
+      </section>
+
+      <div className="hairline" />
+
+      {/* Step 2 — photos */}
+      <section>
+        <StepHead index={2} title="Choose deck" hint={activeDeck.hint} />
+        <div className="mt-3 grid grid-cols-2 gap-2">
+          {DECKS.map((item) => {
+            const active = deck === item.id;
+            const disabled = !validDecks.includes(item.id);
+            return (
+              <button
+                key={item.id}
+                type="button"
+                disabled={disabled}
+                onClick={() => changeDeck(item.id)}
+                className={cn(
+                  "rounded-2xl border px-3 py-3 text-left transition-all",
+                  active
+                    ? "border-primary bg-primary/10 text-foreground shadow-sm"
+                    : "border-border bg-paper hover:border-primary/50",
+                  disabled && "cursor-not-allowed opacity-40",
+                )}
+              >
+                <span className="block text-sm font-semibold">{item.label}</span>
+                <span className="mt-1 block text-[0.68rem] leading-snug text-muted-foreground">
+                  {item.hint}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="hairline" />
+
+      {/* Step 3 — photos */}
+      <section>
+        <StepHead
+          index={3}
+          title="Drop your photos"
+          hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
+        />
+        <div className="mt-3">
+          <Suspense fallback={<PanelSkeleton rows={3} />}>
+            <UploadTray
+              shootType={shootType}
+              pushupBraOnly={pushupBraOnly}
+              images={images}
+              onChange={setImage}
+              needsBack={needsBack}
+            />
+          </Suspense>
+        </div>
+      </section>
+
+      <div className="hairline" />
+
+      {/* Step 4 — brand + look */}
+      <section>
+        <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
+        <div className="mt-3 space-y-3">
+          <Suspense fallback={<PanelSkeleton rows={1} />}>
+            <BrandPicker
+              value={brandId}
+              onChange={setBrandId}
+              disabled={locked}
+              brands={availableBrands}
+            />
+          </Suspense>
+
+          <div className="flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+              {activeDeck.hint}
+            </p>
+            <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
+              <RefinePanel
+                aspect={aspect}
+                engine={engine}
+                note={note}
+                onAspect={setAspect}
+                onEngine={setEngine}
+                onNote={setNote}
+              />
+            </Suspense>
+          </div>
+          <Suspense fallback={<PanelSkeleton rows={2} />}>
+            <StylePresetPanel
+              sheetUrl={sheetUrl}
+              onSheetUrlChange={setSheetUrl}
+              onSync={() => void syncStylePresets()}
+              onDisconnect={disconnectStylePresets}
+              syncing={syncing}
+              syncMessage={syncMessage}
+              syncError={syncError}
+              presets={presets}
+              selectedStyleName={selectedStyleName}
+              onSelectStyle={setSelectedStyleName}
+              activeDeckShots={activeDeck.shots}
+            />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Generate */}
+      <Button
+        variant="hero"
+        size="xl"
+        className="w-full rounded-2xl"
+        disabled={!ready}
+        onClick={() => void generate(variant)}
+      >
+        {generating ? (
+          <Sparkles className="h-4 w-4 animate-pulse" />
+        ) : (
+          <Zap className="h-4 w-4" />
+        )}
+        {generateLabelFor(variant)}
+      </Button>
+    </>
+  );
 
   return (
     <>
       <div
         className="min-h-screen"
-        aria-hidden={gear2Open || undefined}
-        inert={gear2Open || undefined}
+        aria-hidden={(gear2Open || bookOpen) || undefined}
+        inert={(gear2Open || bookOpen) || undefined}
       >
         <header className="sticky top-0 z-20 border-b border-border/70 bg-background/80 backdrop-blur-md">
           <div className="mx-auto flex max-w-[1400px] items-center justify-between px-5 py-3.5">
@@ -893,172 +1079,25 @@ export function StudioFlow() {
         </header>
 
         <main className="mx-auto grid max-w-[1400px] gap-6 px-5 py-6 lg:grid-cols-[minmax(380px,440px)_1fr]">
-          {/* Setup column */}
-          <div className="panel space-y-6 p-5">
-            {/* Step 1 — shoot type */}
-            <section>
-              <StepHead index={1} title="What are we shooting?" hint="Sets required photos" />
-              <div className="mt-3 grid grid-cols-4 gap-2">
-                {SHOOT_TYPES.map((t) => {
-                  const active = shootType === t.id;
-                  return (
-                    <button
-                      key={t.id}
-                      type="button"
-                      onClick={() => changeShootType(t.id)}
-                      className={cn(
-                        "flex flex-col items-center gap-1 rounded-2xl border px-2 py-3 text-center transition-all",
-                        active
-                          ? "border-transparent text-primary-foreground shadow-md"
-                          : "border-border bg-paper hover:border-primary/50",
-                      )}
-                      style={active ? { background: t.tint } : undefined}
-                    >
-                      <span className="text-xs font-semibold">{t.label}</span>
-                      <span
-                        className={cn(
-                          "text-[0.62rem]",
-                          active ? "text-primary-foreground/80" : "text-muted-foreground",
-                        )}
-                      >
-                        {requiredSlots(t.id, false).length} photos
-                      </span>
-                    </button>
-                  );
-                })}
+          {/* Setup column — flips (Ctrl+X) between the photo deck and the Print Pattern Flow deck */}
+          <div className="gear2-flip-stage">
+            <div className={cn("gear2-flip-card", panelFlipped && "gear2-flip-card--flipped")}>
+              <div
+                className="gear2-flip-face gear2-flip-face--front panel space-y-6 p-5"
+                inert={panelFlipped || undefined}
+              >
+                {renderSetup("photo")}
               </div>
-              {shootType === "pushup" && (
-                <label className="mt-2.5 flex cursor-pointer items-center gap-2 rounded-xl bg-muted/50 px-3 py-2 text-sm">
-                  <input
-                    type="checkbox"
-                    checked={pushupBraOnly}
-                    onChange={togglePushupBraOnly}
-                    className="h-4 w-4 accent-primary"
-                  />
-                  <span className="text-foreground">Pushup bra-only</span>
-                  <span className="text-xs text-muted-foreground">drops the panty slot</span>
-                </label>
-              )}
-            </section>
-
-            <div className="hairline" />
-
-            {/* Step 2 — photos */}
-            <section>
-              <StepHead index={2} title="Choose deck" hint={activeDeck.hint} />
-              <div className="mt-3 grid grid-cols-2 gap-2">
-                {DECKS.map((item) => {
-                  const active = deck === item.id;
-                  const disabled = !validDecks.includes(item.id);
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      disabled={disabled}
-                      onClick={() => changeDeck(item.id)}
-                      className={cn(
-                        "rounded-2xl border px-3 py-3 text-left transition-all",
-                        active
-                          ? "border-primary bg-primary/10 text-foreground shadow-sm"
-                          : "border-border bg-paper hover:border-primary/50",
-                        disabled && "cursor-not-allowed opacity-40",
-                      )}
-                    >
-                      <span className="block text-sm font-semibold">{item.label}</span>
-                      <span className="mt-1 block text-[0.68rem] leading-snug text-muted-foreground">
-                        {item.hint}
-                      </span>
-                    </button>
-                  );
-                })}
+              <div
+                className="gear2-flip-face gear2-flip-face--back panel space-y-6 p-5"
+                inert={!panelFlipped || undefined}
+              >
+                <p className="mb-1 text-center text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-muted-foreground/70">
+                  Print pattern flow
+                </p>
+                {renderSetup("print")}
               </div>
-            </section>
-
-            <div className="hairline" />
-
-            {/* Step 3 — photos */}
-            <section>
-              <StepHead
-                index={3}
-                title="Drop your photos"
-                hint={`${slots.length - missingPhotos.length}/${slots.length} added`}
-              />
-              <div className="mt-3">
-                <Suspense fallback={<PanelSkeleton rows={3} />}>
-                  <UploadTray
-                    shootType={shootType}
-                    pushupBraOnly={pushupBraOnly}
-                    images={images}
-                    onChange={setImage}
-                    needsBack={needsBack}
-                  />
-                </Suspense>
-              </div>
-            </section>
-
-            <div className="hairline" />
-
-            {/* Step 4 — brand + look */}
-            <section>
-              <StepHead index={4} title="Brand & look" hint="Applied to every deck image" />
-              <div className="mt-3 space-y-3">
-                <Suspense fallback={<PanelSkeleton rows={1} />}>
-                  <BrandPicker
-                    value={brandId}
-                    onChange={setBrandId}
-                    disabled={locked}
-                    brands={availableBrands}
-                  />
-                </Suspense>
-
-                <div className="flex items-center justify-between">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-                    {activeDeck.hint}
-                  </p>
-                  <Suspense fallback={<span className="h-8 w-28 rounded-full bg-muted" />}>
-                    <RefinePanel
-                      aspect={aspect}
-                      engine={engine}
-                      note={note}
-                      onAspect={setAspect}
-                      onEngine={setEngine}
-                      onNote={setNote}
-                    />
-                  </Suspense>
-                </div>
-                <Suspense fallback={<PanelSkeleton rows={2} />}>
-                  <StylePresetPanel
-                    sheetUrl={sheetUrl}
-                    onSheetUrlChange={setSheetUrl}
-                    onSync={() => void syncStylePresets()}
-                    onDisconnect={disconnectStylePresets}
-                    syncing={syncing}
-                    syncMessage={syncMessage}
-                    syncError={syncError}
-                    presets={presets}
-                    selectedStyleName={selectedStyleName}
-                    onSelectStyle={setSelectedStyleName}
-                    activeDeckShots={activeDeck.shots}
-                  />
-                </Suspense>
-              </div>
-            </section>
-
-            {/* Generate */}
-            <Button
-              variant="hero"
-              size="xl"
-              className="w-full rounded-2xl"
-              disabled={!ready}
-              onClick={generate}
-            >
-              {generating ? (
-                <Sparkles className="h-4 w-4 animate-pulse" />
-              ) : (
-                <Zap className="h-4 w-4" />
-              )}
-              {generateLabel}
-            </Button>
+            </div>
           </div>
 
           {/* Stage */}
@@ -1114,6 +1153,26 @@ export function StudioFlow() {
           onDelete={deleteCustomBrand}
         />
       </div>
+
+      {bookOpen ? (
+        <Suspense fallback={null}>
+          <BookView
+            onClose={closeBook}
+            availableBrands={availableBrands}
+            sheetUrl={sheetUrl}
+            onSheetUrlChange={setSheetUrl}
+            onSync={() => void syncStylePresets()}
+            onDisconnect={disconnectStylePresets}
+            syncing={syncing}
+            syncMessage={syncMessage}
+            syncError={syncError}
+            presets={presets}
+            auth={auth}
+            onNeedAuth={() => setAuthOpen(true)}
+            onAuthUsed={(used) => setAuth((prev) => ({ ...prev, used }))}
+          />
+        </Suspense>
+      ) : null}
 
       {gear2Open ? (
         <Suspense fallback={null}>

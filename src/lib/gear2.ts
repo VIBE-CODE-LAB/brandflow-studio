@@ -1,7 +1,7 @@
 // Gear 2 — multi-bra batch workflow: one Model(+Panty) upload, up to MAX_BRA_IMAGES bra photos,
 // each producing its own full deck-size set of GeneratedShots.
 
-import { type AspectId, type Brand, type DeckType, type GeneratedShot, type ShootType, getDeck } from "@/lib/studio";
+import { type AspectId, type Brand, type DeckType, type FlowMode, type GeneratedShot, type ShootType, getDeck } from "@/lib/studio";
 
 export const MAX_BRA_IMAGES = 12;
 
@@ -39,6 +39,7 @@ interface BuildBraDecksOptions {
   shootType: ShootType;
   pushupBraOnly: boolean;
   note: string;
+  flowMode: FlowMode;
 }
 
 export function buildBraDecks({
@@ -49,6 +50,7 @@ export function buildBraDecks({
   shootType,
   pushupBraOnly,
   note,
+  flowMode,
 }: BuildBraDecksOptions): BraDeck[] {
   const deckShots = getDeck(deckType).shots;
 
@@ -65,6 +67,7 @@ export function buildBraDecks({
         brandId: brand.id,
         shootType,
         pushupBraOnly,
+        flowMode,
         status: "queued" as const,
         progress: 0,
         userNote: note,
