@@ -733,17 +733,20 @@ function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
 }
 
 function invisiSoftBraPantySceneLock(deckShot: DeckShotKey): string {
-  const shotLabel = deckShot === "side2" ? "Side 2" : "Mood";
+  const shotLabel =
+    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
 
   return [
     `INVISI-SOFT BRA + PANTY ${shotLabel.toUpperCase()} SCENE LOCK - ABSOLUTE FINAL PRIORITY:`,
     "Selected brand is Invisi-Soft. The final image must read as cool, airy, crisp, and minimal - never warm, creamy, blush, or bedroom-heavy.",
     deckShot === "side2"
-      ? "Render a plain seamless #F6F8FB studio field with a matching #F6F8FB text/background panel only. Do not render curtains, drape folds, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, or warm ivory/beige set styling."
-      : "If the pose needs a lifestyle setup, keep it extremely minimal and cool-toned: any visible bed, bedding, wall, or background surface must stay white to #F6F8FB and secondary to the product. Do not render cream bedding, beige walls, blush decor, curtains, wood furniture, plants, or a golden bedroom mood.",
+      ? "Render a plain seamless #F6F8FB studio field with a matching #F6F8FB text/background panel only. Every non-model, non-product background pixel must read as flat #F6F8FB. Do not render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, room depth, or warm ivory/beige set styling."
+      : deckShot === "back"
+        ? "Render a plain seamless #F6F8FB studio field only. Every background pixel outside the model and garment silhouette must stay flat #F6F8FB with no curtains, no room walls, no beige glow, no cream halo, no botanical art, no set decoration, and no staged lifestyle environment."
+        : "If the pose needs a lifestyle setup, keep it extremely minimal and cool-toned: any visible bed, bedding, wall, or background surface must stay white to #F6F8FB and secondary to the product. Do not render cream bedding, beige walls, blush decor, curtains, wood furniture, plants, or a golden bedroom mood.",
     deckShot === "mood"
       ? 'Ignore and override any earlier source instruction such as "No studio - real lifestyle interior only" whenever it conflicts with the selected Invisi-Soft background spec.'
-      : "Ignore and override any earlier source instruction that asks for warm-white, pale-ivory, blush, or decorative background styling.",
+      : "Ignore and override any earlier source instruction that asks for warm-white, pale-ivory, blush, decorative, curtain, room, wall-panel, or styled background treatment.",
     "Treat any yellow cast, beige cast, blush tint, creamy room tone, curtain backdrop, or visible decorative bedroom element as a failed image and regenerate.",
   ].join("\n");
 }
@@ -945,7 +948,7 @@ export function composeDeckPrompt({
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
     if (brand.id === "invisi-soft") {
-      if (deckShot === "side2" || deckShot === "mood") {
+      if (deckShot === "side2" || deckShot === "mood" || deckShot === "back") {
         sections.push(invisiSoftBraPantySceneLock(deckShot));
       }
       sections.push(invisiSoftBraPantyColorCastLock(deckShot));

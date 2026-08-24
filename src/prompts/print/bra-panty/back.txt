@@ -1,3 +1,6 @@
+If a later selected-brand override or brand-lock section is supplied, it has absolute priority over every warm, ivory, blush, botanical, studio-mood, or room-background instruction in this source prompt.
+If the selected brand override demands an exact flat background hex, that exact hex must replace all warm backdrop styling, cream tones, blush tints, gradients, and decorative background elements from this source prompt.
+
 REFERENCE IMAGE 1 (Model): Exact reference — face, skin tone, hair, body. Replicate identically.
 REFERENCE IMAGE 2 (Product): Exact reference — bra color, texture, silhouette, back construction. Replicate identically.
 
