@@ -669,7 +669,7 @@ function moodNoIconLock(brand: Brand): string {
 }
 
 function photoModeBrandSpecBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
-  const shotLabel = deckShot === "side2" ? "Side 2" : "Back";
+  const shotLabel = deckShot === "side1" ? "Side 1" : deckShot === "side2" ? "Side 2" : "Back";
 
   return [
     `PHOTO MODE ${shotLabel.toUpperCase()} BRAND BACKGROUND LOCK - HIGHEST PRIORITY:`,
@@ -677,9 +677,9 @@ function photoModeBrandSpecBackgroundLock(brand: Brand, deckShot: DeckShotKey): 
     `Apply the selected brand sheet exactly: display font ${brand.headingsDisplay}, body font ${brand.bodyUi}, text hex ${brand.fg}, background hex ${brand.bg}, palette notes "${brand.paletteNotes}", overall look "${brand.overallLookFeel}".`,
     `The selected brand background is one exact hex only: ${brand.bg}. Every visible background pixel outside the model, bra, panty, callout lines, icons, and text must resolve to ${brand.bg}.`,
     "Do not interpret palette notes as permission to add extra background colors, secondary backdrop shades, ivory drifts, powder-blue casts, blush washes, champagne tint, beige warmth, or decorative room styling.",
-    deckShot === "side2"
-      ? `Render Side 2 as a clean seamless studio scene. If the layout uses a text panel, that panel must also be exactly ${brand.bg}. No curtains, drapes, backdrop folds, wall stripes, room depth, window light patterns, botanical art, furniture, props, gradients, or staged interior elements.`
-      : `Render Back as a clean seamless studio scene. No curtains, room walls, bedding, windows, botanical art, gradients, beige glow, cream halo, floor-shadow color cast, furniture, props, or staged interior elements behind the model.`,
+    deckShot === "back"
+      ? `Render Back as a clean seamless studio scene. No curtains, room walls, bedding, windows, botanical art, gradients, beige glow, cream halo, floor-shadow color cast, furniture, props, or staged interior elements behind the model.`
+      : `Render ${shotLabel} as a clean seamless studio scene. If the layout uses a text panel, that panel must also be exactly ${brand.bg}. No curtains, drapes, backdrop folds, wall stripes, room depth, window light patterns, botanical art, furniture, props, gradients, or staged interior elements.`,
     `Brand palette notes and overall look may influence the feeling of the image and the product storytelling, but they must never change the background away from exact ${brand.bg}.`,
     `If any part of the background reads as yellow, beige, cream, grey, blue-tinted, pink-tinted, or any value other than ${brand.bg}, the image is wrong and must be regenerated.`,
   ].join("\n");
@@ -719,7 +719,13 @@ function pushupSetBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
 
 function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   const shotLabel =
-    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
 
   return [
     `BRA + PANTY ${shotLabel.toUpperCase()} BACKGROUND LOCK — FINAL PRIORITY:`,
@@ -736,7 +742,13 @@ function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
 
 function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
   const shotLabel =
-    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
 
   return [
     `INVISI-SOFT ${shotLabel.toUpperCase()} COLOR-CAST LOCK — ABSOLUTE FINAL PRIORITY:`,
@@ -751,13 +763,19 @@ function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
 
 function invisiSoftBraPantySceneLock(deckShot: DeckShotKey): string {
   const shotLabel =
-    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
 
   return [
     `INVISI-SOFT BRA + PANTY ${shotLabel.toUpperCase()} SCENE LOCK - ABSOLUTE FINAL PRIORITY:`,
     "Selected brand is Invisi-Soft. The final image must read as cool, airy, crisp, and minimal - never warm, creamy, blush, or bedroom-heavy.",
-    deckShot === "side2"
-      ? "Render a plain seamless #F6F8FB studio field with a matching #F6F8FB text/background panel only. Every non-model, non-product background pixel must read as flat #F6F8FB. Do not render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, room depth, or warm ivory/beige set styling."
+    deckShot === "side1" || deckShot === "side2"
+      ? `Render a plain seamless #F6F8FB studio field${deckShot === "side2" ? " with a matching #F6F8FB text/background panel only" : ""}. Every non-model, non-product background pixel must read as flat #F6F8FB. Do not render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, room depth, or warm ivory/beige set styling.`
       : deckShot === "back"
         ? "Render a plain seamless #F6F8FB studio field only. Every background pixel outside the model and garment silhouette must stay flat #F6F8FB with no curtains, no room walls, no beige glow, no cream halo, no botanical art, no set decoration, and no staged lifestyle environment."
         : "If the pose needs a lifestyle setup, keep it extremely minimal and cool-toned: any visible bed, bedding, wall, or background surface must stay white to #F6F8FB and secondary to the product. Do not render cream bedding, beige walls, blush decor, curtains, wood furniture, plants, or a golden bedroom mood.",
@@ -966,14 +984,14 @@ export function composeDeckPrompt({
   }
   if (
     source.id === "bra_panty" &&
-    (deckShot === "side2" || deckShot === "mood" || deckShot === "back")
+    (deckShot === "side1" || deckShot === "side2" || deckShot === "mood" || deckShot === "back")
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
-    if (deckShot === "side2" || deckShot === "back") {
+    if (deckShot === "side1" || deckShot === "side2" || deckShot === "back") {
       sections.push(photoModeBrandSpecBackgroundLock(brand, deckShot));
     }
     if (brand.id === "invisi-soft") {
-      if (deckShot === "side2" || deckShot === "mood" || deckShot === "back") {
+      if (deckShot === "side1" || deckShot === "side2" || deckShot === "mood" || deckShot === "back") {
         sections.push(invisiSoftBraPantySceneLock(deckShot));
       }
       sections.push(invisiSoftBraPantyColorCastLock(deckShot));
