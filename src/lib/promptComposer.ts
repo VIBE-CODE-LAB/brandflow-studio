@@ -717,6 +717,21 @@ function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   ].join("\n");
 }
 
+function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
+  const shotLabel =
+    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+
+  return [
+    `INVISI-SOFT ${shotLabel.toUpperCase()} COLOR-CAST LOCK — ABSOLUTE FINAL PRIORITY:`,
+    "Selected brand is Invisi-Soft. Treat any warm/yellow/beige rendering as a failed image.",
+    "Ignore and override any earlier wording that implies warm, creamy, beige, ivory, taupe, nude, earthy, cocoa, sunset, golden-hour, or warm-lifestyle tone.",
+    "White balance must be neutral-cool daylight. Background must stay crisp, airy, and clean with zero yellow cast.",
+    "Exact background target is #F6F8FB for all visible wall/backdrop/empty background areas; no tint drift is allowed.",
+    "Do not render cream, off-white yellow, warm beige, tan, peach, or brown background in any region.",
+    "If the background appears warm or yellow in any area, regenerate until the backdrop reads as exact cool airy #F6F8FB.",
+  ].join("\n");
+}
+
 function printBackgroundOnlyLock(brand: Brand): string {
   return [
     "PRINT PATTERN FLOW BRAND LOCK — BACKGROUND ONLY:",
@@ -886,7 +901,7 @@ export function composeDeckPrompt({
   ].filter(Boolean);
 
   const sections = [sourcePrompt, brandOverride(brand), controls.join("\n")];
-  if (deckShot === "mood") sections.push(moodBackgroundLock(brand));
+  if (deckShot === "mood" && source.id !== "bra_panty") sections.push(moodBackgroundLock(brand));
   if (modeLock) sections.push(modeLock);
   if (sourceLock) sections.push(sourceLock);
   if (effectivePresetContent) sections.push(stylePresetOverride(effectivePresetContent, brand, deckShot));
@@ -913,6 +928,9 @@ export function composeDeckPrompt({
     (deckShot === "side2" || deckShot === "mood" || deckShot === "back")
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
+    if (brand.id === "invisi-soft") {
+      sections.push(invisiSoftBraPantyColorCastLock(deckShot));
+    }
   }
 
   return {
