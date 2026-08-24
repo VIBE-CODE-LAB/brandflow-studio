@@ -732,9 +732,25 @@ function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
   ].join("\n");
 }
 
+function invisiSoftBraPantySceneLock(deckShot: DeckShotKey): string {
+  const shotLabel = deckShot === "side2" ? "Side 2" : "Mood";
+
+  return [
+    `INVISI-SOFT BRA + PANTY ${shotLabel.toUpperCase()} SCENE LOCK - ABSOLUTE FINAL PRIORITY:`,
+    "Selected brand is Invisi-Soft. The final image must read as cool, airy, crisp, and minimal - never warm, creamy, blush, or bedroom-heavy.",
+    deckShot === "side2"
+      ? "Render a plain seamless #F6F8FB studio field with a matching #F6F8FB text/background panel only. Do not render curtains, drape folds, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, or warm ivory/beige set styling."
+      : "If the pose needs a lifestyle setup, keep it extremely minimal and cool-toned: any visible bed, bedding, wall, or background surface must stay white to #F6F8FB and secondary to the product. Do not render cream bedding, beige walls, blush decor, curtains, wood furniture, plants, or a golden bedroom mood.",
+    deckShot === "mood"
+      ? 'Ignore and override any earlier source instruction such as "No studio - real lifestyle interior only" whenever it conflicts with the selected Invisi-Soft background spec.'
+      : "Ignore and override any earlier source instruction that asks for warm-white, pale-ivory, blush, or decorative background styling.",
+    "Treat any yellow cast, beige cast, blush tint, creamy room tone, curtain backdrop, or visible decorative bedroom element as a failed image and regenerate.",
+  ].join("\n");
+}
+
 function printBackgroundOnlyLock(brand: Brand): string {
   return [
-    "PRINT PATTERN FLOW BRAND LOCK — BACKGROUND ONLY:",
+    "PRINT PATTERN FLOW BRAND LOCK - BACKGROUND ONLY:",
     `Only the background changes per brand in this flow. Replace every background, backdrop, and solid text-zone/panel color described in the source prompt above with ${brand.name}'s background hex ${brand.bg}.`,
     "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to a brand text/font hex.",
     `If the source prompt describes botanical or floral line-art decorations, keep them thin, delicate, and low-opacity — tint them as a soft, light variant of ${brand.bg} rather than the fixed blush-pink example, so they still read as light and decorative against the new background.`,
@@ -929,6 +945,9 @@ export function composeDeckPrompt({
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
     if (brand.id === "invisi-soft") {
+      if (deckShot === "side2" || deckShot === "mood") {
+        sections.push(invisiSoftBraPantySceneLock(deckShot));
+      }
       sections.push(invisiSoftBraPantyColorCastLock(deckShot));
     }
   }

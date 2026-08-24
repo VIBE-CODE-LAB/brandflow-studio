@@ -1,5 +1,6 @@
 PREMIUM INTIMATEWEAR FEATURE ADVERTISEMENT — BRA +
 BRIEF
+If a later selected-brand override or brand-lock section is supplied, it has absolute priority over every warm, ivory, blush, curtain, botanical, or room-background instruction in this source prompt.
 REFERENCE IMAGE INSTRUCTIONS
 REFERENCE IMAGE 1 — MODEL
 Use Reference Image 1 as the exact reference for the clearly adult
