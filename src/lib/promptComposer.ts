@@ -700,6 +700,23 @@ function pushupSetBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   ].join("\n");
 }
 
+function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel =
+    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+
+  return [
+    `BRA + PANTY ${shotLabel.toUpperCase()} BACKGROUND LOCK — FINAL PRIORITY:`,
+    `This is the ${shotLabel} pose in Bra + Panty mode. The selected brand is ${brand.name}.`,
+    `Every visible background pixel, wall, backdrop, negative-space area, panel, and empty area must be exactly ${brand.bg}.`,
+    `Use ${brand.bg} as the unmistakable dominant background color; do not drift toward white, cream, beige, grey, aqua, blue, yellow, pink, or any approximate tint unless it is exactly ${brand.bg}.`,
+    "Do not inherit any source-prompt background color, source-brand palette, lifestyle-room color, bedroom, bed, bedding, curtain, window, furniture, colored panel, gradient, texture, prop, or decorative background element.",
+    deckShot === "mood"
+      ? "Keep the Mood image as a minimal seamless product scene with bra and panty clearly visible, softly lit and free of warm/yellow room cast; recolor every visible wall, backdrop, and empty background area to the exact selected brand color."
+      : "Keep the background clean, flat, seamless, and evenly lit so the exact selected brand color is visible around the complete model and bra-plus-panty silhouette.",
+    `This background rule overrides every earlier background instruction. The final generated image must visibly read as the selected brand background ${brand.bg}.`,
+  ].join("\n");
+}
+
 function printBackgroundOnlyLock(brand: Brand): string {
   return [
     "PRINT PATTERN FLOW BRAND LOCK — BACKGROUND ONLY:",
@@ -890,6 +907,12 @@ export function composeDeckPrompt({
   }
   if (source.id === "pushup_set" && (deckShot === "side2" || deckShot === "mood")) {
     sections.push(pushupSetBackgroundLock(brand, deckShot));
+  }
+  if (
+    source.id === "bra_panty" &&
+    (deckShot === "side2" || deckShot === "mood" || deckShot === "back")
+  ) {
+    sections.push(braPantyBackgroundLock(brand, deckShot));
   }
 
   return {
