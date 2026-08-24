@@ -668,6 +668,23 @@ function moodNoIconLock(brand: Brand): string {
   ].join("\n");
 }
 
+function photoModeBrandSpecBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel = deckShot === "side2" ? "Side 2" : "Back";
+
+  return [
+    `PHOTO MODE ${shotLabel.toUpperCase()} BRAND BACKGROUND LOCK - HIGHEST PRIORITY:`,
+    "This image is being generated in Brandflow photo mode, not print flow.",
+    `Apply the selected brand sheet exactly: display font ${brand.headingsDisplay}, body font ${brand.bodyUi}, text hex ${brand.fg}, background hex ${brand.bg}, palette notes "${brand.paletteNotes}", overall look "${brand.overallLookFeel}".`,
+    `The selected brand background is one exact hex only: ${brand.bg}. Every visible background pixel outside the model, bra, panty, callout lines, icons, and text must resolve to ${brand.bg}.`,
+    "Do not interpret palette notes as permission to add extra background colors, secondary backdrop shades, ivory drifts, powder-blue casts, blush washes, champagne tint, beige warmth, or decorative room styling.",
+    deckShot === "side2"
+      ? `Render Side 2 as a clean seamless studio scene. If the layout uses a text panel, that panel must also be exactly ${brand.bg}. No curtains, drapes, backdrop folds, wall stripes, room depth, window light patterns, botanical art, furniture, props, gradients, or staged interior elements.`
+      : `Render Back as a clean seamless studio scene. No curtains, room walls, bedding, windows, botanical art, gradients, beige glow, cream halo, floor-shadow color cast, furniture, props, or staged interior elements behind the model.`,
+    `Brand palette notes and overall look may influence the feeling of the image and the product storytelling, but they must never change the background away from exact ${brand.bg}.`,
+    `If any part of the background reads as yellow, beige, cream, grey, blue-tinted, pink-tinted, or any value other than ${brand.bg}, the image is wrong and must be regenerated.`,
+  ].join("\n");
+}
+
 function pushupBraOnlyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   const shotLabel = deckShot === "side2" ? "Side 2" : "Mood";
 
@@ -947,6 +964,9 @@ export function composeDeckPrompt({
     (deckShot === "side2" || deckShot === "mood" || deckShot === "back")
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
+    if (deckShot === "side2" || deckShot === "back") {
+      sections.push(photoModeBrandSpecBackgroundLock(brand, deckShot));
+    }
     if (brand.id === "invisi-soft") {
       if (deckShot === "side2" || deckShot === "mood" || deckShot === "back") {
         sections.push(invisiSoftBraPantySceneLock(deckShot));
