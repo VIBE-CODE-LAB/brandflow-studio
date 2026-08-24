@@ -768,13 +768,18 @@ function invisiSoftBraPantySceneLock(deckShot: DeckShotKey): string {
   ].join("\n");
 }
 
-function printBackgroundOnlyLock(brand: Brand): string {
+function printBackgroundOnlyLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel = DECK_SHOT_LABELS[deckShot];
+
   return [
-    "PRINT PATTERN FLOW BRAND LOCK - BACKGROUND ONLY:",
-    `Only the background changes per brand in this flow. Replace every background, backdrop, and solid text-zone/panel color described in the source prompt above with ${brand.name}'s background hex ${brand.bg}.`,
-    "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to a brand text/font hex.",
-    `If the source prompt describes botanical or floral line-art decorations, keep them thin, delicate, and low-opacity — tint them as a soft, light variant of ${brand.bg} rather than the fixed blush-pink example, so they still read as light and decorative against the new background.`,
-    `Ignore any other brand name mentioned in the source prompt above — this image is for ${brand.name} only. Do not change fonts, typography style, layout, callout placement, icon shapes, or wording; only the background hex (and the botanical tint derived from it) follow the brand.`,
+    `PRINT PATTERN FLOW ${shotLabel.toUpperCase()} BACKGROUND LOCK — ABSOLUTE FINAL PRIORITY:`,
+    `Only the background changes per brand in this flow. The selected brand is ${brand.name}.`,
+    `Every visible background pixel, wall, backdrop, negative-space area, and solid text-zone/panel color must be exactly ${brand.bg} — flat, seamless, and uniform, with no gradient, no vignette, no lighting-driven tint shift, and no drift toward white, cream, beige, tan, warm, or yellow unless that is exactly ${brand.bg}.`,
+    "Do NOT render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, room depth, or any staged/lifestyle set decoration in the background — the background must be an empty, clean, seamless studio field.",
+    "Ignore and override any earlier instruction in the source prompt above that describes a warm-white, pale-ivory, blush-pink, cream, botanical, floral, curtain, drape, or decorative background treatment — that language does not apply once a brand has been selected; only the exact brand hex above applies.",
+    "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to the background hex.",
+    `Ignore any other brand name mentioned in the source prompt above — this image is for ${brand.name} only. Do not change fonts, typography style, layout, callout placement, icon shapes, or wording; only the background follows the brand.`,
+    `Treat any yellow cast, beige cast, blush tint, cream tone, gradient, curtain, or visible decorative background element as a failed image and regenerate until the backdrop reads as exact flat ${brand.bg}.`,
   ].join("\n");
 }
 
@@ -878,7 +883,7 @@ export function composeDeckPrompt({
 
     const printSections = [
       sourcePrompt,
-      printBackgroundOnlyLock(brand),
+      printBackgroundOnlyLock(brand, deckShot),
       printSkinToneLock(),
       printControls.join("\n"),
     ];
