@@ -1,5 +1,7 @@
 PREMIUM INTIMATEWEAR FEATURE ADVERTISEMENT — REUSABLE MASTER PROMPT
 
+If a later selected-brand override or brand-lock section is supplied, it has absolute priority over every warm, ivory, blush, bedroom, bedding, curtain, botanical, or lifestyle-only background instruction in this source prompt.
+
 FORMAT AND PURPOSE
 Create a photorealistic premium intimate-apparel feature advertisement in a 3:4 vertical portrait ratio. Reproduce the same overall visual hierarchy, soft feminine editorial mood, background treatment, typography pairing, model placement, content placement, callout system and bottom benefit bar as the supplied layout reference.
 

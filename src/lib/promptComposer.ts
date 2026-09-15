@@ -668,6 +668,23 @@ function moodNoIconLock(brand: Brand): string {
   ].join("\n");
 }
 
+function photoModeBrandSpecBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel = deckShot === "side1" ? "Side 1" : deckShot === "side2" ? "Side 2" : "Back";
+
+  return [
+    `PHOTO MODE ${shotLabel.toUpperCase()} BRAND BACKGROUND LOCK - HIGHEST PRIORITY:`,
+    "This image is being generated in Brandflow photo mode, not print flow.",
+    `Apply the selected brand sheet exactly: display font ${brand.headingsDisplay}, body font ${brand.bodyUi}, text hex ${brand.fg}, background hex ${brand.bg}, palette notes "${brand.paletteNotes}", overall look "${brand.overallLookFeel}".`,
+    `The selected brand background is one exact hex only: ${brand.bg}. Every visible background pixel outside the model, bra, panty, callout lines, icons, and text must resolve to ${brand.bg}.`,
+    "Do not interpret palette notes as permission to add extra background colors, secondary backdrop shades, ivory drifts, powder-blue casts, blush washes, champagne tint, beige warmth, or decorative room styling.",
+    deckShot === "back"
+      ? `Render Back as a clean seamless studio scene. No curtains, room walls, bedding, windows, botanical art, gradients, beige glow, cream halo, floor-shadow color cast, furniture, props, or staged interior elements behind the model.`
+      : `Render ${shotLabel} as a clean seamless studio scene. If the layout uses a text panel, that panel must also be exactly ${brand.bg}. No curtains, drapes, backdrop folds, wall stripes, room depth, window light patterns, botanical art, furniture, props, gradients, or staged interior elements.`,
+    `Brand palette notes and overall look may influence the feeling of the image and the product storytelling, but they must never change the background away from exact ${brand.bg}.`,
+    `If any part of the background reads as yellow, beige, cream, grey, blue-tinted, pink-tinted, or any value other than ${brand.bg}, the image is wrong and must be regenerated.`,
+  ].join("\n");
+}
+
 function pushupBraOnlyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   const shotLabel = deckShot === "side2" ? "Side 2" : "Mood";
 
@@ -702,7 +719,13 @@ function pushupSetBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
 
 function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
   const shotLabel =
-    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
 
   return [
     `BRA + PANTY ${shotLabel.toUpperCase()} BACKGROUND LOCK — FINAL PRIORITY:`,
@@ -719,7 +742,13 @@ function braPantyBackgroundLock(brand: Brand, deckShot: DeckShotKey): string {
 
 function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
   const shotLabel =
-    deckShot === "side2" ? "Side 2" : deckShot === "back" ? "Back" : "Mood";
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
 
   return [
     `INVISI-SOFT ${shotLabel.toUpperCase()} COLOR-CAST LOCK — ABSOLUTE FINAL PRIORITY:`,
@@ -732,13 +761,43 @@ function invisiSoftBraPantyColorCastLock(deckShot: DeckShotKey): string {
   ].join("\n");
 }
 
-function printBackgroundOnlyLock(brand: Brand): string {
+function invisiSoftBraPantySceneLock(deckShot: DeckShotKey): string {
+  const shotLabel =
+    deckShot === "side1"
+      ? "Side 1"
+      : deckShot === "side2"
+        ? "Side 2"
+        : deckShot === "back"
+          ? "Back"
+          : "Mood";
+
   return [
-    "PRINT PATTERN FLOW BRAND LOCK — BACKGROUND ONLY:",
-    `Only the background changes per brand in this flow. Replace every background, backdrop, and solid text-zone/panel color described in the source prompt above with ${brand.name}'s background hex ${brand.bg}.`,
-    "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to a brand text/font hex.",
-    `If the source prompt describes botanical or floral line-art decorations, keep them thin, delicate, and low-opacity — tint them as a soft, light variant of ${brand.bg} rather than the fixed blush-pink example, so they still read as light and decorative against the new background.`,
-    `Ignore any other brand name mentioned in the source prompt above — this image is for ${brand.name} only. Do not change fonts, typography style, layout, callout placement, icon shapes, or wording; only the background hex (and the botanical tint derived from it) follow the brand.`,
+    `INVISI-SOFT BRA + PANTY ${shotLabel.toUpperCase()} SCENE LOCK - ABSOLUTE FINAL PRIORITY:`,
+    "Selected brand is Invisi-Soft. The final image must read as cool, airy, crisp, and minimal - never warm, creamy, blush, or bedroom-heavy.",
+    deckShot === "side1" || deckShot === "side2"
+      ? `Render a plain seamless #F6F8FB studio field${deckShot === "side2" ? " with a matching #F6F8FB text/background panel only" : ""}. Every non-model, non-product background pixel must read as flat #F6F8FB. Do not render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, gradients, room depth, or warm ivory/beige set styling.`
+      : deckShot === "back"
+        ? "Render a plain seamless #F6F8FB studio field only. Every background pixel outside the model and garment silhouette must stay flat #F6F8FB with no curtains, no room walls, no beige glow, no cream halo, no botanical art, no set decoration, and no staged lifestyle environment."
+        : "If the pose needs a lifestyle setup, keep it extremely minimal and cool-toned: any visible bed, bedding, wall, or background surface must stay white to #F6F8FB and secondary to the product. Do not render cream bedding, beige walls, blush decor, curtains, wood furniture, plants, or a golden bedroom mood.",
+    deckShot === "mood"
+      ? 'Ignore and override any earlier source instruction such as "No studio - real lifestyle interior only" whenever it conflicts with the selected Invisi-Soft background spec.'
+      : "Ignore and override any earlier source instruction that asks for warm-white, pale-ivory, blush, decorative, curtain, room, wall-panel, or styled background treatment.",
+    "Treat any yellow cast, beige cast, blush tint, creamy room tone, curtain backdrop, or visible decorative bedroom element as a failed image and regenerate.",
+  ].join("\n");
+}
+
+function printBackgroundOnlyLock(brand: Brand, deckShot: DeckShotKey): string {
+  const shotLabel = DECK_SHOT_LABELS[deckShot];
+
+  return [
+    `PRINT PATTERN FLOW ${shotLabel.toUpperCase()} BACKGROUND LOCK — ABSOLUTE FINAL PRIORITY:`,
+    `Only the background changes per brand in this flow. The selected brand is ${brand.name}.`,
+    `Every visible background pixel, wall, backdrop, negative-space area, and solid text-zone/panel color must be exactly ${brand.bg} — flat, seamless, and uniform, with no gradient, no vignette, no lighting-driven tint shift, and no drift toward white, cream, beige, tan, warm, or yellow unless that is exactly ${brand.bg}.`,
+    "Do NOT render curtains, drape folds, fabric drops, vertical wall stripes, botanical corner art, floral line art, furniture, props, room depth, or any staged/lifestyle set decoration in the background — the background must be an empty, clean, seamless studio field.",
+    "Ignore and override any earlier instruction in the source prompt above that describes a warm-white, pale-ivory, blush-pink, cream, botanical, floral, curtain, drape, or decorative background treatment — that language does not apply once a brand has been selected; only the exact brand hex above applies.",
+    "Keep every other authored color exactly as written in the source prompt above: headline color, sub-heading color, feature-title colors, callout/body text colors, connector-line color, and icon badge fill colors all stay exactly as specified there. Do not recolor any of them to the background hex.",
+    `Ignore any other brand name mentioned in the source prompt above — this image is for ${brand.name} only. Do not change fonts, typography style, layout, callout placement, icon shapes, or wording; only the background follows the brand.`,
+    `Treat any yellow cast, beige cast, blush tint, cream tone, gradient, curtain, or visible decorative background element as a failed image and regenerate until the backdrop reads as exact flat ${brand.bg}.`,
   ].join("\n");
 }
 
@@ -842,7 +901,7 @@ export function composeDeckPrompt({
 
     const printSections = [
       sourcePrompt,
-      printBackgroundOnlyLock(brand),
+      printBackgroundOnlyLock(brand, deckShot),
       printSkinToneLock(),
       printControls.join("\n"),
     ];
@@ -925,10 +984,16 @@ export function composeDeckPrompt({
   }
   if (
     source.id === "bra_panty" &&
-    (deckShot === "side2" || deckShot === "mood" || deckShot === "back")
+    (deckShot === "side1" || deckShot === "side2" || deckShot === "mood" || deckShot === "back")
   ) {
     sections.push(braPantyBackgroundLock(brand, deckShot));
+    if (deckShot === "side1" || deckShot === "side2" || deckShot === "back") {
+      sections.push(photoModeBrandSpecBackgroundLock(brand, deckShot));
+    }
     if (brand.id === "invisi-soft") {
+      if (deckShot === "side1" || deckShot === "side2" || deckShot === "mood" || deckShot === "back") {
+        sections.push(invisiSoftBraPantySceneLock(deckShot));
+      }
       sections.push(invisiSoftBraPantyColorCastLock(deckShot));
     }
   }
