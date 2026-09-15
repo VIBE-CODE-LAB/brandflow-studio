@@ -23,30 +23,6 @@ interface InlineImage {
 }
 
 const OUTPUT_QUALITY = 0.99;
-const TEMPORARY_GEMINI_ERROR_KEY = "brandflow-temporary-gemini-error-started-at";
-const TEMPORARY_GEMINI_ERROR_DURATION_MS = 2 * 60 * 60 * 1000;
-let temporaryGeminiErrorStartedAt: number | null = null;
-
-function temporaryGeminiErrorIsActive(): boolean {
-  if (typeof window === "undefined") return false;
-
-  const storedStart = window.localStorage.getItem(TEMPORARY_GEMINI_ERROR_KEY);
-  const startedAt = storedStart ? Number(storedStart) : NaN;
-  const effectiveStart = Number.isFinite(startedAt) ? startedAt : temporaryGeminiErrorStartedAt;
-
-  if (effectiveStart === null || !Number.isFinite(effectiveStart)) {
-    const now = Date.now();
-    temporaryGeminiErrorStartedAt = now;
-    window.localStorage.setItem(TEMPORARY_GEMINI_ERROR_KEY, String(now));
-    return true;
-  }
-
-  if (Date.now() - effectiveStart < TEMPORARY_GEMINI_ERROR_DURATION_MS) return true;
-
-  window.localStorage.removeItem(TEMPORARY_GEMINI_ERROR_KEY);
-  temporaryGeminiErrorStartedAt = null;
-  return false;
-}
 
 function targetOutputSize(aspect: AspectId): { width: number; height: number } {
   switch (aspect) {
@@ -324,12 +300,6 @@ async function callGeminiModel(model: string, options: GenerateImageOptions): Pr
 }
 
 export async function generateGeminiImage(options: GenerateImageOptions): Promise<string> {
-  if (temporaryGeminiErrorIsActive()) {
-    throw new Error(
-      "Gemini image generation is denied for this project. Check model access, billing, or switch to the other engine.",
-    );
-  }
-
   const errors: string[] = [];
 
   for (const model of modelCandidates(options.engine)) {
